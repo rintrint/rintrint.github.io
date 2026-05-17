@@ -120,6 +120,43 @@ const PIERCE_BONUS = 30;
 const SHIELD_DURATION = 4.0;
 const DASH_DURATION = 3.0;
 
+const SKILLS = {
+  cannon: {
+    name: '手動砲台', cost: 200, cd: 30, color: '#dc2626',
+    desc: '擊退並對全體敵人造成 50 傷害',
+    fire(game) {
+      const damage = 50;
+      game.knockbackAllEnemies(200);
+      for (const e of game.enemyUnits) {
+        if (e.hp <= 0) continue;
+        e.takeDamage(damage);
+        game.floatingTexts.push({ x: e.x, y: e.y - 20, text: `-${damage}`, t: 0, duration: 0.6, color: '#fb923c' });
+      }
+      game.shakeTimer = Math.max(game.shakeTimer, 0.35);
+      game.summonEffects.push({ x: PLAYER_TOWER_X, y: GROUND_Y - TOWER_H / 2, t: 0, duration: 0.7, color: 'orange' });
+      Sound.bossAttack();
+    },
+  },
+  shield: {
+    name: '全體無敵', cost: 300, cd: 25, color: '#fbbf24',
+    desc: '所有貓無敵 1 秒',
+    fire(game) {
+      for (const u of game.playerUnits) u.invincibleTimer = 1.0;
+      game.summonEffects.push({ x: PLAYER_TOWER_X, y: GROUND_Y - TOWER_H / 2, t: 0, duration: 0.6, color: 'yellow' });
+      Sound.spawnBoss();
+    },
+  },
+  halt: {
+    name: '軍令停止', cost: 150, cd: 20, color: '#a855f7',
+    desc: '所有貓停止前進 3 秒',
+    fire(game) {
+      for (const u of game.playerUnits) u.haltTimer = 3.0;
+      game.summonEffects.push({ x: PLAYER_TOWER_X, y: GROUND_Y - TOWER_H / 2, t: 0, duration: 0.5, color: 'purple' });
+      Sound.click();
+    },
+  },
+};
+
 const ABILITY_DESC = {
   pierce:    '出場對最近敵人 +30 傷害',
   shield:    '出場 4 秒減傷 50%',
@@ -367,9 +404,15 @@ class Unit {
     this.shieldTimer = 0;                   // 防禦貓減傷
     this.dashTimer = 0;                     // 衝鋒貓加速
     this.auraTimer = 0;                     // 治癒貓 aura 倒數
+    this.invincibleTimer = 0;               // 全體無敵技能
+    this.haltTimer = 0;                     // 軍令停止技能
   }
 
   takeDamage(amount) {
+    if (this.invincibleTimer > 0) {
+      this.flashTimer = 0.12;
+      return 0;
+    }
     const reduced = this.shieldTimer > 0 ? amount * 0.5 : amount;
     this.hp -= reduced;
     this.flashTimer = 0.12;
@@ -411,10 +454,12 @@ class Unit {
   update(dt, game) {
     if (this.hp <= 0) return;
 
-    this.flashTimer  = Math.max(0, this.flashTimer  - dt);
-    this.attackFlash = Math.max(0, this.attackFlash - dt);
-    this.shieldTimer = Math.max(0, this.shieldTimer - dt);
-    this.dashTimer   = Math.max(0, this.dashTimer   - dt);
+    this.flashTimer      = Math.max(0, this.flashTimer      - dt);
+    this.attackFlash     = Math.max(0, this.attackFlash     - dt);
+    this.shieldTimer     = Math.max(0, this.shieldTimer     - dt);
+    this.dashTimer       = Math.max(0, this.dashTimer       - dt);
+    this.invincibleTimer = Math.max(0, this.invincibleTimer - dt);
+    this.haltTimer       = Math.max(0, this.haltTimer       - dt);
 
     // 治癒貓 aura:出場後每 HEAL_AURA_INTERVAL 秒治癒全體友軍
     if (this.def.ability === 'heal' && this.team === 'player') {
@@ -434,8 +479,11 @@ class Unit {
         this.attackTimer = this.def.attackCd;
       }
     } else {
-      const speedMul = this.dashTimer > 0 ? 1.8 : 1.0;
-      this.x += this.dir * this.def.speed * speedMul * dt;
+      const halted = this.haltTimer > 0 && this.team === 'player';
+      if (!halted) {
+        const speedMul = this.dashTimer > 0 ? 1.8 : 1.0;
+        this.x += this.dir * this.def.speed * speedMul * dt;
+      }
       this.attackTimer = Math.max(0, this.attackTimer - dt);
     }
   }
@@ -479,6 +527,24 @@ class Unit {
       ctx.beginPath();
       ctx.arc(this.x, this.y, size / 2 + 6, 0, Math.PI * 2);
       ctx.stroke();
+    }
+    // 無敵光圈
+    if (this.invincibleTimer > 0) {
+      ctx.strokeStyle = 'rgba(251, 191, 36, 0.85)';
+      ctx.lineWidth = 4;
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, size / 2 + 8, 0, Math.PI * 2);
+      ctx.stroke();
+    }
+    // 停止光圈
+    if (this.haltTimer > 0 && this.team === 'player') {
+      ctx.strokeStyle = 'rgba(168, 85, 247, 0.6)';
+      ctx.lineWidth = 2;
+      ctx.setLineDash([4, 4]);
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, size / 2 + 6, 0, Math.PI * 2);
+      ctx.stroke();
+      ctx.setLineDash([]);
     }
     // 衝刺殘影
     if (this.dashTimer > 0) {
@@ -682,6 +748,8 @@ class GameState {
     this.gameOver = false;
     this.winner = null;
     this.paused = false;
+    this.skillCds = {};
+    for (const k of Object.keys(SKILLS)) this.skillCds[k] = 0;
   }
 
   goToMap() {
@@ -693,6 +761,19 @@ class GameState {
     if (level > this.unlockedLevel) return false;
     this.reset(level);
     Sound.bgmStart();
+    return true;
+  }
+
+  trySkill(key) {
+    const skill = SKILLS[key];
+    if (!skill) return false;
+    if (this.screen !== 'playing') return false;
+    if (this.gameOver) return false;
+    if (this.skillCds[key] > 0) return false;
+    if (this.money < skill.cost) return false;
+    this.money -= skill.cost;
+    this.skillCds[key] = skill.cd;
+    skill.fire(this);
     return true;
   }
 
@@ -824,10 +905,9 @@ class GameState {
   }
 
   knockbackAllEnemies(distance) {
-    const minX = ENEMY_TOWER_X + TOWER_W / 2 + 4;
     for (const e of this.enemyUnits) {
       if (e.hp <= 0) continue;
-      e.x = Math.max(minX, e.x - distance);
+      e.x -= distance;
       e.flashTimer = 0.15;
       e.attackTimer = Math.max(e.attackTimer, 0.3);    // 被擊退後短暫無法立刻攻擊
     }
@@ -904,6 +984,9 @@ class GameState {
     // 召喚冷卻減少
     for (const key of Object.keys(this.cooldowns)) {
       this.cooldowns[key] = Math.max(0, this.cooldowns[key] - dt);
+    }
+    for (const key of Object.keys(this.skillCds)) {
+      this.skillCds[key] = Math.max(0, this.skillCds[key] - dt);
     }
 
     this.updateLevelEvents();
@@ -1101,6 +1184,8 @@ const victoryReplayBtn = document.getElementById('victory-replay');
 const victoryMapBtn = document.getElementById('victory-map');
 const gameContainer = document.getElementById('game-container');
 const fullscreenBtn = document.getElementById('fullscreen-btn');
+const skillsContainer = document.getElementById('skills');
+const skillBtnEls = {};
 const deckGrid = document.getElementById('deck-grid');
 const deckCount = document.getElementById('deck-count');
 const buttonEls = {};
@@ -1159,6 +1244,26 @@ function initButtons() {
     ph.disabled = true;
     buttonContainer.appendChild(ph);
     placeholderEls.push(ph);
+  }
+
+  for (const [key, skill] of Object.entries(SKILLS)) {
+    const btn = document.createElement('button');
+    btn.className = 'unit-btn skill-btn';
+    btn.type = 'button';
+    btn.style.setProperty('--skill-color', skill.color);
+    btn.innerHTML = `
+      <div class="unit-icon" style="--unit-color:${skill.color}"></div>
+      <div class="unit-name">${skill.name}</div>
+      <div class="unit-cost">$${skill.cost}</div>
+      <div class="unit-ability">${skill.desc}</div>
+      <div class="cd-overlay"></div>
+    `;
+    btn.addEventListener('click', () => {
+      Sound.resume();
+      game.trySkill(key);
+    });
+    skillsContainer.appendChild(btn);
+    skillBtnEls[key] = btn;
   }
 
   renderDeckGrid();
@@ -1319,6 +1424,17 @@ function updateButtons() {
     } else {
       ph.hidden = true;
     }
+  }
+
+  for (const [key, skill] of Object.entries(SKILLS)) {
+    const btn = skillBtnEls[key];
+    const cd = game.skillCds[key];
+    const canAfford = game.money >= skill.cost;
+    const ready = cd <= 0 && canAfford && !game.gameOver;
+    btn.disabled = !ready;
+    btn.classList.toggle('cant-afford', !canAfford && cd <= 0 && !game.gameOver);
+    const overlay = btn.querySelector('.cd-overlay');
+    overlay.style.height = cd > 0 ? ((cd / skill.cd) * 100) + '%' : '0%';
   }
 }
 
