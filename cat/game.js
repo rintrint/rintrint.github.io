@@ -22,7 +22,7 @@ let UNIT_DEFS = {};
 let ENEMY_DEFS = {};
 let LEVEL_EVENTS = {};
 
-const NUMERIC_UNIT_FIELDS = ['cost', 'hp', 'atk', 'speed', 'range', 'attackCd', 'cd', 'size', 'tier'];
+const NUMERIC_UNIT_FIELDS = ['cost', 'hp', 'atk', 'speed', 'range', 'attackCd', 'cd', 'size'];
 const NUMERIC_ENEMY_FIELDS = ['hp', 'atk', 'speed', 'range', 'attackCd', 'size', 'reward'];
 const NUMERIC_LEVEL_FIELDS = ['count', 'time', 'interval', 'start', 'end'];
 
@@ -83,13 +83,14 @@ function numberize(obj, fields) {
   return obj;
 }
 
+const TOTAL_LEVELS = 5;
+
 async function loadGameData() {
-  const [unitRows, enemyRows, level1Rows, level2Rows, level3Rows] = await Promise.all([
+  const levelPaths = Array.from({ length: TOTAL_LEVELS }, (_, i) => `data/level${i + 1}.csv`);
+  const [unitRows, enemyRows, ...levelRows] = await Promise.all([
     loadCsv('data/units.csv'),
     loadCsv('data/enemies.csv'),
-    loadCsv('data/level1.csv'),
-    loadCsv('data/level2.csv'),
-    loadCsv('data/level3.csv'),
+    ...levelPaths.map(loadCsv),
   ]);
 
   UNIT_DEFS = Object.fromEntries(unitRows.map(row => {
@@ -102,14 +103,12 @@ async function loadGameData() {
     return [def.id, def];
   }));
 
-  LEVEL_EVENTS = {
-    1: level1Rows.map(row => numberize({ ...row, fired: false, nextTime: null }, NUMERIC_LEVEL_FIELDS)),
-    2: level2Rows.map(row => numberize({ ...row, fired: false, nextTime: null }, NUMERIC_LEVEL_FIELDS)),
-    3: level3Rows.map(row => numberize({ ...row, fired: false, nextTime: null }, NUMERIC_LEVEL_FIELDS)),
-  };
+  LEVEL_EVENTS = Object.fromEntries(levelRows.map((rows, i) => [
+    i + 1,
+    rows.map(row => numberize({ ...row, fired: false, nextTime: null }, NUMERIC_LEVEL_FIELDS)),
+  ]));
 }
 
-const TOTAL_LEVELS = 3;
 const DECK_MAX = 4;
 const HEAL_AURA_INTERVAL = 12;             // 治癒貓 aura 觸發間隔(秒)
 const HEAL_SPAWN_FRAC = 0.4;               // 出場立即治癒比例
@@ -629,10 +628,7 @@ class GameState {
 
   sanitizeDeck(deck) {
     const all = Object.keys(UNIT_DEFS);
-    if (!deck || deck.length === 0) {
-      // 預設選 tier 1 的前 4 隻
-      return all.filter(k => UNIT_DEFS[k].tier === 1).slice(0, DECK_MAX);
-    }
+    if (!deck || deck.length === 0) return all.slice(0, DECK_MAX);
     return deck.filter(k => UNIT_DEFS[k]).slice(0, DECK_MAX);
   }
 
@@ -644,13 +640,8 @@ class GameState {
     });
   }
 
-  isUnitUnlocked(key) {
-    const def = UNIT_DEFS[key];
-    return def && def.tier <= this.unlockedLevel;
-  }
-
   toggleDeck(key) {
-    if (!this.isUnitUnlocked(key)) return false;
+    if (!UNIT_DEFS[key]) return false;
     const idx = this.deck.indexOf(key);
     if (idx >= 0) {
       this.deck.splice(idx, 1);
@@ -665,9 +656,9 @@ class GameState {
   reset(level = this.level || 1) {
     this.level = level;
     this.screen = 'playing';
-    const enemyTowerHpByLevel = { 1: 1500, 2: 2200, 3: 2600 };
+    const enemyTowerHpByLevel = { 1: 1800, 2: 2500, 3: 3000, 4: 3600, 5: 4400 };
     this.playerTower = new Tower('player', PLAYER_TOWER_X, 1000);
-    this.enemyTower  = new Tower('enemy',  ENEMY_TOWER_X,  enemyTowerHpByLevel[this.level] || 1500);
+    this.enemyTower  = new Tower('enemy',  ENEMY_TOWER_X,  enemyTowerHpByLevel[this.level] || 1800);
     this.playerUnits = [];
     this.enemyUnits  = [];
     this.money = MONEY_START;
@@ -685,11 +676,6 @@ class GameState {
     this.winner = null;
   }
 
-  activeUnitKeys() {
-    // 戰場上能召喚的貓 = 編成內 + 該關卡已解鎖(tier 篩選)
-    return this.deck.filter(key => this.isUnitUnlocked(key));
-  }
-
   goToMap() {
     this.screen = 'map';
     Sound.bgmStop();
@@ -697,7 +683,6 @@ class GameState {
 
   startLevel(level) {
     if (level > this.unlockedLevel) return false;
-    if (this.activeUnitKeys().length === 0) return false;
     this.reset(level);
     Sound.bgmStart();
     return true;
@@ -1110,6 +1095,7 @@ const fullscreenBtn = document.getElementById('fullscreen-btn');
 const deckGrid = document.getElementById('deck-grid');
 const deckCount = document.getElementById('deck-count');
 const buttonEls = {};
+const placeholderEls = [];
 const deckSlotEls = {};
 const levelButtons = [...document.querySelectorAll('.level-node')];
 
@@ -1142,6 +1128,15 @@ function initButtons() {
     });
     buttonContainer.appendChild(btn);
     buttonEls[key] = btn;
+  }
+
+  for (let i = 0; i < DECK_MAX; i++) {
+    const ph = document.createElement('button');
+    ph.className = 'unit-btn locked-slot';
+    ph.type = 'button';
+    ph.disabled = true;
+    buttonContainer.appendChild(ph);
+    placeholderEls.push(ph);
   }
 
   renderDeckGrid();
@@ -1223,7 +1218,6 @@ function renderDeckGrid() {
       <div class="deck-slot-name">${def.name}</div>
       <div class="deck-slot-cost">$${def.cost}</div>
       <div class="deck-slot-ability">${ABILITY_DESC[def.ability] || ''}</div>
-      <div class="deck-slot-lock">🔒</div>
     `;
     slot.addEventListener('click', () => {
       if (!game) return;
@@ -1243,10 +1237,7 @@ function updateDeck() {
   deckCount.textContent = String(game.deck.length);
   for (const [key, slot] of Object.entries(deckSlotEls)) {
     const idx = game.deck.indexOf(key);
-    const unlocked = game.isUnitUnlocked(key);
     slot.classList.toggle('selected', idx >= 0);
-    slot.classList.toggle('locked', !unlocked);
-    slot.disabled = !unlocked;
     const orderEl = slot.querySelector('.deck-slot-order');
     if (orderEl) orderEl.textContent = idx >= 0 ? String(idx + 1) : '';
   }
@@ -1274,13 +1265,11 @@ fullscreenBtn.addEventListener('click', toggleFullscreen);
 
 function updateButtons() {
   if (!game) return;
-  const activeKeys = game.activeUnitKeys();
-  const cols = Math.max(1, activeKeys.length);
-  buttonContainer.style.gridTemplateColumns = `repeat(${cols}, 1fr)`;
+  buttonContainer.style.gridTemplateColumns = `repeat(${DECK_MAX}, 1fr)`;
 
   for (const [key, def] of Object.entries(UNIT_DEFS)) {
     const btn = buttonEls[key];
-    const orderIdx = activeKeys.indexOf(key);
+    const orderIdx = game.deck.indexOf(key);
     if (orderIdx < 0) {
       btn.hidden = true;
       continue;
@@ -1297,6 +1286,17 @@ function updateButtons() {
 
     const overlay = btn.querySelector('.cd-overlay');
     overlay.style.height = cd > 0 ? ((cd / def.cd) * 100) + '%' : '0%';
+  }
+
+  const emptySlots = DECK_MAX - game.deck.length;
+  for (let i = 0; i < DECK_MAX; i++) {
+    const ph = placeholderEls[i];
+    if (i < emptySlots) {
+      ph.hidden = false;
+      ph.style.order = String(game.deck.length + i);
+    } else {
+      ph.hidden = true;
+    }
   }
 }
 
@@ -1317,14 +1317,12 @@ function updateMap() {
     victoryNextBtn.textContent = isFinal ? '已是最終關' : '進入下一關';
   }
 
-  const hasDeck = game.deck.length > 0;
   for (const btn of levelButtons) {
     const level = Number(btn.dataset.level);
     const unlocked = level <= game.unlockedLevel;
-    btn.disabled = !unlocked || !hasDeck;
+    btn.disabled = !unlocked;
     btn.classList.toggle('locked', !unlocked);
     btn.classList.toggle('cleared', level < game.unlockedLevel);
-    btn.classList.toggle('no-deck', unlocked && !hasDeck);
   }
 
   if (onMap) updateDeck();
