@@ -22,7 +22,7 @@ let UNIT_DEFS = {};
 let ENEMY_DEFS = {};
 let LEVEL_EVENTS = {};
 
-const NUMERIC_UNIT_FIELDS = ['cost', 'hp', 'atk', 'speed', 'range', 'attackCd', 'cd', 'size'];
+const NUMERIC_UNIT_FIELDS = ['cost', 'hp', 'atk', 'speed', 'range', 'attackCd', 'cd', 'size', 'aoe'];
 const NUMERIC_ENEMY_FIELDS = ['hp', 'atk', 'speed', 'range', 'attackCd', 'size', 'reward'];
 const NUMERIC_LEVEL_FIELDS = ['count', 'time', 'interval', 'start', 'end'];
 
@@ -442,6 +442,13 @@ class Unit {
 
   attack(target, game) {
     target.takeDamage(this.def.atk);
+    if (this.def.aoe > 0 && !(target instanceof Tower)) {
+      const others = this.team === 'player' ? game.enemyUnits : game.playerUnits;
+      for (const e of others) {
+        if (e === target || e.hp <= 0) continue;
+        if (Math.abs(e.x - target.x) <= this.def.aoe) e.takeDamage(this.def.atk);
+      }
+    }
     this.attackFlash = this.def.boss ? 0.28 : 0.18;
     this.lastTargetPos = { x: target.x, y: target.y };
     if (target instanceof Tower && target.team === 'player' && !game.playerTowerHitTriggered) {
@@ -531,10 +538,10 @@ class Unit {
       ctx.stroke();
       ctx.shadowBlur = 0;
 
-      if (isBoss) {
-        ctx.fillStyle = 'rgba(216, 180, 254, 0.35)';
+      if (this.def.aoe > 0) {
+        ctx.fillStyle = isBoss ? 'rgba(216, 180, 254, 0.35)' : 'rgba(251, 146, 60, 0.35)';
         ctx.beginPath();
-        ctx.arc(this.lastTargetPos.x, this.lastTargetPos.y, 24 + this.attackFlash * 80, 0, Math.PI * 2);
+        ctx.arc(this.lastTargetPos.x, this.lastTargetPos.y, this.def.aoe, 0, Math.PI * 2);
         ctx.fill();
       }
     }
@@ -674,6 +681,7 @@ class GameState {
     this.shakeTimer = 0;
     this.gameOver = false;
     this.winner = null;
+    this.paused = false;
   }
 
   goToMap() {
@@ -878,6 +886,7 @@ class GameState {
 
   update(dt) {
     if (this.screen === 'map') return;
+    if (this.paused) return;
 
     if (this.gameOver) {
       return;
@@ -1099,13 +1108,26 @@ const placeholderEls = [];
 const deckSlotEls = {};
 const levelButtons = [...document.querySelectorAll('.level-node')];
 
+function openSettings() {
+  settingsPanel.hidden = false;
+  if (game && game.screen === 'playing' && !game.gameOver) {
+    game.paused = true;
+    Sound.bgmStop();
+  }
+  Sound.resume();
+}
+
 function closeSettings() {
   settingsPanel.hidden = true;
+  if (game && game.paused) {
+    game.paused = false;
+    if (game.screen === 'playing' && !game.gameOver) Sound.bgmStart();
+  }
 }
 
 function toggleSettings() {
-  settingsPanel.hidden = !settingsPanel.hidden;
-  if (!settingsPanel.hidden) Sound.resume();
+  if (settingsPanel.hidden) openSettings();
+  else closeSettings();
 }
 
 function initButtons() {
@@ -1119,7 +1141,7 @@ function initButtons() {
       <div class="unit-icon ${def.shape}" style="--unit-color:${def.color}"></div>
       <div class="unit-name">${def.name}</div>
       <div class="unit-cost">$${def.cost}</div>
-      <div class="unit-stats">HP ${def.hp} · ATK ${def.atk}</div>
+      <div class="unit-ability">${ABILITY_DESC[def.ability] || ''}</div>
       <div class="cd-overlay"></div>
     `;
     btn.addEventListener('click', () => {

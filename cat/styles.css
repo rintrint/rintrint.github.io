@@ -427,9 +427,12 @@ body {
   font-weight: 700;
 }
 
-.unit-stats {
-  font-size: 12px;
-  color: #9ca3af;
+.unit-ability {
+  font-size: 11px;
+  color: #93c5fd;
+  line-height: 1.2;
+  margin-top: 2px;
+  text-align: center;
 }
 
 .cd-overlay {
