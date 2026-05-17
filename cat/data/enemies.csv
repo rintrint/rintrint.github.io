@@ -1,5 +1,6 @@
-id,name,hp,atk,speed,range,attackCd,color,size,reward,shape
-grunt,小怪,80,8,60,34,1.0,#ef4444,22,5,square
-heavy,重裝,300,15,30,44,1.3,#991b1b,34,10,square
-fast,衝鋒兵,50,12,108,34,0.8,#f97316,18,5,circle
-elite,精銳,700,28,36,50,1.5,#581c87,44,30,square
+id,name,hp,atk,speed,range,attackCd,color,size,reward,shape,boss
+grunt,小怪,80,8,60,34,1.0,#ef4444,22,20,square,false
+heavy,重裝,300,15,30,44,1.3,#991b1b,34,40,square,false
+fast,衝鋒兵,50,12,108,34,0.8,#f97316,18,20,circle,false
+elite,精銳,700,28,36,50,1.5,#581c87,44,120,square,false
+boss,魔王,80000,600,25,50,10.0,#18181b,70,500,square,true

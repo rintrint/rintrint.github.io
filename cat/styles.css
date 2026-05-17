@@ -15,7 +15,7 @@ body {
   flex-direction: column;
   align-items: center;
   gap: 12px;
-  padding: 12px;
+  padding: 0;
 }
 
 [hidden] {
@@ -23,7 +23,7 @@ body {
 }
 
 #map-screen {
-  width: 1280px;
+  width: 1250px;
   height: 608px;
   border: 2px solid #333;
   border-radius: 4px;
@@ -35,11 +35,16 @@ body {
 }
 
 .map-panel {
-  width: 980px;
+  width: 100%;
+  height: 100%;
   padding: 28px 36px 32px;
   border: 1px solid #475569;
   border-radius: 8px;
   background: rgba(15, 23, 42, 0.82);
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .map-title {
@@ -82,13 +87,6 @@ body {
   background: #2563eb;
 }
 
-.level-node.locked {
-  cursor: not-allowed;
-  color: #94a3b8;
-  background: #1f2937;
-  border-color: #475569;
-}
-
 .level-node.cleared {
   border-color: #4ade80;
   box-shadow: 0 0 18px rgba(74, 222, 128, 0.25);
@@ -109,6 +107,22 @@ body {
 .level-name {
   font-size: 18px;
   font-weight: 700;
+}
+
+.level-stars {
+  display: flex;
+  gap: 4px;
+  font-size: 18px;
+  line-height: 1;
+}
+
+.level-stars .star {
+  color: #4b5563;
+}
+
+.level-stars .star.earned {
+  color: #fbbf24;
+  text-shadow: 0 0 8px rgba(251, 191, 36, 0.6);
 }
 
 .deck-section {
@@ -230,9 +244,18 @@ body {
   margin-top: 2px;
 }
 
+#play-screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  width: 1250px;
+  height: 608px;
+}
+
 #stage {
   position: relative;
-  width: 1280px;
+  width: 1250px;
   line-height: 0;
 }
 
@@ -322,7 +345,7 @@ body {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
   gap: 12px;
-  width: 1280px;
+  width: 1250px;
 }
 
 #buttons {
@@ -593,34 +616,21 @@ body {
 }
 
 #game-container:fullscreen {
-  --fullscreen-stage-width: min(calc(100vw - 48px), calc((100vh - 48px) * 2.105263));
   width: 100vw;
-  height: 100vh;
+  height: 100svh;
   padding: 0;
-  justify-content: center;
   background: #0a0a0f;
 }
 
-#game-container:fullscreen #stage,
-#game-container:fullscreen #bottom-bar,
-#game-container:fullscreen #map-screen {
-  width: var(--fullscreen-stage-width);
-}
-
-#game-container:fullscreen #game {
-  height: calc(var(--fullscreen-stage-width) * 0.375);
-}
-
-#game-container:fullscreen #bottom-bar {
-  height: calc(var(--fullscreen-stage-width) * 0.090625);
-}
-
-#game-container:fullscreen .unit-btn {
-  height: 100%;
-}
-
-#game-container:fullscreen #map-screen {
-  height: calc(var(--fullscreen-stage-width) * 0.475);
+#game-container:fullscreen #map-screen,
+#game-container:fullscreen #play-screen {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(min(
+    calc((100vw - 48px) / 1250px),
+    calc((100svh - 48px) / 608px)
+  ));
 }
 
 #rotate-hint {

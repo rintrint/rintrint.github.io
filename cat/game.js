@@ -14,8 +14,8 @@ const PLAYER_TOWER_X = 1200;
 const ENEMY_TOWER_X = 80;
 const TOWER_W = 60;
 const TOWER_H = 160;
-const MONEY_START = 200;
-const MONEY_PER_SEC = 18;
+const MONEY_START = 3000;
+const MONEY_PER_SEC = 36;
 const MONEY_CAP = 5000;
 
 let UNIT_DEFS = {};
@@ -71,7 +71,7 @@ function rowsToObjects(text) {
 }
 
 async function loadCsv(path) {
-  const res = await fetch(path);
+  const res = await fetch(path, { cache: 'no-store' });
   if (!res.ok) throw new Error(`CSV 載入失敗: ${path}`);
   return rowsToObjects(await res.text());
 }
@@ -99,7 +99,7 @@ async function loadGameData() {
   }));
 
   ENEMY_DEFS = Object.fromEntries(enemyRows.map(row => {
-    const def = numberize({ ...row }, NUMERIC_ENEMY_FIELDS);
+    const def = numberize({ ...row, boss: row.boss === 'true' }, NUMERIC_ENEMY_FIELDS);
     return [def.id, def];
   }));
 
@@ -180,9 +180,9 @@ const SaveData = {
       if (!raw) return null;
       const data = JSON.parse(raw);
       return {
-        unlockedLevel: Math.min(TOTAL_LEVELS, Math.max(1, Number(data.unlockedLevel) || 1)),
         soundEnabled: data.soundEnabled !== false,
         deck: Array.isArray(data.deck) ? data.deck.slice(0, DECK_MAX) : null,
+        levelStars: data.levelStars && typeof data.levelStars === 'object' ? data.levelStars : {},
       };
     } catch (error) {
       return null;
@@ -490,18 +490,27 @@ class Unit {
 
   attack(target, game) {
     target.takeDamage(this.def.atk);
-    if (this.def.aoe > 0 && !(target instanceof Tower)) {
+    if (this.def.aoe > 0) {
       const others = this.team === 'player' ? game.enemyUnits : game.playerUnits;
+      const enemyTower = this.team === 'player' ? game.enemyTower : game.playerTower;
       for (const e of others) {
         if (e === target || e.hp <= 0) continue;
         if (Math.abs(e.x - target.x) <= this.def.aoe) e.takeDamage(this.def.atk);
       }
+      if (enemyTower !== target && enemyTower.hp > 0 && Math.abs(enemyTower.x - target.x) <= this.def.aoe) {
+        enemyTower.takeDamage(this.def.atk);
+      }
     }
     this.attackFlash = this.def.boss ? 0.28 : 0.18;
     this.lastTargetPos = { x: target.x, y: target.y };
-    if (target instanceof Tower && target.team === 'player' && !game.playerTowerHitTriggered) {
-      game.playerTowerHitTriggered = true;
-      game.fireTowerHitEvents();
+    if (target instanceof Tower) {
+      if (target.team === 'player' && !game.playerTowerHitTriggered) {
+        game.playerTowerHitTriggered = true;
+        game.fireTriggerEvents('tower_hit');
+      } else if (target.team === 'enemy' && !game.enemyTowerHitTriggered) {
+        game.enemyTowerHitTriggered = true;
+        game.fireTriggerEvents('enemy_tower_hit');
+      }
     }
     if (target instanceof Tower) {
       Sound.towerHit();
@@ -692,8 +701,8 @@ class GameState {
   constructor() {
     const saved = SaveData.load();
     this.level = 1;
-    this.unlockedLevel = saved?.unlockedLevel ?? 1;
     this.deck = this.sanitizeDeck(saved?.deck);
+    this.levelStars = saved?.levelStars ?? {};
     this.screen = 'map';
     this.reset(1);
     this.screen = 'map';
@@ -707,9 +716,9 @@ class GameState {
 
   persist() {
     SaveData.save({
-      unlockedLevel: this.unlockedLevel,
       soundEnabled: Sound.isEnabled(),
       deck: this.deck,
+      levelStars: this.levelStars,
     });
   }
 
@@ -741,6 +750,7 @@ class GameState {
     this.levelEvents = (LEVEL_EVENTS[this.level] || []).map(event => ({ ...event }));
     this.pendingSpawns = [];                // {time, type}
     this.playerTowerHitTriggered = false;
+    this.enemyTowerHitTriggered = false;
     this.summonEffects = [];                // {x, y, t, duration}
     this.floatingTexts = [];                // {x, y, text, t, duration}
     this.purpleFlash = 0;
@@ -750,6 +760,7 @@ class GameState {
     this.paused = false;
     this.skillCds = {};
     for (const k of Object.keys(SKILLS)) this.skillCds[k] = 0;
+    this.earnedStars = 0;
   }
 
   goToMap() {
@@ -758,7 +769,6 @@ class GameState {
   }
 
   startLevel(level) {
-    if (level > this.unlockedLevel) return false;
     this.reset(level);
     Sound.bgmStart();
     return true;
@@ -928,6 +938,11 @@ class GameState {
     if (!def) return;
     // 敵塔在左邊,單位從敵塔右側 spawn 往右走
     this.enemyUnits.push(new Unit(def, 'enemy', ENEMY_TOWER_X + TOWER_W / 2 + 10));
+    if (def.boss) {
+      Sound.spawnBoss();
+      this.shakeTimer = Math.max(this.shakeTimer, 0.4);
+      this.purpleFlash = 0.4;
+    }
   }
 
   queueEnemySpawn(type, count = 1) {
@@ -937,9 +952,9 @@ class GameState {
     }
   }
 
-  fireTowerHitEvents() {
+  fireTriggerEvents(trigger) {
     for (const event of this.levelEvents) {
-      if (event.trigger !== 'tower_hit' || event.fired) continue;
+      if (event.trigger !== trigger || event.fired) continue;
       event.fired = true;
       this.queueEnemySpawn(event.enemy, event.count);
     }
@@ -1027,9 +1042,9 @@ class GameState {
     } else if (this.enemyTower.hp <= 0) {
       this.gameOver = true;
       this.winner = 'player';
-      if (this.level < TOTAL_LEVELS) {
-        this.unlockedLevel = Math.max(this.unlockedLevel, this.level + 1);
-      }
+      this.earnedStars = this.playerTowerHitTriggered ? 1 : 2;
+      const prev = this.levelStars[this.level] || 0;
+      this.levelStars[this.level] = Math.max(prev, this.earnedStars);
       this.persist();
       Sound.bgmStop();
       Sound.victory();
@@ -1144,20 +1159,30 @@ class GameState {
       ctx.textBaseline = 'middle';
       ctx.fillStyle = this.winner === 'player' ? '#4ade80' : '#ef4444';
       ctx.font = 'bold 96px sans-serif';
-      ctx.fillText(this.winner === 'player' ? '勝利!' : '失敗...', W / 2, H / 2 - 20);
+      ctx.fillText(this.winner === 'player' ? '勝利!' : '失敗...', W / 2, H / 2 - 60);
+
+      if (this.winner === 'player') {
+        ctx.font = 'bold 48px sans-serif';
+        const starW = ctx.measureText('★').width;
+        const gap = 16;
+        const totalW = starW * 2 + gap;
+        let starX = W / 2 - totalW / 2 + starW / 2;
+        for (let i = 0; i < 2; i++) {
+          ctx.fillStyle = i < this.earnedStars ? '#fbbf24' : '#4b5563';
+          ctx.fillText('★', starX, H / 2 + 30);
+          starX += starW + gap;
+        }
+      }
+
       ctx.fillStyle = '#e5e7eb';
       ctx.font = '20px sans-serif';
-      let subtitle;
+      let subtitle = '';
       if (this.winner === 'player') {
-        if (this.level < TOTAL_LEVELS) {
-          subtitle = `第 ${this.level + 1} 關已解鎖`;
-        } else {
-          subtitle = '全部關卡通關!';
-        }
+        if (this.level >= TOTAL_LEVELS) subtitle = '全部關卡通關!';
       } else {
         subtitle = '請選擇下方按鈕';
       }
-      ctx.fillText(subtitle, W / 2, H / 2 + 60);
+      if (subtitle) ctx.fillText(subtitle, W / 2, H / 2 + 95);
     }
   }
 }
@@ -1168,7 +1193,7 @@ class GameState {
 let game = null;
 const buttonContainer = document.getElementById('buttons');
 const mapScreen = document.getElementById('map-screen');
-const bottomBar = document.getElementById('bottom-bar');
+const playScreen = document.getElementById('play-screen');
 const restartBtn = document.getElementById('restart');
 const backToMapBtn = document.getElementById('back-to-map');
 const settingsBtn = document.getElementById('settings-btn');
@@ -1390,6 +1415,14 @@ async function toggleFullscreen() {
 
 fullscreenBtn.addEventListener('click', toggleFullscreen);
 
+document.addEventListener('visibilitychange', () => {
+  if (document.hidden) {
+    Sound.bgmStop();
+  } else if (game && game.screen === 'playing' && !game.gameOver && !game.paused) {
+    Sound.bgmStart();
+  }
+});
+
 function updateButtons() {
   if (!game) return;
   buttonContainer.style.gridTemplateColumns = `repeat(${DECK_MAX}, 1fr)`;
@@ -1442,8 +1475,7 @@ function updateMap() {
   if (!game) return;
   const onMap = game.screen === 'map';
   mapScreen.hidden = !onMap;
-  canvas.hidden = onMap;
-  bottomBar.hidden = onMap;
+  playScreen.hidden = onMap;
 
   const showLoseButtons = !onMap && game.gameOver && game.winner === 'enemy';
   const showWinButtons = !onMap && game.gameOver && game.winner === 'player';
@@ -1457,10 +1489,13 @@ function updateMap() {
 
   for (const btn of levelButtons) {
     const level = Number(btn.dataset.level);
-    const unlocked = level <= game.unlockedLevel;
-    btn.disabled = !unlocked;
-    btn.classList.toggle('locked', !unlocked);
-    btn.classList.toggle('cleared', level < game.unlockedLevel);
+    const earned = game.levelStars[level] || 0;
+    btn.disabled = false;
+    btn.classList.toggle('cleared', earned >= 1);
+    const starsEl = btn.querySelector('.level-stars');
+    if (starsEl) {
+      starsEl.innerHTML = `<span class="star${earned >= 1 ? ' earned' : ''}">★</span><span class="star${earned >= 2 ? ' earned' : ''}">★</span>`;
+    }
   }
 
   if (onMap) updateDeck();
@@ -1497,7 +1532,6 @@ async function bootstrap() {
 bootstrap().catch(error => {
   console.error(error);
   mapScreen.hidden = false;
-  canvas.hidden = true;
-  bottomBar.hidden = true;
+  playScreen.hidden = true;
   mapScreen.innerHTML = '<div class="map-panel"><div class="map-title">CSV 載入失敗</div></div>';
 });
