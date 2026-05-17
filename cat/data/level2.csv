@@ -1,0 +1,13 @@
+trigger,enemy,count,time,interval,start,end
+time,grunt,2,4,,,
+time,fast,2,12,,,
+time,heavy,1,24,,,
+time,grunt,3,38,,,
+time,fast,3,52,,,
+time,heavy,2,72,,,
+time,grunt,4,92,,,
+time,heavy,2,116,,,
+time,fast,4,116,,,
+loop,grunt,2,,12,135,
+loop,fast,1,,18,145,
+tower_hit,heavy,2,,,,

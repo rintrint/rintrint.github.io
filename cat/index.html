@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <title>塔防 Prototype</title>
+  <link rel="stylesheet" href="styles.css?v=9">
+</head>
+<body>
+  <div id="game-container">
+    <div id="map-screen">
+      <div class="map-panel">
+        <div class="map-title">關卡地圖</div>
+        <div class="map-path">
+          <button class="level-node" type="button" data-level="1">
+            <span class="level-number">1</span>
+            <span class="level-name">第一關</span>
+          </button>
+          <div class="map-line"></div>
+          <button class="level-node" type="button" data-level="2">
+            <span class="level-number">2</span>
+            <span class="level-name">第二關</span>
+          </button>
+          <div class="map-line"></div>
+          <button class="level-node" type="button" data-level="3">
+            <span class="level-number">3</span>
+            <span class="level-name">第三關</span>
+          </button>
+        </div>
+        <div class="deck-section">
+          <div class="deck-title">
+            出戰編成 <span id="deck-count">0</span>/4
+            <span class="deck-hint">(點擊貓咪加入或移除)</span>
+          </div>
+          <div class="deck-grid" id="deck-grid"></div>
+        </div>
+      </div>
+    </div>
+    <div id="stage">
+      <canvas id="game" width="1280" height="480"></canvas>
+      <div id="gameover-panel" hidden>
+        <button id="gameover-restart" type="button">重新開始</button>
+        <button id="gameover-map" type="button">返回地圖</button>
+      </div>
+      <div id="victory-panel" hidden>
+        <button id="victory-next" type="button">進入下一關</button>
+        <button id="victory-replay" type="button">重玩這關</button>
+        <button id="victory-map" type="button">返回地圖</button>
+      </div>
+    </div>
+    <div id="bottom-bar">
+      <div id="buttons"></div>
+    </div>
+    <button id="settings-btn" type="button" title="設定" aria-label="設定">⚙</button>
+    <div id="settings-panel" hidden>
+      <div class="settings-title">設定</div>
+      <button id="restart" type="button">重新開始</button>
+      <button id="back-to-map" type="button">返回地圖</button>
+      <label class="settings-row">
+        <input type="checkbox" id="sound-toggle" checked>
+        <span>音效</span>
+      </label>
+      <button id="close-settings" type="button" class="close-settings">關閉</button>
+    </div>
+    <button id="fullscreen-btn" type="button" title="全螢幕" aria-label="全螢幕">⛶</button>
+    <div id="rotate-hint">請旋轉手機橫向遊玩</div>
+  </div>
+  <script src="game.js?v=9"></script>
+</body>
+</html>
