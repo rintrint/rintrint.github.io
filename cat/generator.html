@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <title>關卡生成器</title>
+  <link rel="stylesheet" href="generator.css?v=1">
+</head>
+<body>
+  <header class="gen-header">
+    <a class="back-link" href="index.html">← 回到遊戲</a>
+    <h1>關卡生成器</h1>
+    <span class="data-status" id="data-status">載入資料中...</span>
+  </header>
+
+  <section class="gen-controls">
+    <label>生成數量
+      <input type="number" id="gen-count" value="20" min="1" max="500">
+    </label>
+    <label>主 seed
+      <input type="number" id="gen-seed" value="1" min="1">
+    </label>
+    <label>每個 Random bot 重試
+      <input type="number" id="gen-random-seeds" value="5" min="1" max="20">
+    </label>
+    <button id="generate-btn" type="button" disabled>生成並評估</button>
+    <span class="progress-row">
+      <progress id="progress" max="100" value="0"></progress>
+      <span id="progress-text"></span>
+    </span>
+  </section>
+
+  <section class="gen-results" id="results-section" hidden>
+    <div class="results-header">
+      <h2 id="results-title">結果</h2>
+      <div class="filter-row">
+        <label><input type="checkbox" id="filter-good" checked> good</label>
+        <label><input type="checkbox" id="filter-easy" checked> too_easy</label>
+        <label><input type="checkbox" id="filter-hard" checked> too_hard</label>
+      </div>
+    </div>
+    <table id="results-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Verdict</th>
+          <th>Score</th>
+          <th>Random WR</th>
+          <th>Rush WR</th>
+          <th>Meatshield WR</th>
+          <th>最佳 bot</th>
+          <th>敵塔 HP</th>
+          <th>事件數</th>
+          <th>操作</th>
+        </tr>
+      </thead>
+      <tbody id="results-body"></tbody>
+    </table>
+  </section>
+
+  <section class="gen-stats" id="stats-section" hidden>
+    <h2>整體統計</h2>
+    <div id="stats-body"></div>
+  </section>
+
+  <script src="core.js?v=4"></script>
+  <script src="tools/sim.js?v=1"></script>
+  <script src="tools/bots.js?v=1"></script>
+  <script src="tools/evaluator.js?v=1"></script>
+  <script src="tools/generator.js?v=1"></script>
+  <script src="generator-ui.js?v=2"></script>
+</body>
+</html>

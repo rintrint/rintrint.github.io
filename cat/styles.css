@@ -54,6 +54,52 @@ body {
   margin-bottom: 24px;
 }
 
+.map-top-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 4px;
+}
+.map-top-row .map-title { margin-bottom: 0; }
+.generator-link {
+  color: #fbbf24;
+  font-size: 14px;
+  font-weight: 700;
+  padding: 8px 16px;
+  border: 1px solid #fbbf24;
+  border-radius: 6px;
+  text-decoration: none;
+  background: rgba(251, 191, 36, 0.08);
+  white-space: nowrap;
+  letter-spacing: 0.5px;
+  box-shadow: 0 0 8px rgba(251, 191, 36, 0.18);
+  transition: background 0.15s, color 0.15s, box-shadow 0.15s;
+}
+.generator-link:hover {
+  color: #fde047;
+  background: rgba(251, 191, 36, 0.18);
+  border-color: #fde047;
+  box-shadow: 0 0 12px rgba(253, 224, 71, 0.35);
+}
+
+#back-to-generator {
+  position: fixed;
+  top: 12px;
+  left: 12px;
+  z-index: 100;
+  color: #93c5fd;
+  font-size: 13px;
+  padding: 6px 12px;
+  border: 1px solid #475569;
+  border-radius: 6px;
+  text-decoration: none;
+  background: rgba(15, 23, 42, 0.85);
+}
+#back-to-generator:hover {
+  background: rgba(59, 130, 246, 0.25);
+  border-color: #93c5fd;
+}
+
 .map-path {
   display: grid;
   grid-template-columns: 120px 1fr 120px 1fr 120px 1fr 120px 1fr 120px;

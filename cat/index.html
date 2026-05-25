@@ -3,13 +3,17 @@
 <head>
   <meta charset="UTF-8">
   <title>塔防 Prototype</title>
-  <link rel="stylesheet" href="styles.css?v=31">
+  <link rel="stylesheet" href="styles.css?v=32">
 </head>
 <body>
   <div id="game-container">
+    <a id="back-to-generator" href="generator.html" hidden>← 回生成器</a>
     <div id="map-screen">
       <div class="map-panel">
-        <div class="map-title">關卡地圖</div>
+        <div class="map-top-row">
+          <div class="map-title">關卡地圖</div>
+          <a href="generator.html" class="generator-link">🛠 關卡生成器</a>
+        </div>
         <div class="map-path">
           <button class="level-node" type="button" data-level="1">
             <span class="level-number">1</span>
@@ -82,6 +86,7 @@
     <button id="fullscreen-btn" type="button" title="全螢幕" aria-label="全螢幕">⛶</button>
     <div id="rotate-hint">請旋轉手機橫向遊玩</div>
   </div>
-  <script src="game.js?v=26"></script>
+  <script src="core.js?v=4"></script>
+  <script src="render.js?v=2"></script>
 </body>
 </html>

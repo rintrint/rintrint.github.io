@@ -1,0 +1,8 @@
+{
+  "name": "cat-tower-defense-tools",
+  "private": true,
+  "scripts": {
+    "test": "node --test tools/tests/*.test.js",
+    "serve": "node tools/serve.js"
+  }
+}
