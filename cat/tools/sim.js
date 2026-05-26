@@ -1,7 +1,7 @@
 // tools/sim.js (UMD)
 // Headless 比賽執行器。Node 透過 require、瀏覽器透過 <script> 載入都能用。
 //
-// policy(game) -> null | { summon: 'attackId' } | { skill: 'cannon'|'shield'|'retreat' }
+// policy(game) -> null | { summon: 'attackId' } | { skill: 'cannon'|'shield' }
 // 每個 sim tick 會被呼叫一次。
 
 (function () {

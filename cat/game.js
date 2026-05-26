@@ -122,7 +122,7 @@ const DASH_DURATION = 3.0;
 
 const SKILLS = {
   cannon: {
-    name: '手動砲台', cost: 200, cd: 30, color: '#dc2626',
+    name: '砲台', cost: 200, cd: 30, color: '#dc2626',
     desc: '擊退並對全體敵人造成 50 傷害',
     fire(game) {
       const damage = 50;

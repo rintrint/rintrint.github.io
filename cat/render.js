@@ -32,8 +32,11 @@ SaveData = {
       const raw = localStorage.getItem(SAVE_KEY);
       if (!raw) return null;
       const data = JSON.parse(raw);
+      // 舊存檔只有 soundEnabled,拆成 BGM/SFX 後當作兩者的初值
+      const legacy = data.soundEnabled !== false;
       return {
-        soundEnabled: data.soundEnabled !== false,
+        bgmEnabled: data.bgmEnabled !== undefined ? data.bgmEnabled !== false : legacy,
+        sfxEnabled: data.sfxEnabled !== undefined ? data.sfxEnabled !== false : legacy,
         deck: Array.isArray(data.deck) ? data.deck.slice(0, DECK_MAX) : null,
         levelStars: data.levelStars && typeof data.levelStars === 'object' ? data.levelStars : {},
         difficulty: data.difficulty === 'hard' ? 'hard' : 'easy',
@@ -57,7 +60,8 @@ SaveData = {
 // ========================================================================
 Sound = (() => {
   let ctx = null;
-  let enabled = true;
+  let bgmEnabled = true;
+  let sfxEnabled = true;
 
   function ensureCtx() {
     if (!ctx) {
@@ -69,7 +73,7 @@ Sound = (() => {
   }
 
   function tone({ freq = 440, type = 'sine', dur = 0.15, gain = 0.2, freqEnd = null, delay = 0 }) {
-    if (!enabled) return;
+    if (!sfxEnabled) return;
     const c = ensureCtx();
     if (!c) return;
     const t0 = c.currentTime + delay;
@@ -87,7 +91,7 @@ Sound = (() => {
   }
 
   function noise({ dur = 0.18, gain = 0.18, delay = 0, bandpass = null }) {
-    if (!enabled) return;
+    if (!sfxEnabled) return;
     const c = ensureCtx();
     if (!c) return;
     const t0 = c.currentTime + delay;
@@ -193,7 +197,7 @@ Sound = (() => {
   }
 
   function bgmStart(trackName = 'normal') {
-    if (!enabled) return;
+    if (!bgmEnabled) return;
     const next = BGM_TRACKS[trackName] || BGM_TRACKS.normal;
     if (bgmPlaying && currentTrack === next) return;     // 已經在播這軌
     const c = ensureCtx();
@@ -228,11 +232,13 @@ Sound = (() => {
   }
 
   return {
-    setEnabled(v) {
-      enabled = !!v;
-      if (!enabled) bgmStop();
+    setBgmEnabled(v) {
+      bgmEnabled = !!v;
+      if (!bgmEnabled) bgmStop();
     },
-    isEnabled() { return enabled; },
+    isBgmEnabled() { return bgmEnabled; },
+    setSfxEnabled(v) { sfxEnabled = !!v; },
+    isSfxEnabled() { return sfxEnabled; },
     resume() { ensureCtx(); },
     bgmStart,
     bgmStartBoss() { bgmStart('boss'); },
@@ -440,13 +446,31 @@ async function loadSprites() {
   const backgroundImage = await loadImage('assets/bg/background.png');
   applySprites({ unitSprites, enemySprites, towerSprites, backgroundImage });
 
-  // UI 用的小頭像:直接走檔案路徑(canvas→dataURL 在手機 Chromium 會掉色,改用原始 PNG 最穩)
+  // UI 用的小頭像:idle.png 周圍有大量透明 padding(rogue 128 圖內角色只有 ~46 寬),
+  // 直接放卡片裡會留一大圈空白。先 tint 成該單位的顏色(否則三個 knight base 看起來一模一樣),
+  // 再 crop 到角色內容讓圖示填滿卡片。
   for (const id of Object.keys(PLAYER_SPRITE_MAP)) {
-    UNIT_ICON_DATA_URL[id] = `assets/heroes/${PLAYER_SPRITE_MAP[id].hero}/idle.png`;
+    const { hero, tint } = PLAYER_SPRITE_MAP[id];
+    const heroIdle = await loadImage(`assets/heroes/${hero}/idle.png`);
+    const tinted = tintImage(heroIdle, tint, 0.42);
+    UNIT_ICON_DATA_URL[id] = cropToContent(tinted).toDataURL();
   }
 }
 
 const UNIT_ICON_DATA_URL = {};
+
+// 技能圖示:inline SVG,直接嵌進按鈕。色塊圖示太單調,改用辨識度高的圖案。
+// shield: 五角星(對應「全體無敵」庇佑感),cannon: 八角爆裂(對應 AoE 擊退傷害)
+const SKILL_ICONS = {
+  shield: `<svg class="unit-icon-svg" viewBox="0 0 24 24" aria-hidden="true">
+    <polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"
+      fill="#fbbf24"/>
+  </svg>`,
+  cannon: `<svg class="unit-icon-svg" viewBox="0 0 24 24" aria-hidden="true">
+    <polygon points="12,1 14,9 21,5 17,11 23,13 16,14 19,21 13,15 12,23 11,15 5,21 8,14 1,13 7,11 3,5 10,9"
+      fill="#dc2626" stroke="#fbbf24" stroke-width="0.9" stroke-linejoin="round"/>
+  </svg>`,
+};
 
 async function loadGameData() {
   const levelPaths = Array.from({ length: TOTAL_LEVELS }, (_, i) => `data/level${i + 1}.csv`);
@@ -486,7 +510,8 @@ const backToMapBtn = document.getElementById('back-to-map');
 const settingsBtn = document.getElementById('settings-btn');
 const settingsPanel = document.getElementById('settings-panel');
 const closeSettingsBtn = document.getElementById('close-settings');
-const soundToggle = document.getElementById('sound-toggle');
+const bgmToggle = document.getElementById('bgm-toggle');
+const sfxToggle = document.getElementById('sfx-toggle');
 const gameoverPanel = document.getElementById('gameover-panel');
 const gameoverRestartBtn = document.getElementById('gameover-restart');
 const gameoverMapBtn = document.getElementById('gameover-map');
@@ -558,8 +583,10 @@ function initButtons() {
     btn.className = 'unit-btn skill-btn';
     btn.type = 'button';
     btn.style.setProperty('--skill-color', skill.color);
+    const iconHTML = SKILL_ICONS[key]
+      || `<div class="unit-icon" style="--unit-color:${skill.color}"></div>`;
     btn.innerHTML = `
-      <div class="unit-icon" style="--unit-color:${skill.color}"></div>
+      ${iconHTML}
       <div class="unit-name">${skill.name}</div>
       <div class="unit-cost">$${skill.cost}</div>
       <div class="unit-ability">${skill.desc}</div>
@@ -594,13 +621,18 @@ function initButtons() {
     game.goToMap();
     closeSettings();
   });
-  soundToggle.addEventListener('change', () => {
-    Sound.setEnabled(soundToggle.checked);
+  bgmToggle.addEventListener('change', () => {
+    Sound.setBgmEnabled(bgmToggle.checked);
     game?.persist();
-    if (soundToggle.checked) {
-      Sound.click();
+    if (bgmToggle.checked) {
+      if (Sound.isSfxEnabled()) Sound.click();
       if (game && game.screen === 'playing' && !game.gameOver) Sound.bgmStart();
     }
+  });
+  sfxToggle.addEventListener('change', () => {
+    Sound.setSfxEnabled(sfxToggle.checked);
+    game?.persist();
+    if (sfxToggle.checked) Sound.click();
   });
 
   gameoverRestartBtn.addEventListener('click', () => {
@@ -820,8 +852,10 @@ async function bootstrap() {
   }
   const saved = SaveData.load();
   if (saved) {
-    Sound.setEnabled(saved.soundEnabled);
-    soundToggle.checked = saved.soundEnabled;
+    Sound.setBgmEnabled(saved.bgmEnabled);
+    Sound.setSfxEnabled(saved.sfxEnabled);
+    bgmToggle.checked = saved.bgmEnabled;
+    sfxToggle.checked = saved.sfxEnabled;
   }
   game = new GameState();
   initButtons();

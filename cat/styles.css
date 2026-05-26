@@ -35,7 +35,7 @@ body {
 
 #map-screen {
   width: 1250px;
-  height: 608px;
+  height: 640px;
   border: 2px solid #333;
   border-radius: 4px;
   background: linear-gradient(180deg, #172033 0%, #1e293b 58%, #283544 100%);
@@ -67,8 +67,9 @@ body {
 
 .map-top-row {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: space-between;
+  gap: 12px;
   margin-bottom: 4px;
 }
 .map-top-row .map-title { margin-bottom: 0; }
@@ -286,21 +287,21 @@ body {
   color: #fff;
   border: 2px solid #4b5563;
   border-radius: 6px;
-  padding: 10px 6px 8px;
+  padding: 14px 8px 12px;
   font-family: inherit;
   text-align: center;
-  height: 184px;
+  height: 200px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  gap: 4px;
+  gap: 6px;
   user-select: none;
 }
 
 .deck-slot-icon {
-  width: 32px;
-  height: 32px;
+  width: 80px;
+  height: 80px;
   border-radius: 4px;
   background: var(--unit-color);
   box-shadow: 0 0 10px rgba(255, 255, 255, 0.15);
@@ -314,9 +315,9 @@ body {
   width: 0;
   height: 0;
   background: transparent;
-  border-top: 18px solid transparent;
-  border-bottom: 18px solid transparent;
-  border-left: 32px solid var(--unit-color);
+  border-top: 40px solid transparent;
+  border-bottom: 40px solid transparent;
+  border-left: 80px solid var(--unit-color);
   border-radius: 0;
 }
 
@@ -345,7 +346,7 @@ body {
   align-items: center;
   gap: 12px;
   width: 1250px;
-  height: 608px;
+  height: 640px;
 }
 
 #stage {
@@ -438,7 +439,7 @@ body {
 
 #bottom-bar {
   display: grid;
-  grid-template-columns: repeat(9, 1fr);
+  grid-template-columns: repeat(8, 1fr);
   gap: 12px;
   width: 1250px;
 }
@@ -452,9 +453,9 @@ body {
 
 #skills {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   gap: 12px;
-  grid-column: span 3;
+  grid-column: span 2;
 }
 
 .unit-btn {
@@ -463,17 +464,17 @@ body {
   color: #fff;
   border: 2px solid #4b5563;
   border-radius: 6px;
-  padding: 12px;
+  padding: 8px 6px;
   cursor: pointer;
   font-family: inherit;
   text-align: center;
   overflow: hidden;
-  height: 116px;
+  height: 140px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  gap: 4px;
+  justify-content: flex-start;
+  gap: 3px;
   transition: background 0.1s, border-color 0.1s, transform 0.05s;
   user-select: none;
 }
@@ -538,8 +539,9 @@ body {
 }
 
 .unit-icon {
-  width: 30px;
-  height: 30px;
+  width: 44px;
+  height: 44px;
+  flex-shrink: 0;
   border-radius: 4px;
   background: var(--unit-color);
   box-shadow: 0 0 10px rgba(255, 255, 255, 0.15);
@@ -548,15 +550,23 @@ body {
 .unit-icon-img {
   width: 44px;
   height: 44px;
+  flex-shrink: 0;
   object-fit: contain;
   image-rendering: pixelated;
   image-rendering: crisp-edges;
   filter: drop-shadow(0 0 6px rgba(0, 0, 0, 0.55));
 }
 
+.unit-icon-svg {
+  width: 44px;
+  height: 44px;
+  flex-shrink: 0;
+  filter: drop-shadow(0 0 6px rgba(0, 0, 0, 0.55));
+}
+
 .deck-slot-icon-img {
-  width: 96px;
-  height: 96px;
+  width: 140px;
+  height: 140px;
   object-fit: contain;
   image-rendering: pixelated;
   image-rendering: crisp-edges;
@@ -571,9 +581,9 @@ body {
   width: 0;
   height: 0;
   background: transparent;
-  border-top: 17px solid transparent;
-  border-bottom: 17px solid transparent;
-  border-left: 30px solid var(--unit-color);
+  border-top: 22px solid transparent;
+  border-bottom: 22px solid transparent;
+  border-left: 44px solid var(--unit-color);
   border-radius: 0;
 }
 

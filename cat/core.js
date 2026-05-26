@@ -113,7 +113,7 @@ const DASH_DURATION = 3.0;
 
 const SKILLS = {
   cannon: {
-    name: '手動砲台', cost: 200, cd: 30, color: '#dc2626',
+    name: '砲台', cost: 200, cd: 30, color: '#dc2626',
     desc: '擊退並對全體敵人造成 50 傷害',
     fire(game) {
       const damage = 50;
@@ -129,21 +129,12 @@ const SKILLS = {
     },
   },
   shield: {
-    name: '全體無敵', cost: 300, cd: 25, color: '#fbbf24',
-    desc: '所有單位無敵 1 秒',
+    name: '全體無敵', cost: 200, cd: 25, color: '#fbbf24',
+    desc: '所有單位無敵 10 秒',
     fire(game) {
-      for (const u of game.playerUnits) u.invincibleTimer = 1.0;
+      for (const u of game.playerUnits) u.invincibleTimer = 10.0;
       game.summonEffects.push({ x: PLAYER_TOWER_X, y: GROUND_Y - TOWER_H / 2, t: 0, duration: 0.6, color: 'yellow' });
       Sound.spawnBoss();
-    },
-  },
-  retreat: {
-    name: '戰術後撤', cost: 150, cd: 20, color: '#a855f7',
-    desc: '所有我方單位後退 150',
-    fire(game) {
-      game.retreatAllPlayers(150);
-      game.summonEffects.push({ x: PLAYER_TOWER_X, y: GROUND_Y - TOWER_H / 2, t: 0, duration: 0.5, color: 'purple' });
-      Sound.towerHit();
     },
   },
 };
@@ -159,7 +150,9 @@ let Sound = {
   towerHit() {}, kill() {},
   victory() {}, defeat() {},
   click() {},
-  setEnabled() {}, isEnabled() { return true; }, resume() {},
+  setBgmEnabled() {}, isBgmEnabled() { return true; },
+  setSfxEnabled() {}, isSfxEnabled() { return true; },
+  resume() {},
 };
 
 let SaveData = {
@@ -396,13 +389,16 @@ class Unit {
       const aspect = (img.naturalWidth || img.width) / (img.naturalHeight || img.height);
       const sprW = sprH * aspect;
       const bottomPadPx = sprH * this.bottomPad;  // 把 PNG 整張往下推,讓「角色腳尖」剛好貼 GROUND_Y
+      // leftPad/rightPad 不對稱時,PNG 中心 ≠ 角色視覺中心。補上偏移讓視覺內容對齊 this.x,
+      // 否則血條(畫在 this.x)會跟角色錯位 — 尤其是 rogue,idle 圖左右邊距差 30%。
+      const centerShift = ((sprites.leftPad || 0) - (sprites.rightPad || 0)) * sprW / 2;
 
       ctx.save();
       ctx.imageSmoothingEnabled = false;
       ctx.translate(this.x, GROUND_Y + bottomPadPx);
       if (this.dir === -1) ctx.scale(-1, 1);
       if (this.flashTimer > 0) ctx.filter = 'brightness(2.6) saturate(0.4)';
-      ctx.drawImage(img, -sprW / 2, -sprH, sprW, sprH);
+      ctx.drawImage(img, -sprW / 2 - centerShift, -sprH, sprW, sprH);
       ctx.restore();
     } else {
       const fill = this.flashTimer > 0 ? '#ffffff' : color;
@@ -456,9 +452,10 @@ class Tower {
     this.hp = hp;
     this.maxHp = hp;
     this.flashTimer = 0;
-    // sprite 模式(雕像圖 1.9× 寬):視覺半寬給 findTarget 算邊緣距離用
-    // 雕像實際內容比邊框內縮一點,額外 -5 避免單位隔空打到雕像邊
-    this.visHalfW = TOWER_SPRITES[team] ? TOWER_W * 0.75 : 0;
+    // sprite 模式(雕像圖 1.9× 寬,但 PNG 內容只佔約 48%):
+    // 視覺半寬 = drawW(=TOWER_W*1.9) × 內容寬度比 ÷ 2 ≈ TOWER_W*0.47。
+    // 之前用 0.75 太寬,造成短程單位(如刺客)在距離 17 px 外就停下隔空打塔。
+    this.visHalfW = TOWER_SPRITES[team] ? TOWER_W * 0.5 : 0;
   }
 
   takeDamage(amount) {
@@ -580,7 +577,8 @@ class GameState {
 
   persist() {
     SaveData.save({
-      soundEnabled: Sound.isEnabled(),
+      bgmEnabled: Sound.isBgmEnabled(),
+      sfxEnabled: Sound.isSfxEnabled(),
       levelStars: this.levelStars,
       difficulty: this.difficulty,
       endlessBest: this.endlessBest,
@@ -799,16 +797,6 @@ class GameState {
       e.x -= distance;
       e.flashTimer = 0.15;
       e.attackTimer = Math.max(e.attackTimer, 0.3);    // 被擊退後短暫無法立刻攻擊
-    }
-  }
-
-  // 戰術後撤:我方單位往玩家塔方向(右)位移,可超過塔位置。
-  retreatAllPlayers(distance) {
-    for (const u of this.playerUnits) {
-      if (u.hp <= 0) continue;
-      u.x += distance;
-      u.flashTimer = 0.15;
-      u.attackTimer = Math.max(u.attackTimer, 0.3);
     }
   }
 

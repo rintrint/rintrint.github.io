@@ -1,7 +1,7 @@
 ﻿id,name,cost,hp,atk,speed,range,attackCd,cd,color,size,shape,boss,ability,aoe,weaponLen
-defender,重盾守衛,100,500,10,36,44,1.2,8,#0f2f73,50,square,false,none,1,40
-rusher,疾風刺客,150,90,20,90,1,0.8,6,#0ea5e9,20,circle,false,backdoor,0,1
-sniper,法師射手,150,70,18,48,210,1.5,8,#06b6d4,22,triangle,false,none,0,10
-healer,治療法師,200,180,10,20,30,1.5,12,#22c55e,30,circle,false,aura,0,10
-bomber,爆破騎士,250,150,30,48,120,1.8,18,#facc15,28,triangle,false,none,1,10
-boss,英雄王,2000,1000,3000,42,60,10.0,60,#8b5cf6,80,square,true,none,1,10
+defender,重裝守衛,100,400,5,36,44,2.0,2,#0f2f73,50,square,false,none,44,40
+rusher,疾風刺客,150,1,10,90,1,0.8,45,#0ea5e9,20,circle,false,backdoor,0,1
+sniper,法師射手,200,70,100,48,210,1.5,2,#06b6d4,22,triangle,false,none,0,10
+healer,治療法師,200,50,10,20,180,1.5,2,#22c55e,30,circle,false,aura,0,10
+bomber,爆破騎士,250,150,20,48,120,1.8,2,#facc15,28,triangle,false,none,120,10
+boss,英雄王,2000,1000,3000,42,60,10.0,60,#8b5cf6,80,square,true,none,60,10
