@@ -14,7 +14,7 @@ const PLAYER_TOWER_X = 1200;
 const ENEMY_TOWER_X = 80;
 const TOWER_W = 60;
 const TOWER_H = 160;
-const MONEY_START = 3000;
+const MONEY_START = 0;
 const MONEY_PER_SEC = 36;
 const MONEY_CAP = 5000;
 

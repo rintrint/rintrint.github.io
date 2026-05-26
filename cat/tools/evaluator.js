@@ -7,7 +7,7 @@
   const sim   = isNode ? require('./sim')  : globalThis.SimTools;
   const bots  = isNode ? require('./bots') : globalThis.Bots;
 
-  const DEFAULT_DECK = ['attack', 'defender', 'rusher', 'sniper'];
+  const DEFAULT_DECK = ['defender', 'rusher', 'sniper', 'bomber'];
   const VIABLE_THRESHOLD = 0.6;
 
   // 平均勝率算法:RandomBot 對 seed 敏感 -> 多跑 seed 取平均;

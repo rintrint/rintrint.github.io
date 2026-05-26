@@ -11,6 +11,8 @@ const ABILITY_DESC = {
   pierce:    '出場對最近敵人 +30 傷害',
   shield:    '出場 4 秒減傷 50%',
   dash:      '出場 3 秒移速 +80%',
+  backdoor:  '偷家',
+  aura:      '治癒',
   snipe:    `出場狙擊最遠敵人 ${SNIPE_DAMAGE} 傷害`,
   heal:      '出場+定期治癒友軍',
   knockback: '出場擊退所有敵人',
@@ -112,17 +114,32 @@ Sound = (() => {
 
   // ---- BGM (合成 chord progression loop) ----
   const noteHz = midi => 440 * Math.pow(2, (midi - 69) / 12);
-  const CHORDS = [
-    { bass: 45, notes: [57, 60, 64] }, // Am
-    { bass: 41, notes: [53, 57, 60] }, // F
-    { bass: 48, notes: [60, 64, 67] }, // C
-    { bass: 43, notes: [55, 59, 62] }, // G
-  ];
-  const BPM = 96;
-  const STEP_DUR = 60 / BPM / 2;       // 8th 音符
   const STEPS_PER_CHORD = 8;
   const ARPEGGIO_STEPS = [0, 2, 4, 6, 3, 5, 7, 1];
 
+  // 多軌:平時用 normal,boss 出場切到 boss(更低、更快、不和諧)
+  const BGM_TRACKS = {
+    normal: {
+      chords: [
+        { bass: 45, notes: [57, 60, 64] }, // Am
+        { bass: 41, notes: [53, 57, 60] }, // F
+        { bass: 48, notes: [60, 64, 67] }, // C
+        { bass: 43, notes: [55, 59, 62] }, // G
+      ],
+      bpm: 96,
+    },
+    boss: {
+      chords: [
+        { bass: 33, notes: [45, 48, 52] }, // Am (低 8 度)
+        { bass: 31, notes: [43, 46, 50] }, // G dim
+        { bass: 33, notes: [45, 49, 52] }, // Am(M3)
+        { bass: 28, notes: [40, 44, 47] }, // E
+      ],
+      bpm: 138,
+    },
+  };
+
+  let currentTrack = BGM_TRACKS.normal;
   let bgmPlaying = false;
   let bgmNextTime = 0;
   let bgmStep = 0;
@@ -144,9 +161,10 @@ Sound = (() => {
   }
 
   function scheduleBgmStep(c, step, t) {
-    const chordIdx = Math.floor(step / STEPS_PER_CHORD) % CHORDS.length;
+    const chords = currentTrack.chords;
+    const chordIdx = Math.floor(step / STEPS_PER_CHORD) % chords.length;
     const inChord = step % STEPS_PER_CHORD;
-    const chord = CHORDS[chordIdx];
+    const chord = chords[chordIdx];
 
     if (inChord === 0 || inChord === 4) {
       bgmNote(c, 'sine', noteHz(chord.bass), t, 0.5, 0.32);
@@ -164,24 +182,31 @@ Sound = (() => {
     if (!bgmPlaying) return;
     const c = ensureCtx();
     if (!c) return;
+    const stepDur = 60 / currentTrack.bpm / 2;
     while (bgmNextTime < c.currentTime + 0.2) {
       scheduleBgmStep(c, bgmStep, bgmNextTime);
-      bgmStep = (bgmStep + 1) % (STEPS_PER_CHORD * CHORDS.length);
-      bgmNextTime += STEP_DUR;
+      bgmStep = (bgmStep + 1) % (STEPS_PER_CHORD * currentTrack.chords.length);
+      bgmNextTime += stepDur;
     }
   }
 
-  function bgmStart() {
+  function bgmStart(trackName = 'normal') {
     if (!enabled) return;
+    const next = BGM_TRACKS[trackName] || BGM_TRACKS.normal;
+    if (bgmPlaying && currentTrack === next) return;     // 已經在播這軌
     const c = ensureCtx();
-    if (!c || bgmPlaying) return;
+    if (!c) return;
+    // 切換軌道:清掉舊 scheduler,gain 重新淡入
+    if (bgmTimer) { clearInterval(bgmTimer); bgmTimer = null; }
+    bgmPlaying = false;
     if (!bgmMaster) {
       bgmMaster = c.createGain();
-      bgmMaster.gain.value = 0.55;
+      bgmMaster.gain.value = 0;
       bgmMaster.connect(c.destination);
     }
+    currentTrack = next;
     bgmMaster.gain.cancelScheduledValues(c.currentTime);
-    bgmMaster.gain.setValueAtTime(0, c.currentTime);
+    bgmMaster.gain.setValueAtTime(bgmMaster.gain.value, c.currentTime);
     bgmMaster.gain.linearRampToValueAtTime(0.55, c.currentTime + 0.4);
     bgmPlaying = true;
     bgmStep = 0;
@@ -208,6 +233,7 @@ Sound = (() => {
     isEnabled() { return enabled; },
     resume() { ensureCtx(); },
     bgmStart,
+    bgmStartBoss() { bgmStart('boss'); },
     bgmStop,
     spawn() { tone({ freq: 520, freqEnd: 760, type: 'triangle', dur: 0.12, gain: 0.18 }); },
     spawnBoss() {
@@ -244,6 +270,181 @@ async function loadCsv(path) {
   if (!res.ok) throw new Error(`CSV 載入失敗: ${path}`);
   return rowsToObjects(await res.text());
 }
+
+// ========================================================================
+// Sprite 載入:預載所有 PNG,對玩家單位做色相 tint(共用 3 個 hero 卻有 8 個單位)
+// ========================================================================
+const PLAYER_SPRITE_MAP = {
+  defender: { hero: 'knight', tint: '#1e3a8a' },
+  rusher:   { hero: 'rogue',  tint: '#0ea5e9' },
+  sniper:   { hero: 'mage',   tint: '#06b6d4' },
+  healer:   { hero: 'mage',   tint: '#22c55e' },
+  bomber:   { hero: 'knight', tint: '#facc15' },  // AoE 單位都用拿劍的騎士
+  boss:     { hero: 'knight', tint: '#7c3aed' },
+};
+
+const ENEMY_SPRITE_MAP = {
+  grunt: 'lizard',
+  heavy: 'demon',
+  fast:  'small_dragon',
+  elite: 'medusa',
+  boss:  'dragon',
+};
+
+// 各角色的攻擊幀數量(對應 assets/<group>/<name>/attack/1.png ... N.png)
+const HERO_ATTACK_FRAME_COUNT = { knight: 4, rogue: 7, mage: 7 };
+const MONSTER_ATTACK_FRAME_COUNT = {
+  lizard: 5, demon: 4, small_dragon: 3, medusa: 6, dragon: 4,
+};
+
+function loadImage(src) {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.onload  = () => resolve(img);
+    img.onerror = () => reject(new Error(`Image 載入失敗: ${src}`));
+    img.src = src;
+  });
+}
+
+function tintImage(img, color, intensity = 0.4) {
+  const w = img.naturalWidth, h = img.naturalHeight;
+  const c = document.createElement('canvas');
+  c.width = w; c.height = h;
+  const cx = c.getContext('2d');
+  cx.imageSmoothingEnabled = false;
+  cx.drawImage(img, 0, 0);
+  cx.globalCompositeOperation = 'source-atop';
+  cx.globalAlpha = intensity;
+  cx.fillStyle = color;
+  cx.fillRect(0, 0, w, h);
+  return c;
+}
+
+// 把 sprite 四周的透明 padding 全部裁掉,回傳緊貼角色內容的新 canvas。
+// 用於 UI 頭像:讓圖示在卡片中填得滿,不會頭頂留一大塊空白。
+function cropToContent(src) {
+  const w = src.naturalWidth || src.width;
+  const h = src.naturalHeight || src.height;
+  const c = document.createElement('canvas');
+  c.width = w; c.height = h;
+  const cx = c.getContext('2d');
+  cx.drawImage(src, 0, 0);
+  const data = cx.getImageData(0, 0, w, h).data;
+  let top = h, bottom = -1, left = w, right = -1;
+  for (let y = 0; y < h; y++) {
+    for (let x = 0; x < w; x++) {
+      if (data[(y * w + x) * 4 + 3] > 12) {
+        if (y < top)    top = y;
+        if (y > bottom) bottom = y;
+        if (x < left)   left = x;
+        if (x > right)  right = x;
+      }
+    }
+  }
+  if (bottom < 0) return c;
+  const cw = right - left + 1;
+  const ch = bottom - top + 1;
+  const out = document.createElement('canvas');
+  out.width = cw; out.height = ch;
+  const ox = out.getContext('2d');
+  ox.imageSmoothingEnabled = false;
+  ox.drawImage(c, left, top, cw, ch, 0, 0, cw, ch);
+  return out;
+}
+
+// 掃描 alpha 通道找出實際內容的四邊邊界,回傳上下左右透明 padding 比例。
+// top/bottom 用於把腳尖貼地;left/right 用於算實際視覺寬度(供 findTarget 用邊緣距離)。
+function measureSpritePadding(src) {
+  const w = src.naturalWidth || src.width;
+  const h = src.naturalHeight || src.height;
+  const c = document.createElement('canvas');
+  c.width = w; c.height = h;
+  const cx = c.getContext('2d');
+  cx.drawImage(src, 0, 0);
+  const data = cx.getImageData(0, 0, w, h).data;
+  let top = h, bottom = -1, left = w, right = -1;
+  for (let y = 0; y < h; y++) {
+    for (let x = 0; x < w; x++) {
+      if (data[(y * w + x) * 4 + 3] > 12) {
+        if (y < top)    top = y;
+        if (y > bottom) bottom = y;
+        if (x < left)   left = x;
+        if (x > right)  right = x;
+      }
+    }
+  }
+  if (bottom < 0) return { top: 0, bottom: 0, left: 0, right: 0 };
+  return {
+    top:    top / h,
+    bottom: (h - 1 - bottom) / h,
+    left:   left / w,
+    right:  (w - 1 - right) / w,
+  };
+}
+
+async function loadSprites() {
+  const heroFrames = {};
+  for (const hero of ['knight', 'rogue', 'mage']) {
+    const attackFrames = [];
+    for (let i = 1; i <= HERO_ATTACK_FRAME_COUNT[hero]; i++) {
+      attackFrames.push(await loadImage(`assets/heroes/${hero}/attack/${i}.png`));
+    }
+    heroFrames[hero] = {
+      idle:   await loadImage(`assets/heroes/${hero}/idle.png`),
+      idle2:  await loadImage(`assets/heroes/${hero}/idle2.png`),
+      attackFrames,
+    };
+  }
+  const unitSprites = {};
+  for (const [id, { hero, tint }] of Object.entries(PLAYER_SPRITE_MAP)) {
+    const src = heroFrames[hero];
+    const set = {
+      idle:   tintImage(src.idle,   tint, 0.42),
+      idle2:  tintImage(src.idle2,  tint, 0.42),
+      attackFrames: src.attackFrames.map(f => tintImage(f, tint, 0.42)),
+    };
+    const pad = measureSpritePadding(set.idle);
+    set.topPad = pad.top;
+    set.bottomPad = pad.bottom;
+    set.leftPad = pad.left;
+    set.rightPad = pad.right;
+    unitSprites[id] = set;
+  }
+
+  const enemySprites = {};
+  for (const [id, monster] of Object.entries(ENEMY_SPRITE_MAP)) {
+    const attackFrames = [];
+    for (let i = 1; i <= MONSTER_ATTACK_FRAME_COUNT[monster]; i++) {
+      attackFrames.push(await loadImage(`assets/monsters/${monster}/attack/${i}.png`));
+    }
+    const set = {
+      idle:   await loadImage(`assets/monsters/${monster}/idle.png`),
+      idle2:  await loadImage(`assets/monsters/${monster}/idle2.png`),
+      attackFrames,
+    };
+    const pad = measureSpritePadding(set.idle);
+    set.topPad = pad.top;
+    set.bottomPad = pad.bottom;
+    set.leftPad = pad.left;
+    set.rightPad = pad.right;
+    enemySprites[id] = set;
+  }
+
+  const towerSprites = {
+    player: await loadImage('assets/tower/player.png'),
+    enemy:  await loadImage('assets/tower/enemy.png'),
+  };
+
+  const backgroundImage = await loadImage('assets/bg/background.png');
+  applySprites({ unitSprites, enemySprites, towerSprites, backgroundImage });
+
+  // UI 用的小頭像:先裁掉透明 padding 再轉 dataURL,讓圖示在卡片中填得滿
+  for (const id of Object.keys(unitSprites)) {
+    UNIT_ICON_DATA_URL[id] = cropToContent(unitSprites[id].idle).toDataURL();
+  }
+}
+
+const UNIT_ICON_DATA_URL = {};
 
 async function loadGameData() {
   const levelPaths = Array.from({ length: TOTAL_LEVELS }, (_, i) => `data/level${i + 1}.csv`);
@@ -296,10 +497,7 @@ const fullscreenBtn = document.getElementById('fullscreen-btn');
 const skillsContainer = document.getElementById('skills');
 const skillBtnEls = {};
 const deckGrid = document.getElementById('deck-grid');
-const deckCount = document.getElementById('deck-count');
 const buttonEls = {};
-const placeholderEls = [];
-const deckSlotEls = {};
 const levelButtons = [...document.querySelectorAll('.level-node')];
 
 function openSettings() {
@@ -324,6 +522,12 @@ function toggleSettings() {
   else closeSettings();
 }
 
+function unitIconHTML(key, def) {
+  const url = UNIT_ICON_DATA_URL[key];
+  if (url) return `<img class="unit-icon-img" src="${url}" alt="">`;
+  return `<div class="unit-icon ${def.shape}" style="--unit-color:${def.color}"></div>`;
+}
+
 function initButtons() {
   buttonContainer.innerHTML = '';
   for (const [key, def] of Object.entries(UNIT_DEFS)) {
@@ -332,7 +536,7 @@ function initButtons() {
     btn.type = 'button';
     btn.dataset.unit = key;
     btn.innerHTML = `
-      <div class="unit-icon ${def.shape}" style="--unit-color:${def.color}"></div>
+      ${unitIconHTML(key, def)}
       <div class="unit-name">${def.name}</div>
       <div class="unit-cost">$${def.cost}</div>
       <div class="unit-ability">${ABILITY_DESC[def.ability] || ''}</div>
@@ -344,15 +548,6 @@ function initButtons() {
     });
     buttonContainer.appendChild(btn);
     buttonEls[key] = btn;
-  }
-
-  for (let i = 0; i < DECK_MAX; i++) {
-    const ph = document.createElement('button');
-    ph.className = 'unit-btn locked-slot';
-    ph.type = 'button';
-    ph.disabled = true;
-    buttonContainer.appendChild(ph);
-    placeholderEls.push(ph);
   }
 
   for (const [key, skill] of Object.entries(SKILLS)) {
@@ -441,41 +636,23 @@ function initButtons() {
   }
 }
 
+// 純展示用,沒有點擊互動(出戰編成系統已移除)
 function renderDeckGrid() {
   deckGrid.innerHTML = '';
   for (const [key, def] of Object.entries(UNIT_DEFS)) {
-    const slot = document.createElement('button');
+    const slot = document.createElement('div');
     slot.className = 'deck-slot';
-    slot.type = 'button';
     slot.dataset.unit = key;
+    const iconHTML = UNIT_ICON_DATA_URL[key]
+      ? `<img class="deck-slot-icon-img" src="${UNIT_ICON_DATA_URL[key]}" alt="">`
+      : `<div class="deck-slot-icon ${def.shape}" style="--unit-color:${def.color}"></div>`;
     slot.innerHTML = `
-      <div class="deck-slot-order"></div>
-      <div class="deck-slot-icon ${def.shape}" style="--unit-color:${def.color}"></div>
+      ${iconHTML}
       <div class="deck-slot-name">${def.name}</div>
       <div class="deck-slot-cost">$${def.cost}</div>
       <div class="deck-slot-ability">${ABILITY_DESC[def.ability] || ''}</div>
     `;
-    slot.addEventListener('click', () => {
-      if (!game) return;
-      Sound.resume();
-      if (game.toggleDeck(key)) {
-        Sound.click();
-        updateDeck();
-      }
-    });
     deckGrid.appendChild(slot);
-    deckSlotEls[key] = slot;
-  }
-}
-
-function updateDeck() {
-  if (!game) return;
-  deckCount.textContent = String(game.deck.length);
-  for (const [key, slot] of Object.entries(deckSlotEls)) {
-    const idx = game.deck.indexOf(key);
-    slot.classList.toggle('selected', idx >= 0);
-    const orderEl = slot.querySelector('.deck-slot-order');
-    if (orderEl) orderEl.textContent = idx >= 0 ? String(idx + 1) : '';
   }
 }
 
@@ -509,18 +686,10 @@ document.addEventListener('visibilitychange', () => {
 
 function updateButtons() {
   if (!game) return;
-  buttonContainer.style.gridTemplateColumns = `repeat(${DECK_MAX}, 1fr)`;
+  buttonContainer.style.gridTemplateColumns = `repeat(${Object.keys(UNIT_DEFS).length}, 1fr)`;
 
   for (const [key, def] of Object.entries(UNIT_DEFS)) {
     const btn = buttonEls[key];
-    const orderIdx = game.deck.indexOf(key);
-    if (orderIdx < 0) {
-      btn.hidden = true;
-      continue;
-    }
-    btn.hidden = false;
-    btn.style.order = String(orderIdx);
-
     const cd = game.cooldowns[key];
     const canAfford = game.money >= def.cost;
     const ready = cd <= 0 && canAfford && !game.gameOver;
@@ -530,17 +699,6 @@ function updateButtons() {
 
     const overlay = btn.querySelector('.cd-overlay');
     overlay.style.height = cd > 0 ? ((cd / def.cd) * 100) + '%' : '0%';
-  }
-
-  const emptySlots = DECK_MAX - game.deck.length;
-  for (let i = 0; i < DECK_MAX; i++) {
-    const ph = placeholderEls[i];
-    if (i < emptySlots) {
-      ph.hidden = false;
-      ph.style.order = String(game.deck.length + i);
-    } else {
-      ph.hidden = true;
-    }
   }
 
   for (const [key, skill] of Object.entries(SKILLS)) {
@@ -582,7 +740,6 @@ function updateMap() {
     }
   }
 
-  if (onMap) updateDeck();
 }
 
 let lastTime = performance.now();
@@ -629,6 +786,11 @@ function applyCustomLevel(customLevel) {
 
 async function bootstrap() {
   await loadGameData();
+  try {
+    await loadSprites();
+  } catch (err) {
+    console.warn('[sprite] 載入失敗,回退到 placeholder 形狀:', err);
+  }
   const saved = SaveData.load();
   if (saved) {
     Sound.setEnabled(saved.soundEnabled);

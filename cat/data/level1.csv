@@ -1,4 +1,4 @@
-trigger,enemy,count,time,interval,start,end
+﻿trigger,enemy,count,time,interval,start,end
 time,grunt,2,1,,,
 time,grunt,2,4,,,
 time,heavy,1,7,,,

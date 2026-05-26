@@ -54,10 +54,10 @@
   }
 
   // --------------------------------------------------------------------------
-  // MeatshieldDPSBot:確保場上至少 N 隻肉盾(defender/heavy),其他錢買最高 DPS。
+  // MeatshieldDPSBot:確保場上至少 N 隻肉盾(defender),其他錢買最高 DPS。
   // DPS 估算:atk / attackCd。
   // --------------------------------------------------------------------------
-  const TANK_IDS = new Set(['defender', 'heavy']);
+  const TANK_IDS = new Set(['defender']);
 
   function MeatshieldDPSBot({ deck, getUnitDef, minTanks = 2 }) {
     const tanksInDeck = deck.filter(id => TANK_IDS.has(id));

@@ -13,16 +13,16 @@ const data = loadAndApply();
 const { units, enemies } = data;
 
 // ----------------------------------------------------------------------------
-// 1v1: 攻擊兵 vs grunt 站在同一位置, 攻擊兵應在 ~4 秒內擊殺 grunt
-// 公式: grunt hp=80, atk傷25, attackCd=1.0s -> 需 4 次攻擊
+// 1v1: 爆破騎士 vs grunt 站在同一位置, 應在 ~3.6 秒內擊殺 grunt
+// 公式: grunt hp=80, bomber atk=30, attackCd=1.8s -> 3 次攻擊命中 (第 3 hit 在 t≈3.6)
 // ----------------------------------------------------------------------------
-test('1v1: attack defeats grunt in ~4 seconds at same x', () => {
+test('1v1: bomber defeats grunt in ~3.6 seconds at same x', () => {
   const g = new core.GameState();
   g.reset(1);
   g.levelEvents = [];
   g.pendingSpawns = [];
 
-  const atk   = new core.Unit(units.attack,    'player', 600);
+  const atk   = new core.Unit(units.bomber,    'player', 600);
   const grunt = new core.Unit(enemies.grunt,   'enemy',  600);
   g.playerUnits.push(atk);
   g.enemyUnits.push(grunt);
@@ -33,9 +33,9 @@ test('1v1: attack defeats grunt in ~4 seconds at same x', () => {
   }
 
   assert.ok(grunt.hp <= 0,  'grunt should be dead');
-  assert.ok(atk.hp   >  0,  'attack should still be alive');
-  assert.ok(g.elapsed >= 3.0 && g.elapsed <= 5.0,
-    `expected ~4s, got ${g.elapsed.toFixed(2)}s`);
+  assert.ok(atk.hp   >  0,  'bomber should still be alive');
+  assert.ok(g.elapsed >= 2.5 && g.elapsed <= 5.0,
+    `expected ~3.6s, got ${g.elapsed.toFixed(2)}s`);
 });
 
 // ----------------------------------------------------------------------------
@@ -48,15 +48,16 @@ test('smoke: level 1 with no-op policy ends in lose or timeout', () => {
     `expected lose/timeout, got ${res.result}`);
 });
 
-test('smoke: level 1 with constant attack-summon policy wins', () => {
+test('smoke: level 1 with constant rusher-backdoor policy wins', () => {
+  // 移除了 pierce 之後,常壓 attack 太弱;改用刺客背刺穩贏
   const res = runMatch({
     level: 1,
-    deck: ['attack', 'defender', 'rusher', 'sniper'],
-    policy: () => ({ summon: 'attack' }),
+    deck: ['defender', 'rusher', 'sniper', 'bomber'],
+    policy: () => ({ summon: 'rusher' }),
     maxTime: 180,
   });
   assert.equal(res.result, 'win', `expected win, got ${res.result}`);
-  assert.ok(res.unitsSummoned.attack > 0, 'should have summoned at least 1 attack');
+  assert.ok(res.unitsSummoned.rusher > 0, 'should have summoned at least 1 rusher');
 });
 
 // ----------------------------------------------------------------------------
@@ -64,10 +65,10 @@ test('smoke: level 1 with constant attack-summon policy wins', () => {
 // Math.random 用於 y 抖動和螢幕震動,不影響戰鬥邏輯 -> 結果決定性
 // ----------------------------------------------------------------------------
 test('determinism: same level + policy yields identical outcome twice', () => {
-  const policy = () => ({ summon: 'attack' });
+  const policy = () => ({ summon: 'rusher' });
   const opts = {
     level: 1,
-    deck: ['attack', 'defender', 'rusher', 'sniper'],
+    deck: ['defender', 'rusher', 'sniper', 'bomber'],
     policy,
     maxTime: 180,
   };
@@ -98,10 +99,10 @@ test('custom level: events array overrides default level events', () => {
 test('custom level: enemyTowerHp override is respected', () => {
   const res = runMatch({
     level: { events: [], enemyTowerHp: 50 },     // 沒敵人 + 脆塔
-    deck: ['attack', 'defender', 'rusher', 'sniper'],
-    policy: () => ({ summon: 'attack' }),
+    deck: ['defender', 'rusher', 'sniper', 'bomber'],
+    policy: () => ({ summon: 'rusher' }),
     maxTime: 60,
   });
-  // 沒有敵人擋路, 1 隻 attack 走過去就能打爆塔 (50 HP / 25 damage = 2 hits)
+  // 沒有敵人擋路, 刺客背刺直接打爆 50HP 脆塔
   assert.equal(res.result, 'win');
 });

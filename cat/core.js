@@ -12,7 +12,7 @@ const PLAYER_TOWER_X = 1200;
 const ENEMY_TOWER_X = 80;
 const TOWER_W = 60;
 const TOWER_H = 160;
-const MONEY_START = 3000;
+const MONEY_START = 0;
 const MONEY_PER_SEC = 36;
 const MONEY_CAP = 5000;
 const TOTAL_LEVELS = 5;
@@ -22,7 +22,7 @@ let ENEMY_DEFS = {};
 let LEVEL_EVENTS = {};
 
 const NUMERIC_UNIT_FIELDS = ['cost', 'hp', 'atk', 'speed', 'range', 'attackCd', 'cd', 'size', 'aoe'];
-const NUMERIC_ENEMY_FIELDS = ['hp', 'atk', 'speed', 'range', 'attackCd', 'size', 'reward'];
+const NUMERIC_ENEMY_FIELDS = ['hp', 'atk', 'speed', 'range', 'attackCd', 'size', 'reward', 'aoe'];
 const NUMERIC_LEVEL_FIELDS = ['count', 'time', 'interval', 'start', 'end'];
 
 function parseCsv(text) {
@@ -83,9 +83,25 @@ function applyGameData({ units, enemies, levels }) {
   LEVEL_EVENTS = levels;
 }
 
+// 美術資源:render.js 載入完 PNG 後注入,headless 工具不會呼叫(維持純邏輯)。
+// 每個 sprite 物件:{ idle, idle2, attack }(HTMLImageElement 或 HTMLCanvasElement)。
+let UNIT_SPRITES = {};
+let ENEMY_SPRITES = {};
+let TOWER_SPRITES = {};
+let BACKGROUND_IMAGE = null;
+
+function applySprites({ unitSprites, enemySprites, towerSprites, backgroundImage }) {
+  UNIT_SPRITES = unitSprites || {};
+  ENEMY_SPRITES = enemySprites || {};
+  TOWER_SPRITES = towerSprites || {};
+  BACKGROUND_IMAGE = backgroundImage || null;
+}
+
 const DECK_MAX = 4;
-const HEAL_AURA_INTERVAL = 12;             // 治癒貓 aura 觸發間隔(秒)
-const HEAL_SPAWN_FRAC = 0.4;               // 出場立即治癒比例
+const HEAL_AURA_INTERVAL = 12;             // 治療法師 aura 觸發間隔(秒)
+const HEAL_AURA_RADIUS = 220;              // aura 治癒範圍(以治療法師為中心)
+const HEAL_AURA_FRACTION = 0.25;           // 每次 aura 回復 maxHp 的比例
+const HEAL_SPAWN_FRAC = 0.4;               // (舊 heal ability 用,目前 unused)
 const KNOCKBACK_DIST = 100;                // 重量貓擊退距離
 const BOMB_RADIUS = 180;
 const BOMB_DAMAGE = 100;
@@ -113,7 +129,7 @@ const SKILLS = {
   },
   shield: {
     name: '全體無敵', cost: 300, cd: 25, color: '#fbbf24',
-    desc: '所有貓無敵 1 秒',
+    desc: '所有單位無敵 1 秒',
     fire(game) {
       for (const u of game.playerUnits) u.invincibleTimer = 1.0;
       game.summonEffects.push({ x: PLAYER_TOWER_X, y: GROUND_Y - TOWER_H / 2, t: 0, duration: 0.6, color: 'yellow' });
@@ -136,7 +152,7 @@ const SKILLS = {
 // 用 let 是為了讓 render 可以從另一支 script 中重新賦值（共享 script scope）。
 // ========================================================================
 let Sound = {
-  bgmStart() {}, bgmStop() {},
+  bgmStart() {}, bgmStartBoss() {}, bgmStop() {},
   spawn() {}, spawnBoss() {},
   attack() {}, bossAttack() {},
   towerHit() {}, kill() {},
@@ -153,22 +169,52 @@ let SaveData = {
 // ========================================================================
 // Unit:玩家方與敵方共用的基本單位類別
 // ========================================================================
+// 玩家 sprite 縮小、敵方 sprite 放大,做出視覺壓迫感
+const PLAYER_SPRITE_SCALE = 5.0;
+const ENEMY_SPRITE_SCALE  = 10.0;
+// 攻擊閃光時長:全部 attackFrames 在這段時間內 cycle 完一次
+const ATTACK_FLASH_DURATION_NORMAL = 0.45;
+const ATTACK_FLASH_DURATION_BOSS   = 0.6;
+
 class Unit {
-  constructor(def, team, x) {
+  constructor(def, team, x, dirOverride = null) {
     this.def = def;
     this.team = team;                       // 'player' | 'enemy'
     this.x = x;
-    // y 加一點隨機抖動,避免單位完全重疊
-    this.y = GROUND_Y - 22 - Math.random() * 50;
+    this.dirOverride = dirOverride;         // 刺客偷家:強制朝向 +1 走向敵塔
+    // sprite 模式下:腳對齊地面,不抖動;shape 模式下:沿用原本隨機 y
+    const sprites = team === 'player' ? UNIT_SPRITES[def.id] : ENEMY_SPRITES[def.id];
+    if (sprites && sprites.idle) {
+      const scale = team === 'enemy' ? ENEMY_SPRITE_SCALE : PLAYER_SPRITE_SCALE;
+      this.spriteH = def.size * scale;
+      // PNG 周圍透明 padding 比例:畫圖時把整張往下推 bottomPad,讓「角色腳尖」貼地
+      this.topPad = sprites.topPad || 0;
+      this.bottomPad = sprites.bottomPad || 0;
+      this.visH = this.spriteH * (1 - this.topPad - this.bottomPad);
+      this.y = GROUND_Y - this.visH / 2;       // 視覺中心(攻擊閃光等覆層用)
+      // 視覺寬度:從 idle 圖比例算 sprW,再扣掉左右透明 padding,供 findTarget 算邊緣距離
+      const img = sprites.idle;
+      const aspect = (img.naturalWidth || img.width) / (img.naturalHeight || img.height);
+      const sprW = this.spriteH * aspect;
+      this.visHalfW = sprW * (1 - (sprites.leftPad || 0) - (sprites.rightPad || 0)) / 2;
+    } else {
+      this.spriteH = 0;
+      this.visH = 0;
+      this.topPad = 0;
+      this.bottomPad = 0;
+      this.visHalfW = 0;        // shape 模式不調整,維持原本中心距離
+      this.y = GROUND_Y - 22 - Math.random() * 50;
+    }
     this.hp = def.hp;
     this.maxHp = def.hp;
     this.attackTimer = 0;                   // 攻擊冷卻倒數
     this.flashTimer = 0;                    // 受擊閃白
     this.attackFlash = 0;                   // 攻擊閃光(畫線用)
     this.lastTargetPos = null;
-    this.shieldTimer = 0;                   // 防禦貓減傷
-    this.dashTimer = 0;                     // 衝鋒貓加速
-    this.auraTimer = 0;                     // 治癒貓 aura 倒數
+    this.shieldTimer = 0;                   // (舊 shield ability 用,目前 unused)
+    this.dashTimer = 0;                     // (舊 dash ability 用,目前 unused)
+    // 治療法師 aura 倒數:出場 2 秒後第一次治癒,之後每 HEAL_AURA_INTERVAL 秒一次
+    this.auraTimer = (team === 'player' && def.ability === 'aura') ? 2 : 0;
     this.invincibleTimer = 0;               // 全體無敵技能
   }
 
@@ -187,28 +233,39 @@ class Unit {
     this.hp = Math.min(this.maxHp, this.hp + amount);
   }
 
-  get dir() { return this.team === 'player' ? -1 : 1; }
+  get dir() {
+    if (this.dirOverride !== null) return this.dirOverride;
+    return this.team === 'player' ? -1 : 1;
+  }
 
-  // 找出攻擊範圍內最近的敵方目標(不分前後,避免召喚時被 enemy 包夾走過頭)
+  // 找出攻擊範圍內最近的敵方目標。
+  // (1) 距離用「視覺邊緣」算:扣掉雙方 visHalfW 後跟 def.range 比,大圖角色才不會穿插。
+  // (2) 只看面向方向的前方 + 自身同 x 位置,屁股後面的單位不打(刺客背刺才不會被反咬)。
+  // (shape 模式 visHalfW=0,行為等同原本中心距離。)
   findTarget(game) {
     const enemyUnits = this.team === 'player' ? game.enemyUnits : game.playerUnits;
     const enemyTower = this.team === 'player' ? game.enemyTower : game.playerTower;
 
     let best = null;
     let bestDist = Infinity;
+    const myHalf = this.visHalfW || 0;
+    const myDir = this.dir;
 
     for (const e of enemyUnits) {
       if (e.hp <= 0) continue;
-      const dist = Math.abs(e.x - this.x);
-      if (dist <= this.def.range && dist < bestDist) {
-        best = e; bestDist = dist;
+      if ((e.x - this.x) * myDir < 0) continue;        // 在背後跳過
+      const centerDist = Math.abs(e.x - this.x);
+      const edgeDist = centerDist - myHalf - (e.visHalfW || 0);
+      if (edgeDist <= this.def.range && centerDist < bestDist) {
+        best = e; bestDist = centerDist;
       }
     }
 
-    if (enemyTower.hp > 0) {
-      const dist = Math.abs(enemyTower.x - this.x);
-      if (dist <= this.def.range && dist < bestDist) {
-        best = enemyTower; bestDist = dist;
+    if (enemyTower.hp > 0 && (enemyTower.x - this.x) * myDir >= 0) {
+      const centerDist = Math.abs(enemyTower.x - this.x);
+      const edgeDist = centerDist - myHalf - (enemyTower.visHalfW || 0);
+      if (edgeDist <= this.def.range && centerDist < bestDist) {
+        best = enemyTower; bestDist = centerDist;
       }
     }
 
@@ -224,11 +281,11 @@ class Unit {
     this.dashTimer       = Math.max(0, this.dashTimer       - dt);
     this.invincibleTimer = Math.max(0, this.invincibleTimer - dt);
 
-    // 治癒貓 aura:出場後每 HEAL_AURA_INTERVAL 秒治癒全體友軍
-    if (this.def.ability === 'heal' && this.team === 'player') {
+    // 治療法師 aura:每 HEAL_AURA_INTERVAL 秒治癒範圍內所有友軍
+    if (this.def.ability === 'aura' && this.team === 'player') {
       this.auraTimer -= dt;
       if (this.auraTimer <= 0) {
-        game.healAllAllies(0.2, this);
+        game.healNearbyAllies(this.x, HEAL_AURA_RADIUS, HEAL_AURA_FRACTION, this);
         this.auraTimer = HEAL_AURA_INTERVAL;
       }
     }
@@ -261,7 +318,7 @@ class Unit {
         enemyTower.takeDamage(this.def.atk);
       }
     }
-    this.attackFlash = this.def.boss ? 0.28 : 0.18;
+    this.attackFlash = this.def.boss ? ATTACK_FLASH_DURATION_BOSS : ATTACK_FLASH_DURATION_NORMAL;
     this.lastTargetPos = { x: target.x, y: target.y };
     if (target instanceof Tower) {
       if (target.team === 'player' && !game.playerTowerHitTriggered) {
@@ -284,9 +341,8 @@ class Unit {
     }
   }
 
-  draw(ctx) {
+  draw(ctx, elapsed = 0) {
     const { size, shape, color } = this.def;
-    const fill = this.flashTimer > 0 ? '#ffffff' : color;
 
     // 護盾光圈
     if (this.shieldTimer > 0) {
@@ -317,59 +373,72 @@ class Unit {
       }
     }
 
-    ctx.fillStyle = fill;
-    ctx.strokeStyle = '#000';
-    ctx.lineWidth = 1;
+    const sprites = this.team === 'player' ? UNIT_SPRITES[this.def.id] : ENEMY_SPRITES[this.def.id];
+    if (sprites && sprites.idle) {
+      // sprite-based 繪製:玩家朝左,敵方朝右(原圖朝右);
+      // attackFlash 期間 cycle 所有 attackFrames,平時 idle/idle2 互換做呼吸感
+      const attackFrames = sprites.attackFrames;
+      let img;
+      if (this.attackFlash > 0 && attackFrames && attackFrames.length > 0) {
+        const total = this.def.boss ? ATTACK_FLASH_DURATION_BOSS : ATTACK_FLASH_DURATION_NORMAL;
+        const progress = 1 - this.attackFlash / total;        // 0 → 1
+        const idx = Math.min(attackFrames.length - 1, Math.floor(progress * attackFrames.length));
+        img = attackFrames[idx];
+      } else {
+        const blink = Math.floor((elapsed + this.x * 0.001) * 2.4) % 2 === 1;
+        img = (blink && sprites.idle2) ? sprites.idle2 : sprites.idle;
+      }
 
-    if (shape === 'circle') {
-      ctx.beginPath();
-      ctx.arc(this.x, this.y, size / 2, 0, Math.PI * 2);
-      ctx.fill();
-      ctx.stroke();
-    } else if (shape === 'triangle') {
-      const d = this.dir;
-      ctx.beginPath();
-      ctx.moveTo(this.x + d * size / 2,  this.y);
-      ctx.lineTo(this.x - d * size / 2,  this.y - size / 2);
-      ctx.lineTo(this.x - d * size / 2,  this.y + size / 2);
-      ctx.closePath();
-      ctx.fill();
-      ctx.stroke();
+      const sprH = this.spriteH;
+      const aspect = (img.naturalWidth || img.width) / (img.naturalHeight || img.height);
+      const sprW = sprH * aspect;
+      const bottomPadPx = sprH * this.bottomPad;  // 把 PNG 整張往下推,讓「角色腳尖」剛好貼 GROUND_Y
+
+      ctx.save();
+      ctx.imageSmoothingEnabled = false;
+      ctx.translate(this.x, GROUND_Y + bottomPadPx);
+      if (this.dir === -1) ctx.scale(-1, 1);
+      if (this.flashTimer > 0) ctx.filter = 'brightness(2.6) saturate(0.4)';
+      ctx.drawImage(img, -sprW / 2, -sprH, sprW, sprH);
+      ctx.restore();
     } else {
-      ctx.fillRect(this.x - size / 2, this.y - size / 2, size, size);
-      ctx.strokeRect(this.x - size / 2, this.y - size / 2, size, size);
+      const fill = this.flashTimer > 0 ? '#ffffff' : color;
+      ctx.fillStyle = fill;
+      ctx.strokeStyle = '#000';
+      ctx.lineWidth = 1;
+
+      if (shape === 'circle') {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, size / 2, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.stroke();
+      } else if (shape === 'triangle') {
+        const d = this.dir;
+        ctx.beginPath();
+        ctx.moveTo(this.x + d * size / 2,  this.y);
+        ctx.lineTo(this.x - d * size / 2,  this.y - size / 2);
+        ctx.lineTo(this.x - d * size / 2,  this.y + size / 2);
+        ctx.closePath();
+        ctx.fill();
+        ctx.stroke();
+      } else {
+        ctx.fillRect(this.x - size / 2, this.y - size / 2, size, size);
+        ctx.strokeRect(this.x - size / 2, this.y - size / 2, size, size);
+      }
     }
 
-    // 單位頭頂血條
-    const barW = Math.max(size, 24);
+    // 單位頭頂血條(sprite 模式用 visH = 去掉透明 padding 的實際內容高度)
+    const visH = this.visH || size;
+    const barW = Math.max(size, this.spriteH ? Math.min(this.spriteH * 0.45, 80) : 24);
     const barH = 3;
-    const barY = this.y - size / 2 - 7;
+    const barY = this.y - visH / 2 - 7;
     const frac = Math.max(0, this.hp / this.maxHp);
     ctx.fillStyle = '#1f2937';
     ctx.fillRect(this.x - barW / 2, barY, barW, barH);
     ctx.fillStyle = frac > 0.5 ? '#4ade80' : frac > 0.25 ? '#facc15' : '#ef4444';
     ctx.fillRect(this.x - barW / 2, barY, barW * frac, barH);
 
-    // 攻擊閃光線
-    if (this.attackFlash > 0 && this.lastTargetPos) {
-      const isBoss = this.def.boss;
-      ctx.strokeStyle = isBoss ? '#d8b4fe' : (this.team === 'player' ? '#93c5fd' : '#fca5a5');
-      ctx.lineWidth = isBoss ? 8 : 4;
-      ctx.shadowColor = ctx.strokeStyle;
-      ctx.shadowBlur = isBoss ? 18 : 8;
-      ctx.beginPath();
-      ctx.moveTo(this.x, this.y);
-      ctx.lineTo(this.lastTargetPos.x, this.lastTargetPos.y);
-      ctx.stroke();
-      ctx.shadowBlur = 0;
-
-      if (this.def.aoe > 0) {
-        ctx.fillStyle = isBoss ? 'rgba(216, 180, 254, 0.35)' : 'rgba(251, 146, 60, 0.35)';
-        ctx.beginPath();
-        ctx.arc(this.lastTargetPos.x, this.lastTargetPos.y, this.def.aoe, 0, Math.PI * 2);
-        ctx.fill();
-      }
-    }
+    // 攻擊表現完全交給 attackFrames 動畫,不再畫射線或 AoE 範圍圈
   }
 }
 
@@ -384,6 +453,8 @@ class Tower {
     this.hp = hp;
     this.maxHp = hp;
     this.flashTimer = 0;
+    // sprite 模式(雕像圖 1.9× 寬):視覺半寬給 findTarget 算邊緣距離用
+    this.visHalfW = TOWER_SPRITES[team] ? TOWER_W * 0.95 : 0;
   }
 
   takeDamage(amount) {
@@ -401,20 +472,37 @@ class Tower {
     const h = TOWER_H;
     const top = GROUND_Y - h;
 
-    // 塔身
-    ctx.fillStyle = this.flashTimer > 0
-      ? '#ffffff'
-      : (this.team === 'player' ? '#1e40af' : '#7f1d1d');
-    ctx.fillRect(this.x - w / 2, top, w, h);
-
-    // 塔頂裝飾
-    ctx.fillStyle = this.team === 'player' ? '#60a5fa' : '#f87171';
-    ctx.fillRect(this.x - w / 2 - 6, top - 14, w + 12, 14);
-
-    // 邊框
-    ctx.strokeStyle = '#000';
-    ctx.lineWidth = 2;
-    ctx.strokeRect(this.x - w / 2, top, w, h);
+    const towerImg = TOWER_SPRITES[this.team];
+    if (towerImg) {
+      // statue 圖像比 TOWER_W 略寬:用 1.9x 寬度,維持比例,底部對齊地面
+      const drawW = w * 1.9;
+      const aspect = (towerImg.naturalWidth || towerImg.width) / (towerImg.naturalHeight || towerImg.height);
+      const drawH = drawW / aspect;
+      // 被擊中時:輕微震動 + 透過 filter 把 sprite 染成偏紅高亮(沿用單位的閃光手法)
+      const hitJitter = this.flashTimer > 0 ? (Math.random() - 0.5) * 4 : 0;
+      ctx.save();
+      ctx.imageSmoothingEnabled = false;
+      if (this.flashTimer > 0) ctx.filter = 'brightness(1.6) saturate(0.5) hue-rotate(-10deg)';
+      if (this.team === 'enemy') {
+        ctx.translate(this.x + hitJitter, GROUND_Y);
+        ctx.scale(-1, 1);
+        ctx.drawImage(towerImg, -drawW / 2, -drawH, drawW, drawH);
+      } else {
+        ctx.drawImage(towerImg, this.x - drawW / 2 + hitJitter, GROUND_Y - drawH, drawW, drawH);
+      }
+      ctx.restore();
+    } else {
+      // fallback:原本的色塊塔
+      ctx.fillStyle = this.flashTimer > 0
+        ? '#ffffff'
+        : (this.team === 'player' ? '#1e40af' : '#7f1d1d');
+      ctx.fillRect(this.x - w / 2, top, w, h);
+      ctx.fillStyle = this.team === 'player' ? '#60a5fa' : '#f87171';
+      ctx.fillRect(this.x - w / 2 - 6, top - 14, w + 12, 14);
+      ctx.strokeStyle = '#000';
+      ctx.lineWidth = 2;
+      ctx.strokeRect(this.x - w / 2, top, w, h);
+    }
 
     // 血量數字（塔頂）
     const hp = Math.max(0, Math.floor(this.hp));
@@ -451,38 +539,19 @@ class GameState {
   constructor() {
     const saved = SaveData.load();
     this.level = 1;
-    this.deck = this.sanitizeDeck(saved?.deck);
+    // 不再有編成系統,deck 預設等於所有單位;headless 工具仍可在建構後覆寫 g.deck
+    this.deck = Object.keys(UNIT_DEFS);
     this.levelStars = saved?.levelStars ?? {};
     this.screen = 'map';
     this.reset(1);
     this.screen = 'map';
   }
 
-  sanitizeDeck(deck) {
-    const all = Object.keys(UNIT_DEFS);
-    if (!deck || deck.length === 0) return all.slice(0, DECK_MAX);
-    return deck.filter(k => UNIT_DEFS[k]).slice(0, DECK_MAX);
-  }
-
   persist() {
     SaveData.save({
       soundEnabled: Sound.isEnabled(),
-      deck: this.deck,
       levelStars: this.levelStars,
     });
-  }
-
-  toggleDeck(key) {
-    if (!UNIT_DEFS[key]) return false;
-    const idx = this.deck.indexOf(key);
-    if (idx >= 0) {
-      this.deck.splice(idx, 1);
-    } else {
-      if (this.deck.length >= DECK_MAX) return false;
-      this.deck.push(key);
-    }
-    this.persist();
-    return true;
   }
 
   reset(level = this.level || 1) {
@@ -549,8 +618,13 @@ class GameState {
 
     this.money -= def.cost;
     this.cooldowns[type] = def.cd;
-    const spawnX = PLAYER_TOWER_X - TOWER_W / 2 - 10;
-    const unit = new Unit(def, 'player', spawnX);
+    // 刺客:出場直接傳送到敵塔背後 + 強制朝右走,從背面偷家
+    const isAssassin = type === 'rusher';
+    const spawnX = isAssassin
+      ? ENEMY_TOWER_X - TOWER_W / 2 - 25
+      : PLAYER_TOWER_X - TOWER_W / 2 - 10;
+    const dirOverride = isAssassin ? 1 : null;
+    const unit = new Unit(def, 'player', spawnX, dirOverride);
     this.playerUnits.push(unit);
     this.applySpawnAbility(unit, def);
     return true;
@@ -664,6 +738,22 @@ class GameState {
     }
   }
 
+  healNearbyAllies(centerX, radius, fraction, source) {
+    for (const u of this.playerUnits) {
+      if (u.hp <= 0) continue;
+      if (Math.abs(u.x - centerX) > radius) continue;
+      const before = u.hp;
+      u.heal(u.maxHp * fraction);
+      const healed = Math.floor(u.hp - before);
+      if (healed > 0) {
+        this.floatingTexts.push({ x: u.x, y: u.y - u.def.size / 2 - 6, text: `+${healed}`, t: 0, duration: 0.6, color: '#4ade80' });
+      }
+    }
+    if (source) {
+      this.summonEffects.push({ x: source.x, y: source.y, t: 0, duration: 0.5, color: 'green' });
+    }
+  }
+
   knockbackAllEnemies(distance) {
     for (const e of this.enemyUnits) {
       if (e.hp <= 0) continue;
@@ -700,6 +790,7 @@ class GameState {
     this.enemyUnits.push(new Unit(def, 'enemy', ENEMY_TOWER_X + TOWER_W / 2 + 10));
     if (def.boss) {
       Sound.spawnBoss();
+      Sound.bgmStartBoss();        // 切換到 boss BGM
       this.shakeTimer = Math.max(this.shakeTimer, 0.4);
       this.purpleFlash = 0.4;
     }
@@ -779,6 +870,7 @@ class GameState {
     this.enemyTower.update(dt);
 
     // 敵人死亡:加錢 + 金額浮字 + 音效
+    let bossDiedThisTick = false;
     for (const u of this.enemyUnits) {
       if (u.hp <= 0 && !u.killRewarded) {
         u.killRewarded = true;
@@ -786,12 +878,18 @@ class GameState {
         this.money = Math.min(MONEY_CAP, this.money + reward);
         this.floatingTexts.push({ x: u.x, y: u.y - u.def.size / 2, text: `+${reward}`, t: 0, duration: 0.5 });
         Sound.kill();
+        if (u.def.boss) bossDiedThisTick = true;
       }
     }
 
     // 移除死亡單位
     this.playerUnits = this.playerUnits.filter(u => u.hp > 0);
     this.enemyUnits  = this.enemyUnits.filter(u => u.hp > 0);
+
+    // 場上沒任何 boss 還活著時恢復一般 BGM(可能有多隻 boss 的關卡)
+    if (bossDiedThisTick && !this.enemyUnits.some(u => u.def.boss && u.hp > 0)) {
+      Sound.bgmStart();
+    }
 
     // 勝負判定
     if (this.playerTower.hp <= 0) {
@@ -819,30 +917,37 @@ class GameState {
     ctx.translate(shakeX, shakeY);
 
     // --- 背景 ---
-    const grad = ctx.createLinearGradient(0, 0, 0, H);
-    grad.addColorStop(0,   '#0f172a');
-    grad.addColorStop(0.7, '#1e293b');
-    grad.addColorStop(1,   '#334155');
-    ctx.fillStyle = grad;
-    ctx.fillRect(-10, -10, W + 20, H + 20);
+    if (BACKGROUND_IMAGE) {
+      ctx.drawImage(BACKGROUND_IMAGE, 0, 0, W, GROUND_Y + 8);
+      // 地面 strip
+      ctx.fillStyle = 'rgba(20, 18, 25, 0.85)';
+      ctx.fillRect(0, GROUND_Y, W, H - GROUND_Y);
+      ctx.fillStyle = 'rgba(140, 110, 70, 0.55)';
+      ctx.fillRect(0, GROUND_Y, W, 3);
+    } else {
+      const grad = ctx.createLinearGradient(0, 0, 0, H);
+      grad.addColorStop(0,   '#0f172a');
+      grad.addColorStop(0.7, '#1e293b');
+      grad.addColorStop(1,   '#334155');
+      ctx.fillStyle = grad;
+      ctx.fillRect(-10, -10, W + 20, H + 20);
 
-    // 遠景山(裝飾)
-    ctx.fillStyle = '#1e293b';
-    ctx.beginPath();
-    ctx.moveTo(0, GROUND_Y);
-    for (let x = 0; x <= W; x += 80) {
-      const h = 60 + (Math.sin(x * 0.013) * 30 + Math.cos(x * 0.007) * 20);
-      ctx.lineTo(x, GROUND_Y - h);
+      ctx.fillStyle = '#1e293b';
+      ctx.beginPath();
+      ctx.moveTo(0, GROUND_Y);
+      for (let x = 0; x <= W; x += 80) {
+        const h = 60 + (Math.sin(x * 0.013) * 30 + Math.cos(x * 0.007) * 20);
+        ctx.lineTo(x, GROUND_Y - h);
+      }
+      ctx.lineTo(W, GROUND_Y);
+      ctx.closePath();
+      ctx.fill();
+
+      ctx.fillStyle = '#3f3f46';
+      ctx.fillRect(0, GROUND_Y, W, H - GROUND_Y);
+      ctx.fillStyle = '#52525b';
+      ctx.fillRect(0, GROUND_Y, W, 3);
     }
-    ctx.lineTo(W, GROUND_Y);
-    ctx.closePath();
-    ctx.fill();
-
-    // 地面
-    ctx.fillStyle = '#3f3f46';
-    ctx.fillRect(0, GROUND_Y, W, H - GROUND_Y);
-    ctx.fillStyle = '#52525b';
-    ctx.fillRect(0, GROUND_Y, W, 3);
 
     // --- 塔 ---
     this.playerTower.draw(ctx);
@@ -850,7 +955,7 @@ class GameState {
 
     // --- 單位(用 y 排序讓下面的後畫,有點層次)---
     const all = [...this.playerUnits, ...this.enemyUnits].sort((a, b) => a.y - b.y);
-    for (const u of all) u.draw(ctx);
+    for (const u of all) u.draw(ctx, this.elapsed);
 
     // --- 召喚特效 (按 color 變換) ---
     const fxPalette = {
@@ -954,7 +1059,7 @@ class GameState {
 // ========================================================================
 const _coreExports = {
   Unit, Tower, GameState,
-  parseCsv, rowsToObjects, numberize, applyGameData,
+  parseCsv, rowsToObjects, numberize, applyGameData, applySprites,
   setSound:    (s) => { Sound = s; },
   setSaveData: (s) => { SaveData = s; },
   constants: {

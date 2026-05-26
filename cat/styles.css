@@ -194,7 +194,7 @@ body {
 
 .deck-grid {
   display: grid;
-  grid-template-columns: repeat(8, 1fr);
+  grid-template-columns: repeat(6, 1fr);
   gap: 10px;
 }
 
@@ -205,48 +205,15 @@ body {
   border: 2px solid #4b5563;
   border-radius: 6px;
   padding: 10px 6px 8px;
-  cursor: pointer;
   font-family: inherit;
   text-align: center;
-  height: 142px;
+  height: 184px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
   gap: 4px;
-  transition: background 0.1s, border-color 0.1s, transform 0.05s;
   user-select: none;
-}
-
-.deck-slot:hover:not(:disabled) {
-  background: #374151;
-  border-color: #9ca3af;
-}
-
-.deck-slot.selected {
-  border-color: #4ade80;
-  background: #14532d;
-  box-shadow: 0 0 12px rgba(74, 222, 128, 0.35);
-}
-
-.deck-slot.selected .deck-slot-order {
-  display: flex;
-}
-
-.deck-slot-order {
-  display: none;
-  position: absolute;
-  top: 4px;
-  right: 4px;
-  width: 22px;
-  height: 22px;
-  border-radius: 50%;
-  background: #4ade80;
-  color: #052e16;
-  font-size: 13px;
-  font-weight: 800;
-  align-items: center;
-  justify-content: center;
 }
 
 .deck-slot-icon {
@@ -389,16 +356,16 @@ body {
 
 #bottom-bar {
   display: grid;
-  grid-template-columns: repeat(7, 1fr);
+  grid-template-columns: repeat(9, 1fr);
   gap: 12px;
   width: 1250px;
 }
 
 #buttons {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(6, 1fr);
   gap: 12px;
-  grid-column: span 4;
+  grid-column: span 6;
 }
 
 #skills {
@@ -490,6 +457,24 @@ body {
   border-radius: 4px;
   background: var(--unit-color);
   box-shadow: 0 0 10px rgba(255, 255, 255, 0.15);
+}
+
+.unit-icon-img {
+  width: 44px;
+  height: 44px;
+  object-fit: contain;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  filter: drop-shadow(0 0 6px rgba(0, 0, 0, 0.55));
+}
+
+.deck-slot-icon-img {
+  width: 96px;
+  height: 96px;
+  object-fit: contain;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  filter: drop-shadow(0 0 6px rgba(0, 0, 0, 0.5));
 }
 
 .unit-icon.circle {
