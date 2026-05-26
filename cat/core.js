@@ -457,7 +457,8 @@ class Tower {
     this.maxHp = hp;
     this.flashTimer = 0;
     // sprite 模式(雕像圖 1.9× 寬):視覺半寬給 findTarget 算邊緣距離用
-    this.visHalfW = TOWER_SPRITES[team] ? TOWER_W * 0.95 : 0;
+    // 雕像實際內容比邊框內縮一點,額外 -5 避免單位隔空打到雕像邊
+    this.visHalfW = TOWER_SPRITES[team] ? TOWER_W * 0.75 : 0;
   }
 
   takeDamage(amount) {
