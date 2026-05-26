@@ -36,6 +36,8 @@ SaveData = {
         soundEnabled: data.soundEnabled !== false,
         deck: Array.isArray(data.deck) ? data.deck.slice(0, DECK_MAX) : null,
         levelStars: data.levelStars && typeof data.levelStars === 'object' ? data.levelStars : {},
+        difficulty: data.difficulty === 'hard' ? 'hard' : 'easy',
+        endlessBest: typeof data.endlessBest === 'number' ? data.endlessBest : 0,
       };
     } catch (error) {
       return null;
@@ -498,6 +500,7 @@ const skillsContainer = document.getElementById('skills');
 const skillBtnEls = {};
 const deckGrid = document.getElementById('deck-grid');
 const buttonEls = {};
+const diffBtns = [...document.querySelectorAll('.diff-btn')];
 const levelButtons = [...document.querySelectorAll('.level-node')];
 
 function openSettings() {
@@ -611,7 +614,8 @@ function initButtons() {
   });
 
   victoryNextBtn.addEventListener('click', () => {
-    if (game.level >= TOTAL_LEVELS) return;
+    // 普通關卡上限是 TOTAL_LEVELS - 1(最後一個是 endless 無盡模式,不算「下一關」)
+    if (game.level >= TOTAL_LEVELS - 1) return;
     Sound.click();
     game.startLevel(game.level + 1);
     updateMap();
@@ -631,6 +635,16 @@ function initButtons() {
       Sound.resume();
       Sound.click();
       game.startLevel(Number(btn.dataset.level));
+      updateMap();
+    });
+  }
+
+  for (const btn of diffBtns) {
+    btn.addEventListener('click', () => {
+      if (!game) return;
+      Sound.resume();
+      Sound.click();
+      game.setDifficulty(btn.dataset.diff);
       updateMap();
     });
   }
@@ -724,22 +738,35 @@ function updateMap() {
   gameoverPanel.hidden = !showLoseButtons;
   victoryPanel.hidden = !showWinButtons;
   if (showWinButtons) {
-    const isFinal = game.level >= TOTAL_LEVELS;
+    // endless 不會顯示 victory panel,普通關卡最大可前進到 TOTAL_LEVELS - 1
+    const isFinal = game.level >= TOTAL_LEVELS - 1;
     victoryNextBtn.disabled = isFinal;
-    victoryNextBtn.textContent = isFinal ? '已是最終關' : '進入下一關';
+    victoryNextBtn.textContent = isFinal ? '已是最後一關' : '進入下一關';
   }
+
+  for (const btn of diffBtns) {
+    btn.classList.toggle('selected', game.difficulty === btn.dataset.diff);
+  }
+  const mapPathEl = document.querySelector('.map-path');
+  if (mapPathEl) mapPathEl.classList.toggle('hard', game.difficulty === 'hard');
 
   for (const btn of levelButtons) {
     const level = Number(btn.dataset.level);
-    const earned = game.levelStars[level] || 0;
     btn.disabled = false;
-    btn.classList.toggle('cleared', earned >= 1);
-    const starsEl = btn.querySelector('.level-stars');
-    if (starsEl) {
-      starsEl.innerHTML = `<span class="star${earned >= 1 ? ' earned' : ''}">★</span><span class="star${earned >= 2 ? ' earned' : ''}">★</span>`;
+    if (level === ENDLESS_LEVEL) {
+      const scoreEl = btn.querySelector('.endless-score');
+      if (scoreEl) {
+        scoreEl.textContent = game.endlessBest > 0 ? `最佳 ${game.endlessBest.toFixed(3)}s` : '尚無紀錄';
+      }
+    } else {
+      const earned = game.getStarsFor(level);
+      btn.classList.toggle('cleared', earned >= 1);
+      const starsEl = btn.querySelector('.level-stars');
+      if (starsEl) {
+        starsEl.innerHTML = `<span class="star${earned >= 1 ? ' earned' : ''}">★</span><span class="star${earned >= 2 ? ' earned' : ''}">★</span>`;
+      }
     }
   }
-
 }
 
 let lastTime = performance.now();

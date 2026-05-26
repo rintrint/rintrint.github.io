@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="color-scheme" content="dark">
   <title>塔防 Prototype</title>
-  <link rel="stylesheet" href="styles.css?v=38">
+  <link rel="stylesheet" href="styles.css?v=42">
 </head>
 <body>
   <div id="game-container">
@@ -13,6 +13,10 @@
       <div class="map-panel">
         <div class="map-top-row">
           <div class="map-title">關卡地圖</div>
+          <div class="difficulty-toggle" id="difficulty-toggle">
+            <button class="diff-btn" type="button" data-diff="easy">簡易</button>
+            <button class="diff-btn" type="button" data-diff="hard">困難</button>
+          </div>
           <a href="generator.html" class="generator-link">🛠 關卡生成器</a>
         </div>
         <div class="map-path">
@@ -44,6 +48,12 @@
             <span class="level-number">5</span>
             <span class="level-name">第五關</span>
             <span class="level-stars"></span>
+          </button>
+          <div class="map-line"></div>
+          <button class="level-node endless" type="button" data-level="6">
+            <span class="level-number">∞</span>
+            <span class="level-name">無盡模式</span>
+            <span class="endless-score"></span>
           </button>
         </div>
         <div class="deck-section">
@@ -84,7 +94,7 @@
     <button id="fullscreen-btn" type="button" title="全螢幕" aria-label="全螢幕">⛶</button>
     <div id="rotate-hint">請旋轉手機橫向遊玩</div>
   </div>
-  <script src="core.js?v=19"></script>
-  <script src="render.js?v=14"></script>
+  <script src="core.js?v=27"></script>
+  <script src="render.js?v=17"></script>
 </body>
 </html>

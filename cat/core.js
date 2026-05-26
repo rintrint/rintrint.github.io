@@ -15,14 +15,15 @@ const TOWER_H = 160;
 const MONEY_START = 0;
 const MONEY_PER_SEC = 36;
 const MONEY_CAP = 5000;
-const TOTAL_LEVELS = 5;
+const TOTAL_LEVELS = 6;        // 1–5 普通關卡,6 = 無盡模式
+const ENDLESS_LEVEL = 6;
 
 let UNIT_DEFS = {};
 let ENEMY_DEFS = {};
 let LEVEL_EVENTS = {};
 
-const NUMERIC_UNIT_FIELDS = ['cost', 'hp', 'atk', 'speed', 'range', 'attackCd', 'cd', 'size', 'aoe'];
-const NUMERIC_ENEMY_FIELDS = ['hp', 'atk', 'speed', 'range', 'attackCd', 'size', 'reward', 'aoe'];
+const NUMERIC_UNIT_FIELDS = ['cost', 'hp', 'atk', 'speed', 'range', 'attackCd', 'cd', 'size', 'aoe', 'weaponLen'];
+const NUMERIC_ENEMY_FIELDS = ['hp', 'atk', 'speed', 'range', 'attackCd', 'size', 'reward', 'aoe', 'weaponLen'];
 const NUMERIC_LEVEL_FIELDS = ['count', 'time', 'interval', 'start', 'end'];
 
 function parseCsv(text) {
@@ -193,10 +194,12 @@ class Unit {
       this.visH = this.spriteH * (1 - this.topPad - this.bottomPad);
       this.y = GROUND_Y - this.visH / 2;       // 視覺中心(攻擊閃光等覆層用)
       // 視覺寬度:從 idle 圖比例算 sprW,再扣掉左右透明 padding,供 findTarget 算邊緣距離
+      // weaponLen(CSV 欄位)再額外扣掉武器伸出的部分,讓攻擊判定只看本體像素
       const img = sprites.idle;
       const aspect = (img.naturalWidth || img.width) / (img.naturalHeight || img.height);
       const sprW = this.spriteH * aspect;
-      this.visHalfW = sprW * (1 - (sprites.leftPad || 0) - (sprites.rightPad || 0)) / 2;
+      const rawHalfW = sprW * (1 - (sprites.leftPad || 0) - (sprites.rightPad || 0)) / 2;
+      this.visHalfW = Math.max(0, rawHalfW - (def.weaponLen || 0));
     } else {
       this.spriteH = 0;
       this.visH = 0;
@@ -504,17 +507,21 @@ class Tower {
       ctx.strokeRect(this.x - w / 2, top, w, h);
     }
 
-    // 血量數字（塔頂）
-    const hp = Math.max(0, Math.floor(this.hp));
-    const hpText = `${hp}/${this.maxHp}`;
+    // 血量數字(塔頂):雙塔統一 16px;無盡 maxHp = Infinity 顯示 ∞
+    const isInfinite = !isFinite(this.maxHp);
+    const hp = isInfinite ? '∞' : Math.max(0, Math.floor(this.hp));
+    const max = isInfinite ? '∞' : this.maxHp;
+    const hpText = `${hp}/${max}`;
     const textY = top - 36;
-    ctx.font = 'bold 16px sans-serif';
+    // ∞ glyph 在 sans-serif 裡只有 x-height 高,字體開大一點補回視覺差
+    ctx.font = isInfinite ? 'bold 26px sans-serif' : 'bold 20px sans-serif';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
-    ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
-    const padding = 6;
-    const textW = ctx.measureText(hpText).width + padding * 2;
-    ctx.fillRect(this.x - textW / 2, textY - 11, textW, 22);
+    // 不畫黑底,改用黑色外框讓字體在任何背景上都讀得到
+    ctx.strokeStyle = '#000';
+    ctx.lineWidth = isInfinite ? 4 : 3.5;
+    ctx.lineJoin = 'round';
+    ctx.strokeText(hpText, this.x, textY);
     ctx.fillStyle = this.team === 'player' ? '#93c5fd' : '#fca5a5';
     ctx.fillText(hpText, this.x, textY);
 
@@ -522,7 +529,8 @@ class Tower {
     const barW = 110;
     const barH = 7;
     const barY = top - 18;
-    const frac = Math.max(0, this.hp / this.maxHp);
+    // 無盡塔 HP 無限 → frac 用 1(永遠滿條),否則 Infinity/Infinity = NaN
+    const frac = isInfinite ? 1 : Math.max(0, this.hp / this.maxHp);
     ctx.fillStyle = '#000';
     ctx.fillRect(this.x - barW / 2 - 1, barY - 1, barW + 2, barH + 2);
     ctx.fillStyle = '#1f2937';
@@ -541,25 +549,55 @@ class GameState {
     this.level = 1;
     // 不再有編成系統,deck 預設等於所有單位;headless 工具仍可在建構後覆寫 g.deck
     this.deck = Object.keys(UNIT_DEFS);
-    this.levelStars = saved?.levelStars ?? {};
+    this.difficulty = saved?.difficulty === 'hard' ? 'hard' : 'easy';
+    this.levelStars = this.normalizeLevelStars(saved?.levelStars);
+    this.endlessBest = typeof saved?.endlessBest === 'number' ? saved.endlessBest : 0;
     this.screen = 'map';
     this.reset(1);
     this.screen = 'map';
+  }
+
+  // 舊存檔格式 { 1: 2, 2: 1 } 自動 migrate 成 { easy: { 1: 2 }, hard: {} }
+  normalizeLevelStars(saved) {
+    if (!saved || typeof saved !== 'object') return { easy: {}, hard: {} };
+    if (saved.easy === undefined && saved.hard === undefined) {
+      return { easy: { ...saved }, hard: {} };
+    }
+    return { easy: saved.easy || {}, hard: saved.hard || {} };
+  }
+
+  setDifficulty(diff) {
+    if (diff !== 'easy' && diff !== 'hard') return;
+    if (this.difficulty === diff) return;
+    this.difficulty = diff;
+    this.persist();
+  }
+
+  getStarsFor(level, difficulty = this.difficulty) {
+    return (this.levelStars[difficulty] || {})[level] || 0;
   }
 
   persist() {
     SaveData.save({
       soundEnabled: Sound.isEnabled(),
       levelStars: this.levelStars,
+      difficulty: this.difficulty,
+      endlessBest: this.endlessBest,
     });
   }
 
   reset(level = this.level || 1) {
     this.level = level;
     this.screen = 'playing';
+    this.isEndless = (level === ENDLESS_LEVEL);
     const enemyTowerHpByLevel = { 1: 1800, 2: 2500, 3: 3000, 4: 3600, 5: 4400 };
+    // 困難難度:敵塔 ×1.5、金錢 regen ×0.7。無盡模式塔 HP 無限,不套難度
+    const hardMul = (this.difficulty === 'hard' && !this.isEndless) ? 1.5 : 1;
+    const baseHp = enemyTowerHpByLevel[this.level] || 1800;
+    const enemyHp = this.isEndless ? Infinity : Math.round(baseHp * hardMul);
+    this.moneyRegen = (this.difficulty === 'hard' && !this.isEndless) ? MONEY_PER_SEC * 0.7 : MONEY_PER_SEC;
     this.playerTower = new Tower('player', PLAYER_TOWER_X, 1000);
-    this.enemyTower  = new Tower('enemy',  ENEMY_TOWER_X,  enemyTowerHpByLevel[this.level] || 1800);
+    this.enemyTower  = new Tower('enemy',  ENEMY_TOWER_X,  enemyHp);
     this.playerUnits = [];
     this.enemyUnits  = [];
     this.money = MONEY_START;
@@ -839,7 +877,7 @@ class GameState {
     }
 
     this.elapsed += dt;
-    this.money = Math.min(MONEY_CAP, this.money + MONEY_PER_SEC * dt);
+    this.money = Math.min(MONEY_CAP, this.money + this.moneyRegen * dt);
     this.purpleFlash = Math.max(0, this.purpleFlash - dt);
     this.shakeTimer = Math.max(0, this.shakeTimer - dt);
     for (const fx of this.summonEffects) fx.t += dt;
@@ -897,12 +935,21 @@ class GameState {
       this.winner = 'enemy';
       Sound.bgmStop();
       Sound.defeat();
-    } else if (this.enemyTower.hp <= 0) {
+      // 無盡模式:輸了就記存活時間;沒輸前不算
+      if (this.isEndless) {
+        this.endlessScore = this.elapsed;
+        if (this.elapsed > this.endlessBest) {
+          this.endlessBest = this.elapsed;
+        }
+        this.persist();
+      }
+    } else if (!this.isEndless && this.enemyTower.hp <= 0) {
       this.gameOver = true;
       this.winner = 'player';
       this.earnedStars = this.playerTowerHitTriggered ? 1 : 2;
-      const prev = this.levelStars[this.level] || 0;
-      this.levelStars[this.level] = Math.max(prev, this.earnedStars);
+      const starMap = this.difficulty === 'hard' ? this.levelStars.hard : this.levelStars.easy;
+      const prev = starMap[this.level] || 0;
+      starMap[this.level] = Math.max(prev, this.earnedStars);
       this.persist();
       Sound.bgmStop();
       Sound.victory();
@@ -1007,7 +1054,7 @@ class GameState {
     ctx.fillStyle = '#cbd5e1';
     ctx.font = '14px sans-serif';
     ctx.fillText(`第 ${this.level} 關`, 156, 20);
-    ctx.fillText(`時間 ${this.elapsed.toFixed(1)}s`, 230, 20);
+    ctx.fillText(`時間 ${this.elapsed.toFixed(3)}s`, 230, 20);
 
     if (this.purpleFlash > 0) {
       const alpha = this.purpleFlash / 0.3;
@@ -1022,32 +1069,51 @@ class GameState {
       ctx.fillRect(0, 0, W, H);
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
-      ctx.fillStyle = this.winner === 'player' ? '#4ade80' : '#ef4444';
-      ctx.font = 'bold 96px sans-serif';
-      ctx.fillText(this.winner === 'player' ? '勝利!' : '失敗...', W / 2, H / 2 - 60);
 
-      if (this.winner === 'player') {
-        ctx.font = 'bold 48px sans-serif';
-        const starW = ctx.measureText('★').width;
-        const gap = 16;
-        const totalW = starW * 2 + gap;
-        let starX = W / 2 - totalW / 2 + starW / 2;
-        for (let i = 0; i < 2; i++) {
-          ctx.fillStyle = i < this.earnedStars ? '#fbbf24' : '#4b5563';
-          ctx.fillText('★', starX, H / 2 + 30);
-          starX += starW + gap;
-        }
-      }
-
-      ctx.fillStyle = '#e5e7eb';
-      ctx.font = '20px sans-serif';
-      let subtitle = '';
-      if (this.winner === 'player') {
-        if (this.level >= TOTAL_LEVELS) subtitle = '全部關卡通關!';
+      if (this.isEndless) {
+        // 無盡模式:沒有勝利;顯示存活時間 + 最佳紀錄
+        const score = (this.endlessScore || 0);
+        const isNewBest = score >= this.endlessBest && score > 0;
+        ctx.fillStyle = '#fbbf24';
+        ctx.font = 'bold 64px sans-serif';
+        ctx.fillText('無盡模式結束', W / 2, H / 2 - 70);
+        ctx.fillStyle = '#e5e7eb';
+        ctx.font = 'bold 40px sans-serif';
+        ctx.fillText(`存活 ${score.toFixed(3)} 秒`, W / 2, H / 2 - 10);
+        ctx.font = '18px sans-serif';
+        ctx.fillStyle = isNewBest ? '#4ade80' : '#94a3b8';
+        ctx.fillText(
+          isNewBest ? '★ 新紀錄! ★' : `最佳紀錄 ${this.endlessBest.toFixed(3)} 秒`,
+          W / 2, H / 2 + 40,
+        );
       } else {
-        subtitle = '請選擇下方按鈕';
+        ctx.fillStyle = this.winner === 'player' ? '#4ade80' : '#ef4444';
+        ctx.font = 'bold 96px sans-serif';
+        ctx.fillText(this.winner === 'player' ? '勝利!' : '失敗...', W / 2, H / 2 - 60);
+
+        if (this.winner === 'player') {
+          ctx.font = 'bold 48px sans-serif';
+          const starW = ctx.measureText('★').width;
+          const gap = 16;
+          const totalW = starW * 2 + gap;
+          let starX = W / 2 - totalW / 2 + starW / 2;
+          for (let i = 0; i < 2; i++) {
+            ctx.fillStyle = i < this.earnedStars ? '#fbbf24' : '#4b5563';
+            ctx.fillText('★', starX, H / 2 + 30);
+            starX += starW + gap;
+          }
+        }
+
+        ctx.fillStyle = '#e5e7eb';
+        ctx.font = '20px sans-serif';
+        let subtitle = '';
+        if (this.winner === 'player') {
+          if (this.level >= TOTAL_LEVELS - 1) subtitle = '全部普通關卡通關!';
+        } else {
+          subtitle = '請選擇下方按鈕';
+        }
+        if (subtitle) ctx.fillText(subtitle, W / 2, H / 2 + 95);
       }
-      if (subtitle) ctx.fillText(subtitle, W / 2, H / 2 + 95);
     }
   }
 }
@@ -1065,7 +1131,7 @@ const _coreExports = {
   constants: {
     W, H, GROUND_Y, PLAYER_TOWER_X, ENEMY_TOWER_X, TOWER_W, TOWER_H,
     MONEY_START, MONEY_PER_SEC, MONEY_CAP,
-    DECK_MAX, TOTAL_LEVELS,
+    DECK_MAX, TOTAL_LEVELS, ENDLESS_LEVEL,
     HEAL_AURA_INTERVAL, HEAL_SPAWN_FRAC,
     KNOCKBACK_DIST, BOMB_RADIUS, BOMB_DAMAGE,
     SNIPE_DAMAGE, PIERCE_BONUS, SHIELD_DURATION, DASH_DURATION,

@@ -113,9 +113,9 @@ body {
 
 .map-path {
   display: grid;
-  grid-template-columns: 120px 1fr 120px 1fr 120px 1fr 120px 1fr 120px;
+  grid-template-columns: 110px 1fr 110px 1fr 110px 1fr 110px 1fr 110px 1fr 110px;
   align-items: center;
-  gap: 14px;
+  gap: 10px;
 }
 
 .map-line {
@@ -144,9 +144,80 @@ body {
   background: #2563eb;
 }
 
+/* 困難模式:普通關卡按鈕改成更深的紅色(endless 維持金色) */
+.map-path.hard .level-node:not(.endless) {
+  border-color: #b91c1c;
+  background: #450a0a;
+}
+.map-path.hard .level-node:not(.endless):hover:not(:disabled) {
+  border-color: #ef4444;
+  background: #7f1d1d;
+}
+.map-path.hard .level-node:not(.endless).cleared {
+  border-color: #fbbf24;
+  box-shadow: 0 0 18px rgba(251, 191, 36, 0.3);
+}
+
 .level-node.cleared {
   border-color: #4ade80;
   box-shadow: 0 0 18px rgba(74, 222, 128, 0.25);
+}
+
+.level-node.endless {
+  border-color: #fbbf24;
+  background: linear-gradient(180deg, #7c2d12 0%, #292524 100%);
+  box-shadow: 0 0 18px rgba(251, 191, 36, 0.25);
+}
+.level-node.endless:hover:not(:disabled) {
+  border-color: #fde68a;
+  background: linear-gradient(180deg, #9a3412 0%, #3f3f46 100%);
+}
+.level-node.endless .level-number {
+  background: rgba(251, 191, 36, 0.18);
+  color: #fbbf24;
+}
+
+.endless-score {
+  font-size: 11px;
+  color: #fbbf24;
+  text-align: center;
+  line-height: 1.2;
+}
+
+.difficulty-toggle {
+  display: flex;
+  gap: 0;
+  border: 1px solid #475569;
+  border-radius: 6px;
+  padding: 2px;
+  background: rgba(15, 23, 42, 0.6);
+}
+
+.diff-btn {
+  padding: 6px 14px;
+  background: transparent;
+  color: #94a3b8;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.diff-btn[data-diff="easy"].selected {
+  background: #3b82f6;
+  color: #fff;
+}
+
+.diff-btn[data-diff="hard"].selected {
+  background: #b91c1c;
+  color: #fff;
+}
+
+.diff-btn:hover:not(.selected) {
+  color: #e5e7eb;
 }
 
 .level-number {

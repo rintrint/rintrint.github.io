@@ -1,0 +1,6 @@
+﻿trigger,enemy,count,time,interval,start,end
+loop,grunt,2,,4,0,
+loop,heavy,1,,12,20,
+loop,fast,2,,5,40,
+loop,elite,1,,18,60,
+loop,boss,1,,90,120,

@@ -6,8 +6,8 @@ const fs = require('fs');
 const path = require('path');
 const core = require('../core.js');
 
-const NUMERIC_UNIT_FIELDS  = ['cost', 'hp', 'atk', 'speed', 'range', 'attackCd', 'cd', 'size', 'aoe'];
-const NUMERIC_ENEMY_FIELDS = ['hp', 'atk', 'speed', 'range', 'attackCd', 'size', 'reward'];
+const NUMERIC_UNIT_FIELDS  = ['cost', 'hp', 'atk', 'speed', 'range', 'attackCd', 'cd', 'size', 'aoe', 'weaponLen'];
+const NUMERIC_ENEMY_FIELDS = ['hp', 'atk', 'speed', 'range', 'attackCd', 'size', 'reward', 'aoe', 'weaponLen'];
 const NUMERIC_LEVEL_FIELDS = ['count', 'time', 'interval', 'start', 'end'];
 
 function readRows(filePath) {
