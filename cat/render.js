@@ -438,9 +438,9 @@ async function loadSprites() {
   const backgroundImage = await loadImage('assets/bg/background.png');
   applySprites({ unitSprites, enemySprites, towerSprites, backgroundImage });
 
-  // UI 用的小頭像:先裁掉透明 padding 再轉 dataURL,讓圖示在卡片中填得滿
-  for (const id of Object.keys(unitSprites)) {
-    UNIT_ICON_DATA_URL[id] = cropToContent(unitSprites[id].idle).toDataURL();
+  // UI 用的小頭像:直接走檔案路徑(canvas→dataURL 在手機 Chromium 會掉色,改用原始 PNG 最穩)
+  for (const id of Object.keys(PLAYER_SPRITE_MAP)) {
+    UNIT_ICON_DATA_URL[id] = `assets/heroes/${PLAYER_SPRITE_MAP[id].hero}/idle.png`;
   }
 }
 

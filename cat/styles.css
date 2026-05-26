@@ -1,3 +1,8 @@
+html {
+  /* 告訴 Chrome 這頁本來就是深色,跳過「Auto Dark Mode for Web Contents」flag 的圖片反色處理 */
+  color-scheme: dark;
+}
+
 body {
   margin: 0;
   background: #0a0a0f;
@@ -7,6 +12,12 @@ body {
   justify-content: center;
   align-items: center;
   min-height: 100vh;
+}
+
+/* 雙保險:對所有 unit 按鈕裡的 img 跟 deck-slot icon img 明確標示「不要強制配色調整」 */
+.unit-icon-img,
+.deck-slot-icon-img {
+  forced-color-adjust: none;
 }
 
 #game-container {
@@ -407,11 +418,15 @@ body {
 
 .unit-btn:disabled {
   cursor: not-allowed;
-  opacity: 0.55;
+  /* 不再用 opacity 全顆變淡;改靠 cant-afford 紅框 / cd-overlay 表達不可按 */
 }
 
 .unit-btn.cant-afford {
   border-color: #7f1d1d;
+}
+
+.unit-btn.cant-afford .unit-cost {
+  color: #f87171;
 }
 
 .unit-btn.locked-slot {
@@ -651,17 +666,19 @@ body {
   height: 100svh;
   padding: 0;
   background: #0a0a0f;
+  align-items: center;        /* container 是 flex column,讓子元素水平+垂直居中 */
+  justify-content: center;
 }
 
 #game-container:fullscreen #map-screen,
 #game-container:fullscreen #play-screen {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%) scale(min(
+  /* 直接 scale 居中:transform-origin center,flex 父負責對齊到視窗中央 */
+  transform: scale(min(
     calc((100vw - 48px) / 1250px),
     calc((100svh - 48px) / 608px)
   ));
+  transform-origin: center;
+  flex-shrink: 0;
 }
 
 #rotate-hint {
