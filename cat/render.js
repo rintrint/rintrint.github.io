@@ -530,6 +530,9 @@ const levelButtons = [...document.querySelectorAll('.level-node')];
 
 function openSettings() {
   settingsPanel.hidden = false;
+  const onMap = !game || game.screen === 'map';
+  restartBtn.hidden = onMap;
+  backToMapBtn.hidden = onMap;
   if (game && game.screen === 'playing' && !game.gameOver) {
     game.paused = true;
     Sound.bgmStop();
