@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<title>rin attack — 抽幀方案比較</title>
+<style>
+  :root { color-scheme: dark; }
+  body { margin: 0; padding: 24px; background: #17181c; color: #e8e6e3;
+         font: 14px/1.5 "Segoe UI", "Microsoft JhengHei", sans-serif; }
+  h1 { font-size: 18px; margin: 0 0 4px; }
+  .note { color: #9a978f; font-size: 12.5px; margin-bottom: 16px; }
+  .note b { color: #d8b4fe; }
+  .controls { display: flex; align-items: center; gap: 16px; margin-bottom: 20px;
+              background: #1f2127; border: 1px solid #2c2f37; border-radius: 10px; padding: 12px 16px; }
+  .controls label { color: #b8b5ae; }
+  .controls input[type=range] { width: 260px; accent-color: #a78bfa; }
+  .controls button { background: #a78bfa; color: #17181c; border: 0; border-radius: 8px;
+                     padding: 6px 18px; font-weight: 600; cursor: pointer; }
+  .controls button:hover { background: #c4b5fd; }
+  #durVal { color: #d8b4fe; font-weight: 700; min-width: 48px; display: inline-block; }
+  .grid { display: grid; grid-template-columns: repeat(3, 296px); gap: 16px; }
+  .cell { background: #1f2127; border: 1px solid #2c2f37; border-radius: 12px; padding: 10px; }
+  .cell h2 { font-size: 13px; margin: 0 0 8px; color: #d8b4fe; font-weight: 600; }
+  .cell .meta { font-size: 11.5px; color: #8d8a83; margin-top: 6px; }
+  .stage { width: 272px; height: 272px; border-radius: 8px; overflow: hidden;
+           background: repeating-conic-gradient(#34363d 0% 25%, #2a2c32 0% 50%) 0 0 / 24px 24px; }
+  canvas { width: 272px; height: 272px; display: block; }
+  .rowlabel { grid-column: 1 / -1; font-size: 13px; color: #b8b5ae; font-weight: 600;
+              margin-top: 8px; border-bottom: 1px solid #2c2f37; padding-bottom: 4px; }
+</style>
+</head>
+<body>
+<h1>rin attack — 影片時長 × 抽幀方法 比較</h1>
+<div class="note">
+  同一套 prompt + 起始幀,Grok Imagine 生成 4s / 2s / 1s(24fps 固定)。
+  <b>0.5s 不存在</b>:API 的 duration 只收整數秒、最小 1s(實測 0.5 / "0.5" / "0.5s" 皆 HTTP 422)。
+  方法 A = 原生 24fps 全幀 + 加速播放;方法 B = 12fps 全抽 + 加速播放;方法 C = 直接稀疏抽 ~12 幀。
+  所有格子都循環播放同一個「動作總時長」(下方滑桿),所以差異只剩:幀數平滑度 × 影片本身的動作編排。
+</div>
+<div class="controls">
+  <button id="toggle">⏸ 暫停</button>
+  <label>動作總時長 <span id="durVal">1.00s</span></label>
+  <input type="range" id="dur" min="0.3" max="2.5" step="0.05" value="1.0">
+  <span style="color:#8d8a83;font-size:12px">建議在 0.5–1.2s 之間找攻擊手感</span>
+</div>
+<div class="grid" id="grid"></div>
+<script>
+const CELLS = [
+  { dir: 'a_4s', n: 97, title: '4s 影片 · 方法A 原生24fps全幀', row: 'A' },
+  { dir: 'a_2s', n: 49, title: '2s 影片 · 方法A 原生24fps全幀', row: 'A' },
+  { dir: 'a_1s', n: 25, title: '1s 影片 · 方法A 原生24fps全幀', row: 'A' },
+  { dir: 'b_4s', n: 49, title: '4s 影片 · 方法B 12fps全幀', row: 'B' },
+  { dir: 'b_2s', n: 25, title: '2s 影片 · 方法B 12fps全幀', row: 'B' },
+  { dir: 'b_1s', n: 13, title: '1s 影片 · 方法B 12fps全幀', row: 'B' },
+  { dir: 'c_4s', n: 12, title: '4s 影片 · 方法C 稀疏抽幀', row: 'C' },
+  { dir: 'c_2s', n: 12, title: '2s 影片 · 方法C 稀疏抽幀', row: 'C' },
+  { dir: 'c_1s', n: 13, title: '1s 影片 · 方法C 稀疏抽幀', row: 'C' },
+];
+const grid = document.getElementById('grid');
+const players = [];
+let lastRow = null;
+for (const c of CELLS) {
+  if (c.row !== lastRow) {
+    const lbl = document.createElement('div');
+    lbl.className = 'rowlabel';
+    lbl.textContent = {
+      A: '方法 A — 原生 24fps 全幀 + 加速播放(最平滑,資產最重)',
+      B: '方法 B — 12fps 全幀 + 加速播放(平滑與資產量折衷)',
+      C: '方法 C — 直接稀疏抽幀(~12 幀,資產輕,動畫感)',
+    }[c.row];
+    grid.appendChild(lbl);
+    lastRow = c.row;
+  }
+  const cell = document.createElement('div');
+  cell.className = 'cell';
+  cell.innerHTML = `<h2>${c.title}</h2>
+    <div class="stage"><canvas width="544" height="544"></canvas></div>
+    <div class="meta">${c.n} 幀 · 有效幀率 <span class="fps">—</span> fps</div>`;
+  grid.appendChild(cell);
+  const imgs = [];
+  for (let i = 1; i <= c.n; i++) {
+    const img = new Image();
+    img.src = `${c.dir}/f_${String(i).padStart(3, '0')}.png`;
+    imgs.push(img);
+  }
+  players.push({ ...c, imgs, ctx: cell.querySelector('canvas').getContext('2d'),
+                 fpsEl: cell.querySelector('.fps'), lastIdx: -1 });
+}
+let dur = 1.0, playing = true, t0 = performance.now(), tPause = 0;
+const durInput = document.getElementById('dur'), durVal = document.getElementById('durVal');
+const toggle = document.getElementById('toggle');
+function refreshMeta() {
+  durVal.textContent = dur.toFixed(2) + 's';
+  for (const p of players) p.fpsEl.textContent = (p.n / dur).toFixed(0);
+}
+durInput.addEventListener('input', () => { dur = parseFloat(durInput.value); refreshMeta(); });
+toggle.addEventListener('click', () => {
+  playing = !playing;
+  if (playing) { t0 += performance.now() - tPause; } else { tPause = performance.now(); }
+  toggle.textContent = playing ? '⏸ 暫停' : '▶ 播放';
+});
+function tick(now) {
+  if (playing) {
+    const t = ((now - t0) / 1000) % dur;
+    for (const p of players) {
+      const idx = Math.min(p.n - 1, Math.floor(t / dur * p.n));
+      if (idx !== p.lastIdx && p.imgs[idx].complete) {
+        p.ctx.clearRect(0, 0, 544, 544);
+        p.ctx.drawImage(p.imgs[idx], 0, 0, 544, 544);
+        p.lastIdx = idx;
+      }
+    }
+  }
+  requestAnimationFrame(tick);
+}
+refreshMeta();
+requestAnimationFrame(tick);
+</script>
+</body>
+</html>
