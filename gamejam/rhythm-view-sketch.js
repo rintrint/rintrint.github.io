@@ -3,9 +3,9 @@ const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
 // These source rectangles address the generated atlas directly; the original PNG stays intact.
 const sprites={ice:[0,.15,.56,.30],fish:[.60,.15,.38,.29],gold:[.07,.57,.43,.33],plant:[.57,.54,.41,.44]};
 export class SketchView extends RhythmView{
-  constructor(canvas){
-    super(canvas,'runner',{background:'assets/sketch/ocean.png',seal:'assets/sketch/seal.png'});this.sketch=true;
-    const props=new Promise((resolve,reject)=>{const im=new Image();im.onload=()=>{this.props=im;resolve();};im.onerror=()=>reject(new Error('手繪素材載入失敗'));im.src='assets/sketch/props.png';});
+  constructor(canvas,assets={}){
+    super(canvas,'runner',{background:assets.background||'assets/sketch/ocean.png',seal:assets.seal||'assets/sketch/seal.png'});this.sketch=true;this.iceBlue=!!assets.iceBlue;
+    const props=new Promise((resolve,reject)=>{const im=new Image();im.onload=()=>{this.props=im;resolve();};im.onerror=()=>reject(new Error('手繪素材載入失敗'));im.src=assets.props||'assets/sketch/props.png';});
     this.ready=Promise.all([this.ready,props]);
   }
   sprite(name,x,y,width,height){const [a,b,w,h]=sprites[name],im=this.props;if(!im)return;this.c.drawImage(im,a*im.width,b*im.height,w*im.width,h*im.height,x-width/2,y-height/2,width,height);}
@@ -14,9 +14,11 @@ export class SketchView extends RhythmView{
     const scale=Math.max(w*1.12/this.bg.width,h*1.06/this.bg.height),bw=this.bg.width*scale,bh=this.bg.height*scale;
     c.drawImage(this.bg,(w-bw)/2+Math.sin(t*.025)*w*.04,-h*.025,bw,bh);
     // Pastel day -> lavender dusk -> mint aurora, always retaining pencil texture.
-    c.fillStyle=`rgba(162,133,211,${Math.sin(p*Math.PI)*.15})`;c.fillRect(0,0,w,h);
+    c.fillStyle=`rgba(${this.iceBlue?'100,179,212':'162,133,211'},${Math.sin(p*Math.PI)*.15})`;c.fillRect(0,0,w,h);
     c.save();c.globalCompositeOperation='soft-light';
-    const beat=60/(g.track.pulseBpm||72),phase=((Math.max(0,g.time)-g.track.beatOffset)%beat+beat)%beat,pulse=Math.exp(-phase*8);
+    const beat=60/(g.track.pulseBpm||72),phase=((Math.max(0,g.time)-g.track.beatOffset)%beat+beat)%beat,gridPulse=Math.exp(-phase*8);
+    const attack=g.track.attacks?.find(a=>a.time<=g.time&&a.time>=g.time-.25);
+    const pulse=g.track.attacks?(attack?Math.min(1,attack.strength)*Math.exp(-(g.time-attack.time)*12):0):gridPulse;
     for(let i=0;i<6;i++){
       const x=((w*.2*i-t*9)%(w*1.3)+w*1.3)%(w*1.3)-w*.15;
       const gradient=c.createLinearGradient(x,h*.29,x+w*.13,h);gradient.addColorStop(0,`rgba(255,249,199,${.2+pulse*.3})`);gradient.addColorStop(1,'#fff6ce00');
