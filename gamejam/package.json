@@ -1,0 +1,7 @@
+{
+  "name": "breath-a-little-ocean",
+  "version": "1.0.0",
+  "private": true,
+  "description": "A gentle breathing rhythm game with comparable 2D and 3D editions.",
+  "scripts": { "dev": "node server.cjs", "start": "node server.cjs", "test": "node --test" }
+}

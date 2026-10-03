@@ -1,0 +1,19 @@
+{
+  "generator": "Built-in image_gen tool (not CLI)",
+  "created": "2026-10-03",
+  "assets": [
+    {
+      "path": "assets/glacier-world.png",
+      "role": "2D environment painting and distant 3D matte",
+      "transparent_background": false,
+      "prompt": "Use case: illustration-story. Asset type: production background plate for a beautiful 2D arctic underwater music game called Breath. Create a widescreen 16:9 game environment painting, absolutely no text, no UI, no logos, no characters, no fish. A side-on view with BOTH above and below water in the same seamless scene: top 28% is pale apricot and lavender polar dawn sky, far dramatic snowy glacier mountain silhouettes and a very narrow ice floe shelf along the waterline; lower 72% is a luminous blue underwater cathedral with huge translucent turquoise ice formations descending at the far left and far right edges, deep cobalt blue center, gently curving dark seabed in bottom 12%, luminous delicate marine flora on bottom corners. The very center underwater area must remain open, uncluttered readable swimming space. Art direction: exquisitely painted premium indie game art, softly textured gouache with cinematic volumetric light and luminous icy detail, sophisticated hand-painted edges, highly detailed distant ice crystals, strong layered depth, warm dawn sunlight refracted into cyan shafts through the surface, tiny subtle suspended luminous particles. Think an art-directed award-quality contemplative ocean storybook. Distinct silhouettes and beautiful color grading. No rectangular aquarium boundary, no cutaway box, no bland geometric low-poly blocks, no diagrams. Continuous wide landscape suitable for subtle horizontal parallax. The ice shelf has a few naturally broken openings but no manmade buildings. Make actual in-game usable background art, not a screenshot mockup."
+    },
+    {
+      "path": "assets/seal.png",
+      "role": "2D character with preserved alpha",
+      "transparent_background": true,
+      "prompt": "Use case: stylized-concept. Asset type: transparent cutout character sprite for a premium hand-painted Arctic music game. One single adorable young cream-white harp seal in perfect side profile facing RIGHT, swimming horizontally, whole body from nose to tail fully visible, centered with generous transparent margins. Rounded long pear-shaped body, tiny spotted flippers visible below body, two small soft tail flippers at left, oversized but natural glossy dark eyes, short whiskers, tiny charcoal triangular nose, subtly smiling gentle expression, soft finely detailed ivory fur with a few pale grey speckles, warm apricot highlights on top and cool turquoise rim lighting below. Beautiful painterly 3D-storybook rendering with natural soft volume and detailed furry edges, refined game character design, emotionally endearing rather than a plastic toy. Body silhouette must be cohesive, softly organic, not assembled balls. Horizontal aspect composition. Completely transparent alpha background. No ground, no shadow outside animal, no water, no text, no borders, no other subjects, not a sprite sheet."
+    }
+  ],
+  "procedural": "3D meshes are generated in journey-view3d.js. Original music and sound synthesis live in journey-audio.js."
+}
