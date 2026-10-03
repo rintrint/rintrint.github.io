@@ -1,4 +1,4 @@
-import {editionLinks} from './edition-nav.js';
+import {editionLinks} from './edition-nav.js?v=13.0';
 import {ScenesAudio} from './scenes-audio.js';
 import {hungerPose} from './scenes-media.js';
 import {ScenesView} from './scenes-view.js';

@@ -1,5 +1,5 @@
 import {JourneyAudio} from './journey-audio.js';
-import {editionLinks} from './edition-nav.js';
+import {editionLinks} from './edition-nav.js?v=13.0';
 const {Journey,SURFACE,HEIGHT,HOLES,clamp}=window.BreathJourney;
 const edition=document.body.dataset.edition||'2d';
 document.body.innerHTML=`<main class="world" id="world"><canvas id="worldCanvas" tabindex="0" aria-label="Breath 冰海旅程。方向鍵移動，按住空白鍵吸氣，跟著音樂放開。E 呼喚同伴，Esc 暫停。"></canvas><div id="dangerVignette" class="danger-vignette"></div><div id="airWarning" class="air-warning hidden" role="status"></div><div class="film-grain"></div><div class="top-shade"></div>

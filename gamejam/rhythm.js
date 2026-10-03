@@ -1,4 +1,4 @@
-import {editionLinks} from './edition-nav.js';
+import {editionLinks} from './edition-nav.js?v=13.0';
 import {TrackAudio} from './rhythm-audio.js';
 import {RhythmView} from './rhythm-view.js';
 const {RhythmRun,DIFFICULTIES}=window.BreathRhythm;

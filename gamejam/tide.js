@@ -1,4 +1,4 @@
-import {editionLinks} from './edition-nav.js';
+import {editionLinks} from './edition-nav.js?v=13.0';
 import {JourneyAudio} from './tide-audio.js';
 import {JourneyView} from './tide-view.js';
 const {JourneyRun}=window.BreathJourney;

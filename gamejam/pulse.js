@@ -1,4 +1,4 @@
-import {editionLinks} from './edition-nav.js';
+import {editionLinks} from './edition-nav.js?v=13.0';
 import {PulseAudio} from './pulse-audio.js';
 import {PulseHud} from './pulse-hud.js';
 import {hungerPose} from './scenes-media.js';
