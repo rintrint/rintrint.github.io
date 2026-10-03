@@ -1,0 +1,85 @@
+{
+  "method": "2ms multi-band spectral flux; local 24-pulse tempo tracking; 17-pulse quadratic smoothing",
+  "sourceSha256": "eeb25f7b84b296cd8b2b61eb6e2e11df6ac0ffc98baa5a0ec42f022417b42f75",
+  "initialBpm": 192.89,
+  "finalBpm": 195.383,
+  "measuredOnsetResidualMedianMs": 0.985,
+  "measuredOnsetResidualP95Ms": 3.409,
+  "independentHighBandMatched": 570,
+  "independentHighBandMedianMs": 3.533,
+  "independentHighBandP95Ms": 9.336,
+  "chartCounts": {
+    "beginner": 109,
+    "intermediate": 208,
+    "expert": 433
+  },
+  "playableNoteValidation": {
+    "beginner": {
+      "notes": 109,
+      "spectralMedianMs": 1.059,
+      "spectralP95Ms": 5.001,
+      "spectralMaxMs": 21.697,
+      "independentP95Ms": 8.708,
+      "independentMaxMs": 38.477,
+      "withoutHighBandAttackWithin55ms": 0
+    },
+    "intermediate": {
+      "notes": 208,
+      "spectralMedianMs": 0.948,
+      "spectralP95Ms": 3.542,
+      "spectralMaxMs": 21.697,
+      "independentP95Ms": 8.787,
+      "independentMaxMs": 41.263,
+      "withoutHighBandAttackWithin55ms": 0
+    },
+    "expert": {
+      "notes": 433,
+      "spectralMedianMs": 0.966,
+      "spectralP95Ms": 3.409,
+      "spectralMaxMs": 21.697,
+      "independentP95Ms": 8.94,
+      "independentMaxMs": 74.223,
+      "withoutHighBandAttackWithin55ms": 4
+    }
+  },
+  "difficultyRule": "Expert: each pulse + paired eighths near phrase ends; intermediate every 2 pulses; beginner every 4 pulses. Identical retained timestamps.",
+  "limitations": "Acoustic residuals validate the detected groove, not a human professional playtest. Half/double-time notation is ambiguous. Device calibration remains user-specific.",
+  "sections": [
+    {
+      "time": 6.006,
+      "bpm": 192.89
+    },
+    {
+      "time": 25.901,
+      "bpm": 193.124
+    },
+    {
+      "time": 45.782,
+      "bpm": 193.649
+    },
+    {
+      "time": 65.612,
+      "bpm": 194.079
+    },
+    {
+      "time": 85.394,
+      "bpm": 194.516
+    },
+    {
+      "time": 105.135,
+      "bpm": 194.801
+    },
+    {
+      "time": 124.851,
+      "bpm": 194.966
+    },
+    {
+      "time": 144.541,
+      "bpm": 195.205
+    },
+    {
+      "time": 164.206,
+      "bpm": 195.383
+    }
+  ]
+}
