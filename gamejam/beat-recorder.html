@@ -1,0 +1,13 @@
+<!doctype html>
+<html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#b6e5fa"><title>Breath · 手動錄拍工具</title><link rel="stylesheet" href="beat-recorder.css"></head>
+<body><main><header><a href="tide.html">← 回到第六版</a><span>BREATH / MANUAL BEATS</span></header>
+<h1>你聽到的，就是節拍。</h1><p class="intro">播放音樂，聽到節拍就按一次 <kbd>空白鍵</kbd>。<br>錄完下載 TXT，再把檔案給我作為標準答案。</p>
+<label class="song-label" for="song">音樂</label><select id="song"><option value="wash1">Oceanic Wash</option><option value="wash2">Oceanic Wash 2</option></select>
+<div class="transport"><button id="play" class="primary">播放並開始錄拍</button><button id="reset">清空並重錄</button><output id="clock">0:00.000 / —</output></div>
+<progress id="progress" max="1" value="0" aria-label="音樂進度"></progress>
+<button id="beat" class="beat" disabled><strong>按一下，記一拍</strong><span>SPACE / 點擊 / 觸控</span><b id="count">0 拍</b></button>
+<p id="status" role="status" aria-live="polite">準備好了就開始；只播放原曲，不加節拍音。</p>
+<div class="actions"><button id="undo" disabled>撤銷上一拍</button><button id="download" class="primary" disabled>下載 TXT ↓</button></div>
+<details><summary>已記錄的時間點 <span id="lastBeat">—</span></summary><textarea id="preview" readonly aria-label="TXT 內容預覽" placeholder="每行一個秒數，例如：&#10;1.245&#10;2.068&#10;2.903"></textarea></details>
+<p class="note">每行一個時間點，單位為秒，保留三位小數。沒有標題、序號或自動對拍。<br>每首歌分開暫存於這個瀏覽器；離開分頁會自動暫停。錄完請下載保存。</p>
+<p id="error" role="alert"></p></main><script src="beat-recorder-core.js"></script><script type="module" src="beat-recorder.js"></script></body></html>
