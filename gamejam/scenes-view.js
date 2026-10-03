@@ -1,7 +1,18 @@
 import {JourneyView} from './tide-view.js';
+import {hungerPose} from './scenes-media.js';
 const labels={surface:'冰洞換氣',dive:'下海',leap:'大吸氣 · 跨洞',exit:'最後上岸',call:'呼喚朋友'};
 export class ScenesView extends JourneyView {
-  constructor(canvas){super(canvas);this.flow=new window.BreathScenes.SceneFlow();}
+  constructor(canvas){super(canvas);this.flow=new window.BreathScenes.SceneFlow();
+    const hunger=new Promise((resolve,reject)=>{const im=new Image();im.onload=()=>{this.hungerImage=im;resolve();};im.onerror=()=>reject(Error('肚子餓動畫載入失敗'));im.src='assets/scenes/hunger-strip.png';});
+    this.ready=Promise.all([this.ready,hunger]);
+  }
+  hungryPortrait(x,y,width,time){
+    const pose=hungerPose(time,this.reduced),im=this.hungerImage,c=this.c,cell=im.width/3;
+    c.save();c.translate(x,y+width*.25);c.scale(1+pose.breath,1-pose.breath);
+    // Equal atlas cells keep the three hand-drawn poses on the same baseline.
+    c.drawImage(im,pose.frame*cell,im.height*.22,cell,im.height*.67,-width/2,-width*.67,width,width*.67);c.restore();
+    this.canvasFrame=pose.frame;
+  }
   scenery(dive,t,g){
     const c=this.c,w=this.w,h=this.h,im=this.bg;
     // Crop the same pencil painting into two cameras, preserving the sixth edition's palette.
@@ -52,7 +63,8 @@ export class ScenesView extends JourneyView {
     }else{
       this.ellipse(sx,sy+width*.23,width*.37*growth,7,'#527c941f');
       const ghost=g.outcome==='hungryGhost',angel=g.outcome==='angel';
-      this.portrait(sx,sy-(ghost?20:0),width,t,{flat:scene==='start'||g.outcome==='rest',ghost,scale:growth});
+      if(scene==='start'&&this.hungerImage)this.hungryPortrait(sx,sy,width*1.15,t);
+      else this.portrait(sx,sy-(ghost?20:0),width,t,{flat:g.outcome==='rest',ghost,scale:growth});
       if(scene==='start')this.text('咕嚕……海裡有小魚嗎？',sx,h*.75,12,'#547f96');
       if(angel){c.strokeStyle='#cdb16c';c.lineWidth=3;c.beginPath();c.ellipse(sx,sy-width*.31,35,8,0,0,Math.PI*2);c.stroke();for(const side of [-1,1]){c.save();c.translate(sx+side*width*.3,sy);c.rotate(side*.35);for(let i=0;i<4;i++)this.ellipse(side*i*11,-i*9,23,12,'#fffdefe8');c.restore();}}
       if(ghost){this.text('肚子還是空空的……',sx,sy-width*.38,17,'#d8f6ff');}
