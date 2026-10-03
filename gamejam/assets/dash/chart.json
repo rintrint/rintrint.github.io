@@ -1,0 +1,4258 @@
+{
+  "title": "草蛇驚一",
+  "artist": "影片音源 · MUSE DASH 遊玩錄影",
+  "sourceUrl": "https://www.bilibili.com/video/BV1yvaz6eEKS/",
+  "sourceTitle": "【MUSE DASH】草蛇惊一 大触 Lv.9 FC",
+  "sourceFps": 30,
+  "sourceCombo": 514,
+  "duration": 139.85,
+  "audio": "assets/audio/caoshe-jingyi-video.mp3",
+  "timingMethod": "Readable combo frames minus one display frame; manual lane/type review. Recorded judgements are not original chart timestamps.",
+  "events": [
+    {
+      "id": 1,
+      "time": 5.9,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 178,
+      "evidence": "opening-note frame review (combo hidden below five)"
+    },
+    {
+      "id": 2,
+      "time": 6.0333,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 182,
+      "evidence": "opening-note frame review (combo hidden below five)"
+    },
+    {
+      "id": 3,
+      "time": 6.1333,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 185,
+      "evidence": "opening-note frame review (combo hidden below five)"
+    },
+    {
+      "id": 4,
+      "time": 6.2667,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 189,
+      "evidence": "opening-note frame review (combo hidden below five)"
+    },
+    {
+      "id": 5,
+      "time": 6.6667,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 201,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 6,
+      "time": 6.7667,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 204,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 7,
+      "time": 6.9,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 208,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 8,
+      "time": 7.0333,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 212,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 9,
+      "time": 7.8,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 235,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 10,
+      "time": 7.9333,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 239,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 11,
+      "time": 8.0667,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 243,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 12,
+      "time": 8.2,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 247,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 13,
+      "time": 8.5667,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 258,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 14,
+      "time": 8.6667,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 261,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 15,
+      "time": 8.7667,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 264,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 16,
+      "time": 8.9333,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 269,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 17,
+      "time": 9.7,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 292,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 18,
+      "time": 9.8333,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 296,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 19,
+      "time": 9.9667,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 300,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 20,
+      "time": 10.1,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 304,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 21,
+      "time": 10.4333,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 314,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 22,
+      "time": 10.5667,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 318,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 23,
+      "time": 10.7,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 322,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 24,
+      "time": 10.8,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 325,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 25,
+      "time": 13.5,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 406,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 26,
+      "time": 13.6,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 409,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 27,
+      "time": 13.7333,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 413,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 28,
+      "time": 13.8333,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 416,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 29,
+      "time": 14.2,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 427,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 30,
+      "time": 14.3,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 430,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 31,
+      "time": 14.4333,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 434,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 32,
+      "time": 14.5333,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 437,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 33,
+      "time": 14.9333,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 449,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 34,
+      "time": 15.1667,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 456,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 35,
+      "time": 15.4,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 463,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 36,
+      "time": 15.5,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 466,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 37,
+      "time": 15.6333,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 470,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 38,
+      "time": 15.7333,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 473,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 39,
+      "time": 16.0667,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 483,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 40,
+      "time": 16.1667,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 486,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 41,
+      "time": 16.3,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 490,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 42,
+      "time": 16.4,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 493,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 43,
+      "time": 16.7333,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 503,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 44,
+      "time": 17.0,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 511,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 45,
+      "time": 17.3667,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 522,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 46,
+      "time": 17.4667,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 525,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 47,
+      "time": 17.6,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 529,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 48,
+      "time": 17.7,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 532,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 49,
+      "time": 17.9333,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 539,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 50,
+      "time": 18.0667,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 543,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 51,
+      "time": 18.1667,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 546,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 52,
+      "time": 18.3,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 550,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 53,
+      "time": 18.6667,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 561,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 54,
+      "time": 18.9333,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 569,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 55,
+      "time": 20.5333,
+      "lane": "both",
+      "kind": "mash",
+      "sourceFrame": 617,
+      "evidence": "combo frame OCR + contact-sheet review",
+      "start": 19.1,
+      "required": 12
+    },
+    {
+      "id": 56,
+      "time": 21.0333,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 632,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 57,
+      "time": 21.3667,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 642,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 58,
+      "time": 21.7333,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 653,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 59,
+      "time": 22.1667,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 666,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 60,
+      "time": 22.3,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 670,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 61,
+      "time": 22.4333,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 674,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 62,
+      "time": 22.5333,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 677,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 63,
+      "time": 22.6333,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 680,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 64,
+      "time": 22.7667,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 684,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 65,
+      "time": 22.8667,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 687,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 66,
+      "time": 22.9667,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 690,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 67,
+      "time": 23.2,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 697,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 68,
+      "time": 23.3,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 700,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 69,
+      "time": 23.5667,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 708,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 70,
+      "time": 23.8333,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 716,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 71,
+      "time": 23.9333,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 719,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 72,
+      "time": 24.0667,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 723,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 73,
+      "time": 24.1667,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 726,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 74,
+      "time": 24.3,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 730,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 75,
+      "time": 24.4333,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 734,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 76,
+      "time": 24.5667,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 738,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 77,
+      "time": 24.6667,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 741,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 78,
+      "time": 25.0,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 751,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 79,
+      "time": 25.2333,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 758,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 80,
+      "time": 25.4667,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 765,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 81,
+      "time": 25.5667,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 768,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 82,
+      "time": 25.9,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 778,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 83,
+      "time": 26.0333,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 782,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 84,
+      "time": 26.1333,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 785,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 85,
+      "time": 26.2667,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 789,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 86,
+      "time": 26.4,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 793,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 87,
+      "time": 26.5,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 796,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 88,
+      "time": 26.6333,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 800,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 89,
+      "time": 26.7333,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 803,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 90,
+      "time": 26.9667,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 810,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 91,
+      "time": 27.1,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 814,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 92,
+      "time": 27.3333,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 821,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 93,
+      "time": 27.6,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 829,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 94,
+      "time": 27.7,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 832,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 95,
+      "time": 28.0333,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 842,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 96,
+      "time": 28.1667,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 846,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 97,
+      "time": 28.5333,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 857,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 98,
+      "time": 28.8667,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 867,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 99,
+      "time": 29.2,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 877,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 100,
+      "time": 29.6667,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 891,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 101,
+      "time": 29.8,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 895,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 102,
+      "time": 29.9333,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 899,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 103,
+      "time": 30.0333,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 902,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 104,
+      "time": 30.1667,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 906,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 105,
+      "time": 30.2667,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 909,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 106,
+      "time": 30.4,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 913,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 107,
+      "time": 30.5,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 916,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 108,
+      "time": 30.7667,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 924,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 109,
+      "time": 30.8667,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 927,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 110,
+      "time": 31.1,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 934,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 111,
+      "time": 31.3667,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 942,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 112,
+      "time": 31.4667,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 945,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 113,
+      "time": 31.6,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 949,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 114,
+      "time": 31.7,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 952,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 115,
+      "time": 31.8,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 955,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 116,
+      "time": 31.9333,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 959,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 117,
+      "time": 32.0333,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 962,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 118,
+      "time": 32.1667,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 966,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 119,
+      "time": 32.5,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 976,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 120,
+      "time": 32.7333,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 983,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 121,
+      "time": 32.9667,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 990,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 122,
+      "time": 33.1,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 994,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 123,
+      "time": 33.4333,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 1004,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 124,
+      "time": 33.5667,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 1008,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 125,
+      "time": 33.6667,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 1011,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 126,
+      "time": 33.7667,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 1014,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 127,
+      "time": 33.9,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 1018,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 128,
+      "time": 34.0,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 1021,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 129,
+      "time": 34.1667,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 1026,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 130,
+      "time": 34.2667,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 1029,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 131,
+      "time": 34.4667,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 1035,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 132,
+      "time": 34.6,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 1039,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 133,
+      "time": 34.8333,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 1046,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 134,
+      "time": 34.9333,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 1049,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 135,
+      "time": 35.2667,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 1059,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 136,
+      "time": 35.4,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 1063,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 137,
+      "time": 35.5,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 1066,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 138,
+      "time": 35.6333,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 1070,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 139,
+      "time": 35.7667,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 1074,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 140,
+      "time": 35.9,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 1078,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 141,
+      "time": 36.0333,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 1082,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 142,
+      "time": 36.5,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 1096,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 143,
+      "time": 36.9667,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 1110,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 144,
+      "time": 37.3,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 1120,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 145,
+      "time": 37.6333,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 1130,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 146,
+      "time": 37.9,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 1138,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 147,
+      "time": 38.3667,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 1152,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 148,
+      "time": 38.8333,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 1166,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 149,
+      "time": 39.2333,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 1178,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 150,
+      "time": 39.5333,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 1187,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 151,
+      "time": 39.7667,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 1194,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 152,
+      "time": 40.2,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 1207,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 153,
+      "time": 40.6667,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 1221,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 154,
+      "time": 41.0333,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 1232,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 155,
+      "time": 41.3667,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 1242,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 156,
+      "time": 41.6333,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 1250,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 157,
+      "time": 41.7667,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 1254,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 158,
+      "time": 41.8667,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 1257,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 159,
+      "time": 41.9667,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 1260,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 160,
+      "time": 42.1,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 1264,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 161,
+      "time": 42.2,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 1267,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 162,
+      "time": 42.4667,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 1275,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 163,
+      "time": 42.6,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 1279,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 164,
+      "time": 42.7,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 1282,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 165,
+      "time": 42.9,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 1288,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 166,
+      "time": 43.1667,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 1296,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 167,
+      "time": 43.2667,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 1299,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 168,
+      "time": 43.3667,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 1302,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 169,
+      "time": 43.5333,
+      "lane": "ground",
+      "kind": "hold",
+      "sourceFrame": 1307,
+      "evidence": "combo frame OCR + contact-sheet review",
+      "end": 45.3667,
+      "tailId": 174
+    },
+    {
+      "id": 170,
+      "time": 43.9667,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 1320,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 171,
+      "time": 44.4,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 1333,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 172,
+      "time": 44.7667,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 1344,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 173,
+      "time": 45.1333,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 1355,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 174,
+      "time": 45.3667,
+      "lane": "ground",
+      "kind": "tail",
+      "sourceFrame": 1362,
+      "evidence": "simultaneous pair: intermediate combo not displayed",
+      "headId": 169
+    },
+    {
+      "id": 175,
+      "time": 45.3667,
+      "lane": "air",
+      "kind": "hold",
+      "sourceFrame": 1362,
+      "evidence": "combo frame OCR + contact-sheet review",
+      "end": 47.2667,
+      "tailId": 180
+    },
+    {
+      "id": 176,
+      "time": 45.8333,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 1376,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 177,
+      "time": 46.3333,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 1391,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 178,
+      "time": 46.7,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 1402,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 179,
+      "time": 47.0,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 1411,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 180,
+      "time": 47.2667,
+      "lane": "air",
+      "kind": "tail",
+      "sourceFrame": 1419,
+      "evidence": "simultaneous pair: intermediate combo not displayed",
+      "headId": 175
+    },
+    {
+      "id": 181,
+      "time": 47.2667,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 1419,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 182,
+      "time": 47.4667,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 1425,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 183,
+      "time": 48.1667,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 1446,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 184,
+      "time": 48.4,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 1453,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 185,
+      "time": 49.1,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 1474,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 186,
+      "time": 49.3333,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 1481,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 187,
+      "time": 49.6,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 1489,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 188,
+      "time": 49.7,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 1492,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 189,
+      "time": 49.9333,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 1499,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 190,
+      "time": 50.0667,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 1503,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 191,
+      "time": 50.5,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 1516,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 192,
+      "time": 50.9667,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 1530,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 193,
+      "time": 51.2,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 1537,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 194,
+      "time": 51.4333,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 1544,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 195,
+      "time": 51.8,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 1555,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 196,
+      "time": 51.9333,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 1559,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 197,
+      "time": 52.0333,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 1562,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 198,
+      "time": 52.1667,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 1566,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 199,
+      "time": 52.3,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 1570,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 200,
+      "time": 52.4,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 1573,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 201,
+      "time": 52.6667,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 1581,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 202,
+      "time": 52.8,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 1585,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 203,
+      "time": 52.9667,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 1590,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 204,
+      "time": 53.0667,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 1593,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 205,
+      "time": 53.2,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 1597,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 206,
+      "time": 53.3333,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 1601,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 207,
+      "time": 53.4667,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 1605,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 208,
+      "time": 53.6,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 1609,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 209,
+      "time": 53.7,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 1612,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 210,
+      "time": 53.8,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 1615,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 211,
+      "time": 53.9,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 1618,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 212,
+      "time": 54.0333,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 1622,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 213,
+      "time": 54.1333,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 1625,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 214,
+      "time": 54.2667,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 1629,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 215,
+      "time": 54.5,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 1636,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 216,
+      "time": 54.7667,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 1644,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 217,
+      "time": 54.9667,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 1650,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 218,
+      "time": 55.2,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 1657,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 219,
+      "time": 55.5667,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 1668,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 220,
+      "time": 55.7,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 1672,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 221,
+      "time": 55.8,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 1675,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 222,
+      "time": 55.9333,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 1679,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 223,
+      "time": 56.0667,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 1683,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 224,
+      "time": 56.1667,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 1686,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 225,
+      "time": 56.4,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 1693,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 226,
+      "time": 56.6333,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 1700,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 227,
+      "time": 56.7667,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 1704,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 228,
+      "time": 56.8667,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 1707,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 229,
+      "time": 57.0,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 1711,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 230,
+      "time": 57.1,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 1714,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 231,
+      "time": 57.2333,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 1718,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 232,
+      "time": 57.3333,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 1721,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 233,
+      "time": 57.4333,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 1724,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 234,
+      "time": 57.5667,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 1728,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 235,
+      "time": 57.6667,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 1731,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 236,
+      "time": 57.8,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 1735,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 237,
+      "time": 57.9333,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 1739,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 238,
+      "time": 58.0333,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 1742,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 239,
+      "time": 58.2667,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 1749,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 240,
+      "time": 58.5,
+      "lane": "ground",
+      "kind": "hold",
+      "sourceFrame": 1756,
+      "evidence": "combo frame OCR + contact-sheet review",
+      "end": 60.1333,
+      "tailId": 244
+    },
+    {
+      "id": 241,
+      "time": 58.9667,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 1770,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 242,
+      "time": 59.4333,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 1784,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 243,
+      "time": 59.9,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 1798,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 244,
+      "time": 60.1333,
+      "lane": "ground",
+      "kind": "tail",
+      "sourceFrame": 1805,
+      "evidence": "combo frame OCR + contact-sheet review",
+      "headId": 240
+    },
+    {
+      "id": 245,
+      "time": 60.3667,
+      "lane": "air",
+      "kind": "hold",
+      "sourceFrame": 1812,
+      "evidence": "combo frame OCR + contact-sheet review",
+      "end": 62.0,
+      "tailId": 249
+    },
+    {
+      "id": 246,
+      "time": 60.8333,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 1826,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 247,
+      "time": 61.3,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 1840,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 248,
+      "time": 61.7333,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 1853,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 249,
+      "time": 62.0,
+      "lane": "air",
+      "kind": "tail",
+      "sourceFrame": 1861,
+      "evidence": "combo frame OCR + contact-sheet review",
+      "headId": 245
+    },
+    {
+      "id": 250,
+      "time": 62.2,
+      "lane": "ground",
+      "kind": "hold",
+      "sourceFrame": 1867,
+      "evidence": "combo frame OCR + contact-sheet review",
+      "end": 62.7333,
+      "tailId": 251
+    },
+    {
+      "id": 251,
+      "time": 62.7333,
+      "lane": "ground",
+      "kind": "tail",
+      "sourceFrame": 1883,
+      "evidence": "simultaneous pair: intermediate combo not displayed",
+      "headId": 250
+    },
+    {
+      "id": 252,
+      "time": 62.7333,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 1883,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 253,
+      "time": 62.9667,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 1890,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 254,
+      "time": 63.2,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 1897,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 255,
+      "time": 63.4333,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 1904,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 256,
+      "time": 63.6667,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 1911,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 257,
+      "time": 63.9,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 1918,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 258,
+      "time": 64.1333,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 1925,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 259,
+      "time": 64.2333,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 1928,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 260,
+      "time": 64.3667,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 1932,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 261,
+      "time": 64.5,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 1936,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 262,
+      "time": 64.6,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 1939,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 263,
+      "time": 64.7,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 1942,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 264,
+      "time": 64.8333,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 1946,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 265,
+      "time": 64.9333,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 1949,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 266,
+      "time": 65.1,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 1954,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 267,
+      "time": 65.2,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 1957,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 268,
+      "time": 65.3,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 1960,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 269,
+      "time": 65.4333,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 1964,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 270,
+      "time": 65.5333,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 1967,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 271,
+      "time": 66.0333,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 1982,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 272,
+      "time": 66.4667,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 1995,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 273,
+      "time": 66.9333,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 2009,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 274,
+      "time": 67.4,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 2023,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 275,
+      "time": 67.8667,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 2037,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 276,
+      "time": 68.3667,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 2052,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 277,
+      "time": 68.8,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 2065,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 278,
+      "time": 69.3,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 2080,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 279,
+      "time": 69.7333,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 2093,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 280,
+      "time": 70.2333,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 2108,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 281,
+      "time": 70.6667,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 2121,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 282,
+      "time": 71.1333,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 2135,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 283,
+      "time": 71.6333,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 2150,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 284,
+      "time": 72.1333,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 2165,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 285,
+      "time": 72.5667,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 2178,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 286,
+      "time": 73.0667,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 2193,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 287,
+      "time": 73.4667,
+      "lane": "ground",
+      "kind": "hold",
+      "sourceFrame": 2205,
+      "evidence": "combo frame OCR + contact-sheet review",
+      "end": 75.3667,
+      "tailId": 288
+    },
+    {
+      "id": 288,
+      "time": 75.3667,
+      "lane": "ground",
+      "kind": "tail",
+      "sourceFrame": 2262,
+      "evidence": "combo frame OCR + contact-sheet review",
+      "headId": 287
+    },
+    {
+      "id": 289,
+      "time": 79.1333,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 2375,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 290,
+      "time": 79.6,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 2389,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 291,
+      "time": 80.0667,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 2403,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 292,
+      "time": 80.3,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 2410,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 293,
+      "time": 80.5333,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 2417,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 294,
+      "time": 81.0,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 2431,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 295,
+      "time": 81.4667,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 2445,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 296,
+      "time": 81.9333,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 2459,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 297,
+      "time": 82.2,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 2467,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 298,
+      "time": 82.4,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 2473,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 299,
+      "time": 82.8667,
+      "lane": "ground",
+      "kind": "hold",
+      "sourceFrame": 2487,
+      "evidence": "combo frame OCR + contact-sheet review",
+      "end": 84.5333,
+      "tailId": 302
+    },
+    {
+      "id": 300,
+      "time": 83.3,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 2500,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 301,
+      "time": 84.2667,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 2529,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 302,
+      "time": 84.5333,
+      "lane": "ground",
+      "kind": "tail",
+      "sourceFrame": 2537,
+      "evidence": "combo frame OCR + contact-sheet review",
+      "headId": 299
+    },
+    {
+      "id": 303,
+      "time": 84.7667,
+      "lane": "air",
+      "kind": "hold",
+      "sourceFrame": 2544,
+      "evidence": "combo frame OCR + contact-sheet review",
+      "end": 86.4,
+      "tailId": 306
+    },
+    {
+      "id": 304,
+      "time": 85.2333,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 2558,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 305,
+      "time": 86.1667,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 2586,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 306,
+      "time": 86.4,
+      "lane": "air",
+      "kind": "tail",
+      "sourceFrame": 2593,
+      "evidence": "combo frame OCR + contact-sheet review",
+      "headId": 303
+    },
+    {
+      "id": 307,
+      "time": 86.6,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 2599,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 308,
+      "time": 86.8667,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 2607,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 309,
+      "time": 87.1,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 2614,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 310,
+      "time": 87.5667,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 2628,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 311,
+      "time": 87.8,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 2635,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 312,
+      "time": 88.0333,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 2642,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 313,
+      "time": 88.5,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 2656,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 314,
+      "time": 88.6333,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 2660,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 315,
+      "time": 88.7667,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 2664,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 316,
+      "time": 88.8667,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 2667,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 317,
+      "time": 88.9667,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 2670,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 318,
+      "time": 89.1,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 2674,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 319,
+      "time": 89.2,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 2677,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 320,
+      "time": 89.3333,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 2681,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 321,
+      "time": 89.4667,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 2685,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 322,
+      "time": 89.5667,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 2688,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 323,
+      "time": 89.7,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 2692,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 324,
+      "time": 89.8,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 2695,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 325,
+      "time": 89.9667,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 2700,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 326,
+      "time": 90.3667,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 2712,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 327,
+      "time": 90.6,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 2719,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 328,
+      "time": 90.8333,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 2726,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 329,
+      "time": 91.2,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 2737,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 330,
+      "time": 91.3333,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 2741,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 331,
+      "time": 91.4333,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 2744,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 332,
+      "time": 91.5667,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 2748,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 333,
+      "time": 91.6667,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 2751,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 334,
+      "time": 91.8,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 2755,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 335,
+      "time": 92.0,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 2761,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 336,
+      "time": 92.2333,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 2768,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 337,
+      "time": 92.3667,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 2772,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 338,
+      "time": 92.4667,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 2775,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 339,
+      "time": 92.6,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 2779,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 340,
+      "time": 92.7333,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 2783,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 341,
+      "time": 92.8333,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 2786,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 342,
+      "time": 92.9667,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 2790,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 343,
+      "time": 93.0667,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 2793,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 344,
+      "time": 93.1667,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 2796,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 345,
+      "time": 93.3,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 2800,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 346,
+      "time": 93.4,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 2803,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 347,
+      "time": 93.5333,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 2807,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 348,
+      "time": 93.6333,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 2810,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 349,
+      "time": 93.8667,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 2817,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 350,
+      "time": 94.1333,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 2825,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 351,
+      "time": 94.3333,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 2831,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 352,
+      "time": 94.5667,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 2838,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 353,
+      "time": 94.9,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 2848,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 354,
+      "time": 95.0333,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 2852,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 355,
+      "time": 95.1333,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 2855,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 356,
+      "time": 95.2667,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 2859,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 357,
+      "time": 95.4,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 2863,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 358,
+      "time": 95.5333,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 2867,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 359,
+      "time": 95.7333,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 2873,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 360,
+      "time": 96.0,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 2881,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 361,
+      "time": 96.1333,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 2885,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 362,
+      "time": 96.2667,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 2889,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 363,
+      "time": 96.3667,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 2892,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 364,
+      "time": 96.5,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 2896,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 365,
+      "time": 96.6,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 2899,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 366,
+      "time": 96.7,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 2902,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 367,
+      "time": 96.8333,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 2906,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 368,
+      "time": 96.9,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 2908,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 369,
+      "time": 97.0333,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 2912,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 370,
+      "time": 97.2,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 2917,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 371,
+      "time": 97.3,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 2920,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 372,
+      "time": 97.4333,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 2924,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 373,
+      "time": 97.6333,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 2930,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 374,
+      "time": 97.9,
+      "lane": "ground",
+      "kind": "hold",
+      "sourceFrame": 2938,
+      "evidence": "combo frame OCR + contact-sheet review",
+      "end": 99.5,
+      "tailId": 378
+    },
+    {
+      "id": 375,
+      "time": 98.3667,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 2952,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 376,
+      "time": 98.8,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 2965,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 377,
+      "time": 99.2667,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 2979,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 378,
+      "time": 99.5,
+      "lane": "ground",
+      "kind": "tail",
+      "sourceFrame": 2986,
+      "evidence": "combo frame OCR + contact-sheet review",
+      "headId": 374
+    },
+    {
+      "id": 379,
+      "time": 99.7667,
+      "lane": "air",
+      "kind": "hold",
+      "sourceFrame": 2994,
+      "evidence": "combo frame OCR + contact-sheet review",
+      "end": 101.4,
+      "tailId": 383
+    },
+    {
+      "id": 380,
+      "time": 100.1667,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 3006,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 381,
+      "time": 100.6667,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 3021,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 382,
+      "time": 101.1333,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 3035,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 383,
+      "time": 101.4,
+      "lane": "air",
+      "kind": "tail",
+      "sourceFrame": 3043,
+      "evidence": "combo frame OCR + contact-sheet review",
+      "headId": 379
+    },
+    {
+      "id": 384,
+      "time": 101.6,
+      "lane": "ground",
+      "kind": "hold",
+      "sourceFrame": 3049,
+      "evidence": "combo frame OCR + contact-sheet review",
+      "end": 102.1,
+      "tailId": 385
+    },
+    {
+      "id": 385,
+      "time": 102.1,
+      "lane": "ground",
+      "kind": "tail",
+      "sourceFrame": 3064,
+      "evidence": "simultaneous pair: intermediate combo not displayed",
+      "headId": 384
+    },
+    {
+      "id": 386,
+      "time": 102.1,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 3064,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 387,
+      "time": 102.3333,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 3071,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 388,
+      "time": 102.5667,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 3078,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 389,
+      "time": 102.8,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 3085,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 390,
+      "time": 103.0,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 3091,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 391,
+      "time": 103.2,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 3097,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 392,
+      "time": 103.4667,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 3105,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 393,
+      "time": 103.5667,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 3108,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 394,
+      "time": 103.7,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 3112,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 395,
+      "time": 103.8333,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 3116,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 396,
+      "time": 103.9667,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 3120,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 397,
+      "time": 104.0667,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 3123,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 398,
+      "time": 104.2,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 3127,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 399,
+      "time": 104.3333,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 3131,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 400,
+      "time": 104.4667,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 3135,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 401,
+      "time": 104.5667,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 3138,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 402,
+      "time": 104.6667,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 3141,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 403,
+      "time": 104.7667,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 3144,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 404,
+      "time": 104.9,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 3148,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 405,
+      "time": 105.6333,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 3170,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 406,
+      "time": 106.1,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 3184,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 407,
+      "time": 106.5667,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 3198,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 408,
+      "time": 107.0,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 3211,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 409,
+      "time": 107.5,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 3226,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 410,
+      "time": 107.9667,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 3240,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 411,
+      "time": 108.4667,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 3255,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 412,
+      "time": 108.9333,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 3269,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 413,
+      "time": 109.4,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 3283,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 414,
+      "time": 109.8667,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 3297,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 415,
+      "time": 110.3,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 3310,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 416,
+      "time": 110.7667,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 3324,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 417,
+      "time": 111.2333,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 3338,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 418,
+      "time": 111.7,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 3352,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 419,
+      "time": 112.1667,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 3366,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 420,
+      "time": 112.6333,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 3380,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 421,
+      "time": 112.8667,
+      "lane": "ground",
+      "kind": "hold",
+      "sourceFrame": 3387,
+      "evidence": "combo frame OCR + contact-sheet review",
+      "end": 114.5,
+      "tailId": 425
+    },
+    {
+      "id": 422,
+      "time": 113.1,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 3394,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 423,
+      "time": 113.5667,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 3408,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 424,
+      "time": 114.0333,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 3422,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 425,
+      "time": 114.5,
+      "lane": "ground",
+      "kind": "tail",
+      "sourceFrame": 3436,
+      "evidence": "simultaneous pair: intermediate combo not displayed",
+      "headId": 421
+    },
+    {
+      "id": 426,
+      "time": 114.5,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 3436,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 427,
+      "time": 114.7333,
+      "lane": "air",
+      "kind": "hold",
+      "sourceFrame": 3443,
+      "evidence": "combo frame OCR + contact-sheet review",
+      "end": 116.4,
+      "tailId": 431
+    },
+    {
+      "id": 428,
+      "time": 115.0333,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 3452,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 429,
+      "time": 115.4333,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 3464,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 430,
+      "time": 115.9,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 3478,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 431,
+      "time": 116.4,
+      "lane": "air",
+      "kind": "tail",
+      "sourceFrame": 3493,
+      "evidence": "simultaneous pair: intermediate combo not displayed",
+      "headId": 427
+    },
+    {
+      "id": 432,
+      "time": 116.4,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 3493,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 433,
+      "time": 116.6,
+      "lane": "ground",
+      "kind": "hold",
+      "sourceFrame": 3499,
+      "evidence": "combo frame OCR + contact-sheet review",
+      "end": 117.3333,
+      "tailId": 435
+    },
+    {
+      "id": 434,
+      "time": 116.8333,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 3506,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 435,
+      "time": 117.3333,
+      "lane": "ground",
+      "kind": "tail",
+      "sourceFrame": 3521,
+      "evidence": "simultaneous pair: intermediate combo not displayed",
+      "headId": 433
+    },
+    {
+      "id": 436,
+      "time": 117.3333,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 3521,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 437,
+      "time": 117.5333,
+      "lane": "air",
+      "kind": "hold",
+      "sourceFrame": 3527,
+      "evidence": "combo frame OCR + contact-sheet review",
+      "end": 118.2667,
+      "tailId": 440
+    },
+    {
+      "id": 438,
+      "time": 117.7667,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 3534,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 439,
+      "time": 118.2,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 3547,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 440,
+      "time": 118.2667,
+      "lane": "air",
+      "kind": "tail",
+      "sourceFrame": 3549,
+      "evidence": "combo frame OCR + contact-sheet review",
+      "headId": 437
+    },
+    {
+      "id": 441,
+      "time": 118.4667,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 3555,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 442,
+      "time": 118.6,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 3559,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 443,
+      "time": 118.7333,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 3563,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 444,
+      "time": 118.8333,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 3566,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 445,
+      "time": 118.9667,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 3570,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 446,
+      "time": 119.1,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 3574,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 447,
+      "time": 119.2333,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 3578,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 448,
+      "time": 119.3333,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 3581,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 449,
+      "time": 119.4333,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 3584,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 450,
+      "time": 119.5333,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 3587,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 451,
+      "time": 119.6667,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 3591,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 452,
+      "time": 119.7667,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 3594,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 453,
+      "time": 119.9,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 3598,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 454,
+      "time": 120.3333,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 3611,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 455,
+      "time": 120.4333,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 3614,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 456,
+      "time": 120.5667,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 3618,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 457,
+      "time": 120.7,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 3622,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 458,
+      "time": 121.0333,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 3632,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 459,
+      "time": 121.1667,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 3636,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 460,
+      "time": 121.3,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 3640,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 461,
+      "time": 121.4333,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 3644,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 462,
+      "time": 122.2333,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 3668,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 463,
+      "time": 122.3667,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 3672,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 464,
+      "time": 122.4667,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 3675,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 465,
+      "time": 122.6,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 3679,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 466,
+      "time": 122.9667,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 3690,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 467,
+      "time": 123.0667,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 3693,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 468,
+      "time": 123.2,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 3697,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 469,
+      "time": 123.3333,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 3701,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 470,
+      "time": 124.1333,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 3725,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 471,
+      "time": 124.2333,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 3728,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 472,
+      "time": 124.3333,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 3731,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 473,
+      "time": 124.4667,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 3735,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 474,
+      "time": 124.8,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 3745,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 475,
+      "time": 124.9,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 3748,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 476,
+      "time": 125.0333,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 3752,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 477,
+      "time": 125.1333,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 3755,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 478,
+      "time": 127.8667,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 3837,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 479,
+      "time": 128.0,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 3841,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 480,
+      "time": 128.0667,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 3843,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 481,
+      "time": 128.2,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 3847,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 482,
+      "time": 128.3,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 3850,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 483,
+      "time": 128.5333,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 3857,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 484,
+      "time": 128.6333,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 3860,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 485,
+      "time": 128.7333,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 3863,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 486,
+      "time": 128.8667,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 3867,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 487,
+      "time": 129.0,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 3871,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 488,
+      "time": 129.2667,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 3879,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 489,
+      "time": 129.5,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 3886,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 490,
+      "time": 129.7333,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 3893,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 491,
+      "time": 129.8667,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 3897,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 492,
+      "time": 129.9667,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 3900,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 493,
+      "time": 130.1,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 3904,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 494,
+      "time": 130.2,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 3907,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 495,
+      "time": 130.4,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 3913,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 496,
+      "time": 130.5333,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 3917,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 497,
+      "time": 130.6333,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 3920,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 498,
+      "time": 130.7667,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 3924,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 499,
+      "time": 130.8667,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 3927,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 500,
+      "time": 131.1667,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 3936,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 501,
+      "time": 131.4,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 3943,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 502,
+      "time": 131.6333,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 3950,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 503,
+      "time": 131.7333,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 3953,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 504,
+      "time": 131.8667,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 3957,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 505,
+      "time": 131.9667,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 3960,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 506,
+      "time": 132.0667,
+      "lane": "ground",
+      "kind": "tap",
+      "sourceFrame": 3963,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 507,
+      "time": 132.3333,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 3971,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 508,
+      "time": 132.4333,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 3974,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 509,
+      "time": 132.5333,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 3977,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 510,
+      "time": 132.6333,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 3980,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 511,
+      "time": 132.7667,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 3984,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 512,
+      "time": 133.0333,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 3992,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 513,
+      "time": 133.2333,
+      "lane": "air",
+      "kind": "tap",
+      "sourceFrame": 3998,
+      "evidence": "combo frame OCR + contact-sheet review"
+    },
+    {
+      "id": 514,
+      "time": 135.3,
+      "lane": "both",
+      "kind": "mash",
+      "sourceFrame": 4060,
+      "evidence": "combo frame OCR + contact-sheet review",
+      "start": 133.5,
+      "required": 16
+    }
+  ],
+  "hazards": [
+    {
+      "time": 75.9333,
+      "lane": "ground"
+    },
+    {
+      "time": 76.8667,
+      "lane": "ground"
+    },
+    {
+      "time": 77.8333,
+      "lane": "ground"
+    },
+    {
+      "time": 78.7667,
+      "lane": "ground"
+    },
+    {
+      "time": 79.7,
+      "lane": "ground"
+    },
+    {
+      "time": 80.6333,
+      "lane": "ground"
+    },
+    {
+      "time": 81.5667,
+      "lane": "ground"
+    },
+    {
+      "time": 82.5,
+      "lane": "ground"
+    }
+  ],
+  "pickups": [
+    {
+      "time": 11.55,
+      "lane": "air"
+    },
+    {
+      "time": 12.02,
+      "lane": "ground"
+    },
+    {
+      "time": 12.49,
+      "lane": "air"
+    },
+    {
+      "time": 12.96,
+      "lane": "ground"
+    },
+    {
+      "time": 76.2,
+      "lane": "air"
+    },
+    {
+      "time": 76.9,
+      "lane": "ground"
+    },
+    {
+      "time": 77.13,
+      "lane": "ground"
+    },
+    {
+      "time": 78.08,
+      "lane": "air"
+    },
+    {
+      "time": 126.2,
+      "lane": "air"
+    },
+    {
+      "time": 126.66,
+      "lane": "ground"
+    },
+    {
+      "time": 127.13,
+      "lane": "air"
+    },
+    {
+      "time": 127.6,
+      "lane": "ground"
+    }
+  ]
+}
