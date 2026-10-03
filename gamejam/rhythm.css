@@ -22,3 +22,5 @@ footer{position:absolute;bottom:25px;left:5%;right:5%;display:flex;justify-conte
 
 .songs,.difficulties{min-inline-size:0}.songs label,.difficulties label{min-width:0}
 @media(max-width:600px){.opening{overflow-x:hidden}.opening:before{display:none}}
+
+.body-growth{display:flex;align-items:center;gap:9px;margin-top:10px;max-width:220px}.body-growth>span{font-size:9px;white-space:nowrap;letter-spacing:.5px}#growthMeter{height:4px;background:#b9d9dc4d;flex:1;min-width:45px;border-radius:4px;overflow:hidden}#growthFill{display:block;height:100%;width:0;background:#edcd8b;border-radius:4px;box-shadow:0 0 8px #ffe4a380}body[data-mode="sketch"] #growthFill{background:#a493bd}@media(max-width:600px){.body-growth{max-width:145px;gap:6px;margin-top:7px}.body-growth>span{font-size:8px}}

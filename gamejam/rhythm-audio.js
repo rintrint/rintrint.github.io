@@ -25,8 +25,15 @@ export class TrackAudio {
     if(!this.enabled)return;const c=this.ctx,t=c.currentTime,o=c.createOscillator(),g=c.createGain();o.type='sine';o.frequency.setValueAtTime(freq,t);
     g.gain.setValueAtTime(volume,t);g.gain.exponentialRampToValueAtTime(.0001,t+duration);o.connect(g);g.connect(this.fx);o.start(t);o.stop(t+duration);
   }
+  pluck(from,to,duration,volume){
+    if(!this.enabled)return;const c=this.ctx,t=c.currentTime,o=c.createOscillator(),g=c.createGain();o.type='sine';o.frequency.setValueAtTime(from,t);o.frequency.exponentialRampToValueAtTime(to,t+duration);
+    g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(volume,t+.007);g.gain.exponentialRampToValueAtTime(.0001,t+duration);o.connect(g);g.connect(this.fx);o.start(t);o.stop(t+duration);o.onended=()=>{o.disconnect();g.disconnect();};
+  }
   event(event){
-    if(event.type==='hit')this.tone(event.result==='perfect'?1174.66:880,.18,event.result==='perfect'?.2:.13);
+    if(event.type==='hit'){this.pluck(230,95,.09,.24);this.pluck(event.result==='perfect'?1174.66:880,660,.14,event.result==='perfect'?.15:.09);}
+    if(event.type==='landing')this.pluck(140,70,.10,.10*event.strength);
+    if(event.type==='gulp')this.pluck(440,740,.10,.09);
+    if(event.type==='growth'){this.pluck(587,880,.32,.12);this.tone(1174,.35,.08);}
     if(event.type==='miss')this.tone(130.81,.17,.06);
     if(event.type==='won')this.tone(587.33,1.5,.25);
     if(event.type==='lost')this.tone(146.83,1.5,.18);

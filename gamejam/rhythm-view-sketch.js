@@ -29,15 +29,15 @@ export class SketchView extends RhythmView{
     }
     for(let i=0;i<7;i++){const x=((i*227-t*29)%(w+200)+w+200)%(w+200)-100;c.globalAlpha=.55;this.sprite('plant',x,h-36,80+i%3*18,90+i%3*18);}c.globalAlpha=1;
   }
+  dimensions(g){const width=Math.min(this.w*.29,205)*(g.status==='ready'?1.45:1);return {width,height:width*2/3};}
   seal(x,y,g,t,scale=1){
-    const c=this.c,preview=g.status==='ready',jump=g.lastJump,q=jump?clamp((g.time-jump.at)/jump.duration,0,1):1;
+    const c=this.c,preview=g.status==='ready',p=this.pose(g,t);
     const width=Math.min(this.w*.29,205)*(preview?1.45:1),height=width*2/3;
-    c.save();c.translate(x,y);c.rotate(q<1?Math.sin(q*Math.PI*2)*-.09:Math.sin(t*1.5)*.025);
-    const squash=q<1?Math.sin(q*Math.PI*2)*.065:Math.sin(t*2)*.012;
-    c.scale(scale*(g.growth||1)*(1-squash),scale*(g.growth||1)*(1+squash));
+    c.save();c.translate(x,y);c.rotate(p.angle);
+    c.scale(scale*p.growth*p.sx,scale*p.growth*p.sy);
     c.drawImage(this.sealImage,-width/2,-height*.55,width,height);c.restore();
   }
   fish(x,y,size,t,gold=false){this.sprite(gold?'gold':'fish',x,y,54*size,42*size);}
   floe(x,y,width,accent,t){this.sprite('ice',x,y+23,width+16,(width+16)*.44);if(accent){const c=this.c;c.save();c.strokeStyle='#b39666';c.lineWidth=1.2;c.beginPath();c.moveTo(x-4,y-6);c.lineTo(x,y-12);c.lineTo(x+4,y-6);c.stroke();c.restore();}}
-  emit(event,g){super.emit(event,g);if(event.type==='hit'){for(const p of this.particles.slice(-30))p.color=event.result==='perfect'?'#d4a153':'#8f86c1';for(const r of this.ripples.slice(-1))r.color='#8f86c1';this.glow=.055;}}
+  emit(event,g){super.emit(event,g);if(event.type==='hit'){for(const p of this.particles.slice(-18))p.color=event.result==='perfect'?'#d4a153':'#8f86c1';for(const r of this.ripples.slice(-1))r.color='#8f86c1';this.glow=.018;}}
 }
