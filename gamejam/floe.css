@@ -1,0 +1,66 @@
+@import url('drift.css?v=11.2');
+:root{--ink:#28516d;--muted:#4e7388;--hud-top:125px}
+.world{min-height:680px}body{font-size:16px}button{font-size:16px}
+header{display:grid;grid-template-columns:1fr auto;gap:8px;padding:12px 3%;height:108px;align-content:start}
+header .brand{font-size:28px}header .brand small{font-size:13px;letter-spacing:.6px}
+header nav{grid-column:1/-1;grid-row:2;order:initial;display:flex;justify-content:flex-start;flex-wrap:nowrap;overflow:auto;scrollbar-width:none;width:100%;padding:3px 6px;gap:4px}
+header nav a{font-size:14px;padding:8px 11px;flex-shrink:0}header .tools{grid-column:2;grid-row:1}
+.scene-number,.world[data-preview=true] .scene-number{top:112px;font-size:14px;left:4%;letter-spacing:.5px}
+.ice-menu{position:absolute;inset:0;display:block;max-width:none;margin:0;text-align:left;pointer-events:none}
+.menu-heading{position:absolute;top:23%;left:15%;width:37%}.menu-heading .eyebrow{font-size:15px;letter-spacing:3px}
+.menu-heading h1{font:600 clamp(52px,6.4vw,96px)/1.02 Georgia,serif;letter-spacing:6px;margin:16px 0;color:#386d88;text-shadow:0 3px #f1fcff}
+.menu-heading h1 em{font:500 clamp(20px,2vw,28px)/1.6 'Noto Serif TC',serif;letter-spacing:4px;margin-top:12px}
+.opening .intro{display:none;font-size:17px;line-height:1.8;color:#456d84;letter-spacing:.5px;margin:0}
+.menu-actions{position:absolute;inset:0;pointer-events:none}.ice-button{position:absolute;border:0;background:none!important;padding:0;border-radius:0;box-shadow:none!important;cursor:pointer;pointer-events:auto;isolation:isolate;transition:filter .18s;aspect-ratio:709/295}
+.ice-button img{display:block;width:100%;height:100%;object-fit:contain;pointer-events:none}.ice-button .pressed{position:absolute;inset:0;opacity:0}
+.ice-button:hover{filter:brightness(1.035) drop-shadow(0 5px 5px #4f9dbc35)}
+.ice-button:is(:active,.clicked) img:first-child{opacity:0}.ice-button:is(:active,.clicked) .pressed{opacity:1}
+.ice-button:focus-visible{outline:3px solid #366c85;outline-offset:0;border-radius:34%}
+.start-ice{left:56%;top:22%;width:36%}.credits-ice{left:63%;top:46%;width:35%}.exit-ice{left:61%;top:72%;width:33%}
+.icon-ice{position:relative;display:inline-flex;align-items:center;justify-content:center;overflow:hidden;border:0;background:none!important;box-shadow:none!important;padding:0;width:90px;height:68px;cursor:pointer}
+.icon-ice img{width:96px;height:96px;object-fit:contain;pointer-events:none}.icon-ice:active{transform:translateY(3px)}
+.home-ice{position:absolute;left:2%;top:119px;width:100px;height:80px;z-index:8}.home-ice img{width:120px;height:120px}
+.world:not([data-scene=start]) .home-ice{display:none}.world[data-scene=start] .scene-number,.world[data-scene=start] .tuning-dock,.world[data-scene=start] footer,.world[data-scene=start] .timeline{display:none}
+.menu-track{position:absolute;left:8%;bottom:5%;width:42%;text-align:center;pointer-events:auto}.menu-track #menuSong{font-size:20px;font-weight:700;margin:0 0 5px}.menu-track .difficulty-note{font-size:15px;margin:0;max-width:none;line-height:1.5}.menu-track .setup-link{font-size:16px;padding:7px;margin:3px 0 0}.menu-track .error{font-size:15px;margin:0}
+.song-picker{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.song-picker label{display:flex;align-items:center;gap:12px;padding:16px;border-radius:16px;border:1px solid #90b6c9;background:#edf8fc;cursor:pointer;text-align:left}.song-picker label:has(:checked){background:#fff7d7;border-color:#c4a969;box-shadow:0 0 0 2px #d8c48655}.song-picker input{width:20px;height:20px;accent-color:#50849c}.song-picker b{font-size:21px;display:block}.song-picker small{font-size:15px;display:block;margin-top:6px;line-height:1.5}.play-song{display:block;margin:20px auto 0;min-width:230px;font-size:21px;padding:15px 28px}
+.setup-card{width:740px;max-width:94vw;padding:26px 32px;max-height:90dvh;overflow:auto}.setup-head{align-items:center}.setup-head h2{font-size:29px;line-height:1.4;margin:0}.setup-head .back-ice{flex-shrink:0}
+.credits-card{text-align:center;padding:40px}.credits-card h2{font:600 32px Georgia,serif;letter-spacing:4px}.credits-card .team-name{font-size:34px;font-weight:700;margin:28px 0 12px}.credits-card>p{font-size:20px;line-height:1.8}.credits-card .back-ice{margin:26px auto 0;width:130px;height:96px}.credits-card .back-ice img{width:150px;height:150px}
+.world .combo-box{top:var(--hud-top);left:50%}.world .combo-box b{font-size:70px}.world .combo-box span{font-size:17px;letter-spacing:3px}
+.world .score-box{top:var(--hud-top);left:4%;font-size:15px}.world .score-box b{font-size:28px}.world .score-box small{font-size:14px}.world .score-box small strong{font-size:19px}
+.world:not([data-status=breathing]) .air{top:var(--hud-top);left:auto;right:4%;width:22%;bottom:auto}.world .air small{font-size:17px}.world .air small span{font-size:25px}
+.world .stability{top:calc(var(--hud-top) + 67px);right:4%;width:22%}.world .stability small{font-size:16px}.world .stability small span{font-size:21px}
+.world .song-info{top:calc(var(--hud-top) + 93px);left:4%;width:24%;max-width:24%;font-size:15px}.world .song-info small,.world .song-info span{font-size:14px;line-height:1.6}.world .song-info h2{font-size:22px;margin:6px 0}.world .song-info span{display:block}
+.world .judgement{left:52%;top:calc(var(--hud-top) + 108px);min-width:260px}.world .judgement b{font-size:56px}.world .judgement small{font-size:16px;margin-top:8px}
+.world .tuning-dock{top:calc(var(--hud-top) + 119px);right:4%;width:22%;padding:10px 13px}.world .tuning-dock span{font-size:15px}.world .tuning-dock strong{font-size:17px}.world .tuning-dock small{font-size:14px}
+.world .journey-hint{left:5%;right:23%;bottom:151px;top:auto;text-align:center;font-size:16px;line-height:1.65}.world .journey-hint strong{font-size:22px;margin:0 0 2px}
+.world .food{left:5%;bottom:40px;width:66%;text-align:left}.world .food small{font-size:18px}.world .food-meter{height:17px;margin:8px 0}.world .rhythm-labels{position:static;display:flex;width:auto;justify-content:space-between;margin:8px 0 0;font-size:15px;letter-spacing:0;line-height:1.2}.world .rhythm-labels span:after{display:none}
+.world .lane-buttons{bottom:42px;right:4%;gap:10px}.world .lane-buttons button{width:103px;height:83px;font-size:17px}.world .lane-buttons b{font-size:20px;letter-spacing:.5px}
+.world .warning{top:calc(var(--hud-top) + 227px);right:4%;left:auto;max-width:25%;font-size:16px;line-height:1.65;text-shadow:0 2px 4px #204e65}
+.world footer{bottom:11px;font-size:14px;letter-spacing:0}.world .key-hint kbd{font-size:14px}
+.world[data-status=breathing] .breath-caption{bottom:21%;left:9%;right:9%}.world[data-status=breathing] .breath-caption h2{font-size:25px}.world[data-status=breathing] .breath-caption p{font-size:16px;max-width:670px;line-height:1.7}.world[data-status=breathing] .air{left:23%;right:auto;bottom:10%;width:54%;top:auto}
+.difficulties legend,.songs legend{font-size:17px}.difficulties b{font-size:20px}.difficulties small,.practice small{font-size:15px}.practice{font-size:18px}.blind-hint,.tuning-controls small,.reset-tuning,.settings p,.sync-status,.audit-link,.preview-bar button,.preview-bar b{font-size:15px!important;line-height:1.65}.settings{font-size:17px}.tuning-controls label{font-size:18px}.sound-library select{font-size:17px}.dialog>p{font-size:16px}.text-button{font-size:16px}.preview-control,.preview-control button{font-size:15px}.end-card{bottom:8%;max-height:47%;overflow:auto}.end-card p{font-size:17px}.end-card h2{font-size:31px}
+@media(max-width:760px){
+ :root{--hud-top:137px}.world{min-height:720px}header{height:114px;padding:10px 4%}header .brand{font-size:25px}header .brand small{font-size:12px}header nav a{font-size:14px;padding:8px 11px}.scene-number,.world[data-preview=true] .scene-number{top:115px;font-size:13px}
+ .home-ice{left:2%;top:132px;width:68px;height:53px}.home-ice img{width:88px;height:88px}
+ .menu-heading{top:24%;left:12%;width:80%;text-align:center}.menu-heading h1{font-size:57px;letter-spacing:5px;margin:9px 0}.menu-heading h1 em{font-size:21px;letter-spacing:2px;margin-top:7px}.menu-heading .eyebrow{font-size:14px}.opening .intro{font-size:15px;line-height:1.6}
+ .start-ice{left:49%;top:46%;width:50%}.credits-ice{left:51%;top:58%;width:49%}.exit-ice{left:48%;top:70%;width:50%}
+ .menu-track{left:6%;bottom:3.5%;width:88%}.menu-track #menuSong{font-size:19px}.menu-track .difficulty-note{font-size:14px}.menu-track .setup-link{font-size:16px;margin:3px auto 0}
+ .setup-card{padding:18px;max-height:92dvh}.setup-head h2{font-size:24px}.setup-head .back-ice{width:65px}.song-picker{grid-template-columns:1fr;gap:8px}.song-picker label{padding:12px 8px;gap:7px}.song-picker b{font-size:18px}.song-picker small{font-size:14px}.difficulties label{padding:10px 5px}.difficulties b{font-size:17px}.difficulties small{font-size:14px}.difficulties legend{font-size:16px}.practice{font-size:17px}.tuning-controls label{font-size:16px}.tuning-controls small{font-size:14px!important}.credits-card{padding:28px 22px}
+ .world .combo-box{left:49%;top:var(--hud-top)}.world .combo-box b{font-size:54px}.world .combo-box span{font-size:14px;letter-spacing:1px}.world .score-box{left:4%;top:var(--hud-top);font-size:14px}.world .score-box b{font-size:21px;letter-spacing:0}.world .score-box small{font-size:13px}.world .score-box small strong{display:block;font-size:15px;margin-left:0}
+ .world:not([data-status=breathing]) .air{top:var(--hud-top);right:4%;width:29%}.world .air small{font-size:14px}.world .air small span{font-size:21px;display:block;margin:2px 0}.world .air [role=progressbar]{height:13px;margin-top:5px}
+ .world .stability{top:calc(var(--hud-top) + 81px);right:4%;width:29%}.world .stability small{font-size:14px}.world .stability small span{font-size:17px;margin-left:3px}
+ .world .song-info{top:calc(var(--hud-top) + 105px);left:4%;width:43%;max-width:43%}.world .song-info small,.world .song-info span{font-size:14px;line-height:1.5}.world .song-info h2{font-size:18px;margin:4px 0}
+ .world .tuning-dock{top:calc(var(--hud-top) + 137px);right:4%;width:45%;padding:8px 9px}.world .tuning-dock span{font-size:14px}.world .tuning-dock strong{font-size:14px}.world .tuning-dock small{display:none}
+ .world .judgement{top:41%;left:51%;min-width:190px}.world .judgement b{font-size:39px}.world .judgement small{font-size:14px;margin-top:5px}
+ .world .journey-hint{bottom:181px;left:4%;right:4%;font-size:15px;line-height:1.55}.world .journey-hint strong{font-size:19px}
+ .world .food{left:5%;bottom:107px;width:90%}.world .food small{font-size:16px}.world .food-meter{height:14px;margin:5px 0}.world .rhythm-labels{font-size:14px;margin-top:7px}
+ .world .lane-buttons{bottom:28px;left:5%;right:5%;justify-content:space-between}.world .lane-buttons button{width:43%;height:64px;font-size:15px;padding:4px;line-height:1.35}.world .lane-buttons b{font-size:19px}
+ .world .warning{top:45%;right:4%;max-width:41%;font-size:14px;line-height:1.5}.world footer{bottom:6px;font-size:12px}.world .key-hint{display:none}
+ .world[data-status=breathing] .breath-caption{bottom:22%;left:5%;right:5%}.world[data-status=breathing] .breath-caption h2{font-size:20px;padding:8px}.world[data-status=breathing] .breath-caption p{font-size:14px;max-width:340px;line-height:1.6}.world[data-status=breathing] .air{left:8%;width:64%;bottom:10%;top:auto}.world[data-status=breathing] .air small span{display:inline;margin-left:6px}.world[data-status=breathing] .tap{bottom:10%}
+ .end-card{left:4%;right:4%;bottom:5%;max-height:48%;padding:18px}.end-card p{font-size:15px}.end-card h2{font-size:24px}.end-card .eyebrow{font-size:14px}.end-card .primary{font-size:17px}.preview-control{font-size:14px;bottom:1%!important;padding:7px 10px}
+}
+.world[data-preview=true] .preview-control{left:auto;right:3%;bottom:39px;transform:none;width:auto;max-width:24%;text-align:center}
+.world[data-scene][data-status] .rhythm-labels{display:flex}
+.world[data-scene=ending] .hud{display:none}
+@media(max-width:760px){.world[data-preview=true] .preview-control{left:5%;right:5%;bottom:24px!important;width:90%;max-width:none}}
+@media(prefers-reduced-motion:reduce){.ice-button{transition:none}.icon-ice:active{transform:none}}

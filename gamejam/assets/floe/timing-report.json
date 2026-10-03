@@ -1,0 +1,37 @@
+{
+  "method": "2 ms multiband spectral flux; weighted local percussion tracking; only audible attacks become playable notes",
+  "sourceSha256": "5b2844ad191e5ea94a4b41ea3ea368db4e76def0cce5dc9b7158b30a14418ef2",
+  "initialBpm": 138.19,
+  "finalBpm": 141.07,
+  "duration": 207.6135,
+  "chartCounts": {
+    "beginner": 90,
+    "intermediate": 153,
+    "expert": 297
+  },
+  "difficultyRule": "Beginner retains every 4th pulse; intermediate every 2nd pulse; expert includes supported pulse and eighth-note attacks. All retained timestamps are identical.",
+  "limitations": "Automated acoustic verification is not a professional human playtest; device calibration still applies.",
+  "playableNoteValidation": {
+    "beginner": {
+      "notes": 90,
+      "independentMedianMs": 4.0,
+      "independentP95Ms": 20.2,
+      "independentMaxMs": 36.0,
+      "withoutHighBandAttackWithin55ms": 0
+    },
+    "intermediate": {
+      "notes": 153,
+      "independentMedianMs": 4.0,
+      "independentP95Ms": 16.8,
+      "independentMaxMs": 42.0,
+      "withoutHighBandAttackWithin55ms": 0
+    },
+    "expert": {
+      "notes": 297,
+      "independentMedianMs": 4.0,
+      "independentP95Ms": 30.4,
+      "independentMaxMs": 66.0,
+      "withoutHighBandAttackWithin55ms": 2
+    }
+  }
+}
