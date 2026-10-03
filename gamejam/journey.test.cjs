@@ -69,3 +69,34 @@ test('entire story is completable with timed breaths, swimming, both fishers, le
   }
   assert.equal(g.status,'won');assert.equal(g.jumpDone,true);assert.ok(g.food>=12);assert.ok(1 in g.fisherKnocks);assert.ok(2 in g.fisherKnocks);assert.equal(g.called,true);
 });
+
+test('food fills each evolution tier, grows the seal continuously, and caps body size',()=>{
+  const g=fresh();g.stage='swim';const size=g.growth;
+  g.eat({active:true,value:3,x:g.x,y:g.y});assert.ok(g.growth>size);assert.equal(g.form,0);assert.equal(g.energy,.5);
+  g.eat({active:true,value:3,x:g.x,y:g.y});assert.equal(g.form,1);assert.equal(g.energy,0);assert.equal(g.events.filter(e=>e.type==='evolve').length,1);
+  g.eat({active:true,value:3,x:g.x,y:g.y});g.eat({active:true,value:3,x:g.x,y:g.y});
+  assert.equal(g.form,2);assert.equal(g.energy,1);assert.equal(g.growth,1.5);assert.equal(g.events.filter(e=>e.type==='evolve').length,2);
+  g.eat({active:true,value:3,x:g.x,y:g.y});assert.equal(g.growth,1.5);assert.equal(g.events.filter(e=>e.type==='evolve').length,2);
+});
+for(const [food,outcome] of [[11,'hungryGhost'],[12,'angel']])test(`suffocation at ${food} food locks the ${outcome} ending and plays its transition`,()=>{
+  const g=fresh();g.stage='swim';g.x=900;g.y=530;g.food=food;g.oxygen=.01;g.inhale();advance(g,.025);
+  assert.equal(g.stage,'dying');assert.equal(g.status,'playing');assert.equal(g.outcome,outcome);assert.equal(g.holding,false);
+  const x=g.x;g.inhale();g.eat({active:true,value:3,x,y:g.y});advance(g,1,{right:true});assert.equal(g.x,x);assert.equal(g.food,food);assert.equal(g.holding,false);
+  advance(g,3);assert.equal(g.status,'lost');assert.equal(g.events.filter(e=>e.type==='dying').length,1);assert.equal(g.events.filter(e=>e.type==='lost').length,1);
+});
+test('low oxygen increases danger monotonically and warns once at each threshold',()=>{
+  const g=fresh();g.stage='swim';g.y=450;g.x=900;let last=0;
+  for(const oxygen of [39,24,9]){g.oxygen=oxygen;advance(g,.025);assert.ok(g.danger>last);last=g.danger;advance(g,.025);}
+  assert.deepEqual(g.events.filter(e=>e.type==='warning').map(e=>e.level),[1,2,3]);
+  g.oxygen=78;advance(g,.025);assert.equal(g.danger,0);assert.equal(g.warningLevel,0);
+  g.oxygen=39;advance(g,.025);assert.equal(g.events.filter(e=>e.type==='warning').length,4);
+});
+test('ascending through a hole still consumes oxygen until the seal reaches air',()=>{
+  const g=fresh();g.stage='swim';g.x=HOLES[1];g.y=SURFACE+150;g.oxygen=.01;
+  g.animate('surface',HOLES[1],SURFACE-33,1.1,'rest');advance(g,.025);
+  assert.equal(g.stage,'dying');assert.equal(g.transition,null);assert.equal(g.oxygen,0);
+});
+test('pausing freezes the death animation; restarting clears outcome and growth feedback',()=>{
+  const g=fresh();g.stage='swim';g.food=12;g.evolutionGlow=1;g.eatPulse=1;g.suffocate();advance(g,1);g.pause();const t=g.deathTime;advance(g,8);assert.equal(g.deathTime,t);
+  g.pause();advance(g,3);assert.equal(g.status,'lost');g.reset();assert.equal(g.outcome,null);assert.equal(g.deathTime,0);assert.equal(g.evolutionGlow,0);assert.equal(g.eatPulse,0);assert.equal(g.growth,1);assert.equal(g.form,0);
+});

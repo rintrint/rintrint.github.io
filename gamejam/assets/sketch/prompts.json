@@ -1,0 +1,21 @@
+{
+  "generator": "Built-in image_gen",
+  "reference": "User supplied IMG_4306.webp; character and colored-pencil style reference",
+  "assets": [
+    {
+      "file": "seal.png",
+      "transparent": true,
+      "prompt": "Use case: stylized-concept. Asset: one transparent 2D game character sprite for a hand-drawn relaxing seal rhythm game. The attached image is the user's ORIGINAL CHARACTER AND STYLE REFERENCE, not a scene to reproduce. Preserve its exact character language: plump marshmallow white baby seal, enormous glossy indigo-purple eyes, tiny eyebrow dots, adorable simple w-shaped muzzle, small pink tongue, round soft head and body, short flippers, pale buttery-yellow rim light, lilac pencil shading, delicate imperfect indigo colored-pencil outlines, light paper/pencil grain. Create ONE full-body seal in a three-quarter side view with HEAD ON RIGHT, tail ON LEFT, face turned a little toward the viewer so both big eyes are visible. Happy relaxed seated/swimming pose suited to gently bouncing vertically. No realistic anatomy, no fur realism, no spots, no 3D rendering. Centered with 6% empty margin, body fills most of a landscape 3:2 canvas. Truly transparent background, no sky, no floor, no checkerboard, no text, no shadow outside character. Just one character, not a character sheet."
+    },
+    {
+      "file": "ocean.png",
+      "transparent": false,
+      "prompt": "Use case: illustration-story. Asset: wide 16:9 background for a 2D side-scrolling relaxing rhythm game about a white baby seal. Attached drawing is STYLE AND PALETTE reference only; do NOT include any seal or characters in this background. Match the reference's charming hand-drawn colored-pencil look: imperfect fine indigo pencil outlines, chalky pastel fills, ivory highlights, very pale butter yellow sunlight, lavender shadows, periwinkle and powder blue. Soft textured paper, deliberately simple rounded shapes, beautifully composed but NOT realistic and NOT 3D. Wide cross-section Arctic ocean storybook landscape: top 25 percent pale powder-blue sky with a warm little sun, fluffy rounded clouds and distant snowy mountains; softly wavy waterline around 27 percent height; bottom 73 percent clear pastel turquoise/lavender water with very faint pencil sunbeams. Keep the center 70 percent of the underwater playfield spacious, light-colored and uncluttered for readable character and moving fish. Only at left/right edges and bottom add rounded ice cliffs, scalloped rocks, lilac/mint sea plants, shells and tiny drawn bubbles. Layered distant ice silhouettes for depth. No text, no UI, no characters, no fish, no central foreground platforms. Cohesive with the exact cute hand-drawn seal reference; restrained luminous flat pastel illustration rather than highly rendered fantasy."
+    },
+    {
+      "file": "props.png",
+      "transparent": true,
+      "prompt": "Use case: stylized-concept. Asset: transparent 2x2 game sprite atlas, four separate hand-drawn props matching the supplied seal concept sketch EXACTLY in style: soft indigo colored-pencil outlines, pastel chalky fill, lilac pencil shadows, ivory highlights, subtle grain. SQUARE CANVAS divided into four equal square quadrants with invisible grid. Each object centered in its quadrant, all content strictly within central 80 percent of each cell, ample transparent gutter. Top left: ONE wide low floating snow-capped ice platform, softly rounded irregular oval top, pale periwinkle submerged base with a few hand-drawn cracks, not a sharp realistic crystal. Top right: ONE cute tiny mint-blue fish facing LEFT, round dot eye and simple tail. Bottom left: ONE cute tiny golden peach-yellow fish facing LEFT, same style, a little star sparkle beside it. Bottom right: ONE small decorative cluster of mint and lilac underwater sea plants with three rounded leaves and a soft small shell at base. True alpha transparent background, no colored background, no floor, no grid lines, no labels, no text, no seals. Flat whimsical children's colored-pencil drawing, NOT realistic, NOT 3D."
+    }
+  ]
+}

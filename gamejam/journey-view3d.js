@@ -17,6 +17,25 @@ export class Ice3D {
     this.fill=new THREE.DirectionalLight('#66cfea',2.1);this.fill.position.set(X(420)+8,-2,14);this.scene.add(this.fill,this.fill.target);
     this.matcap=this.furTexture();this.buildWorld();
     this.player=this.seal();this.scene.add(this.player);this.friends=[];
+    this.playerMaterials=[];this.player.traverse(n=>{if(n.isMesh){n.material=n.material.clone();this.playerMaterials.push(n.material);}});
+    this.spirit=this.seal();this.spirit.visible=false;this.scene.add(this.spirit);
+    this.spirit.traverse(n=>{if(n.isMesh){n.material=n.material.clone();n.material.transparent=true;n.material.opacity=.65;n.material.depthWrite=false;n.castShadow=false;}});
+    this.halo=this.mesh(new THREE.TorusGeometry(.55,.025,8,48),new THREE.MeshBasicMaterial({color:'#ffe8a9'}),[.8,1.2,0],null,this.spirit);this.halo.rotation.x=Math.PI/2;
+    this.wings=new THREE.Group();this.spirit.add(this.wings);
+    for(const side of [-1,1])for(let i=0;i<5;i++){
+      const feather=this.orb('#fff6de',[-.4-i*.14,.35+i*.13,side*(.58+i*.13)],[.55-i*.05,.10,.34],this.wings,{emissive:'#ffe6ab',emissiveIntensity:.35});feather.rotation.x=side*(.4+i*.08);feather.rotation.z=.35;
+    }
+    this.ghostMouth=this.orb('#53647e',[1.38,.2,.34],[.075,.12,.045],this.spirit);
+    this.ghostModel=new THREE.Group();this.ghostModel.visible=false;this.scene.add(this.ghostModel);
+    const ghostShape=new THREE.Shape();ghostShape.moveTo(-1.35,-.3);ghostShape.bezierCurveTo(-1.4,.65,-.65,1,.2,.82);ghostShape.bezierCurveTo(1.1,.8,1.65,.15,1.1,-.3);
+    for(let i=0;i<5;i++)ghostShape.quadraticCurveTo(.88-i*.48,-.72,.64-i*.48,-.30);ghostShape.closePath();
+    const ghostMaterial=new THREE.MeshPhysicalMaterial({color:'#bcd6ef',transparent:true,opacity:.72,roughness:.4,emissive:'#7daccf',emissiveIntensity:.3,depthWrite:false});
+    this.mesh(new THREE.ExtrudeGeometry(ghostShape,{depth:.55,bevelEnabled:true,bevelSize:.13,bevelThickness:.12,bevelSegments:3,steps:1,curveSegments:24}),ghostMaterial,[0,0,-.3],null,this.ghostModel);
+    for(const x of [.52,.88])this.orb('#304867',[x,.26,.4],[.055,.095,.035],this.ghostModel);
+    this.orb('#536c89',[.73,-.03,.43],[.09,.14,.045],this.ghostModel);
+    this.orb('#88abc7',[-.43,.06,.41],[.32,.17,.028],this.ghostModel,{transparent:true,opacity:.55});
+    this.ghostModel.traverse(n=>{n.castShadow=false;});
+    this.growthRing=this.mesh(new THREE.TorusGeometry(1,.018,6,72),new THREE.MeshBasicMaterial({color:'#ffdf9b',transparent:true,opacity:0,depthWrite:false}),[0,0,1]);this.growthRing.visible=false;
     for(let i=0;i<3;i++){const friend=this.seal();friend.scale.setScalar(.68+i*.04);friend.visible=false;this.scene.add(friend);this.friends.push(friend);}
     this.fish=[];for(let i=0;i<54;i++){const f=this.fishMesh(i%3);this.scene.add(f);this.fish.push(f);}
     this.fishers=[this.fisher(1),this.fisher(2)];this.buildEffects();
@@ -169,19 +188,28 @@ export class Ice3D {
     this.camera.position.set(this.target.x+Math.sin(yaw)*50,this.target.y+Math.sin(pitch)*50,Math.cos(yaw)*50);this.camera.lookAt(this.target);
     if(this.backdrop)this.backdrop.position.x=this.target.x;
     this.sun.position.set(this.target.x-16,24,16);this.sun.target.position.set(this.target.x,-6,0);
-    this.fill.position.set(this.target.x+7,-2,14);this.fill.target.position.set(this.target.x,-10,0);this.fill.intensity=1.8+g.pulse*.8;
+    this.fill.position.set(this.target.x+7,-2,14);this.fill.target.position.set(this.target.x,-10,0);this.fill.intensity=(1.8+g.pulse*.8)*(1-g.danger*.3);
     this.waterMaterial.uniforms.time.value=t;this.waterMaterial.uniforms.pulse.value=g.pulse;
     this.floorMaterial.uniforms.time.value=t;this.floorMaterial.uniforms.pulse.value=g.pulse;
     this.plantMaterial.uniforms.time.value=t;this.plantMaterial.uniforms.pulse.value=g.pulse;
     this.moteMaterial.uniforms.time.value=t;this.moteMaterial.uniforms.pulse.value=g.pulse;
     const active=g.stage==='entry'?g.x:g.targetHole;
     this.shafts.forEach((s,i)=>{s.material.uniforms.time.value=t;s.material.uniforms.power.value=Math.abs(HOLES[i]-active)<30?.26+g.pulse*.62:.11;});
-    const py=Y(g.y),px=X(g.x);this.player.position.set(px,py,0);
+    if(this.growth===undefined||g.stage==='breathe')this.growth=g.growth;this.growth+=(g.growth-this.growth)*.09;
+    const py=Y(g.y),px=X(g.x),dying=g.stage==='dying';
+    for(const material of this.playerMaterials){if(material.transparent!==dying){material.transparent=dying;material.needsUpdate=true;}material.opacity=dying?Math.max(.13,1-g.deathTime*.3):1;}
+    this.player.position.set(px,py+(g.underwater||g.transition||dying?0:(this.growth-1)*.75)-(dying?Math.min(g.deathTime,3)*.27:0),0);
     const goal=g.facing===1?-.10:Math.PI+.10;this.facing+=Math.atan2(Math.sin(goal-this.facing),Math.cos(goal-this.facing))*.14;
     this.player.rotation.y=this.facing;this.player.rotation.z=leap?Math.sin(g.transition.t/g.transition.duration*Math.PI)*.22:clamp(-g.vy*.0008,-.16,.16)*g.facing;
+    this.player.rotation.z-=g.danger*.13;
     const flat=g.status==='title'||g.stage==='breathe'?.72+g.oxygen*.0028:1;
     this.player.scale.set(1.35,(flat+(g.holding?g.charge*.15:Math.sin(t*1.7)*.01)+Math.min(g.food/g.goal,1)*.12)*1.25,(1+Math.min(g.food/g.goal,1)*.12)*1.25);
-    const flap=Math.sin(t*(g.underwater?5.5:1.3));this.player.userData.fin.rotation.x=flap*.22;this.player.userData.farFin.rotation.x=-flap*.17;this.player.userData.tail.rotation.z=flap*.08;this.player.userData.tail2.rotation.z=flap*.07;
+    this.player.scale.multiplyScalar(this.growth*(1+g.eatPulse*.055));
+    const flap=Math.sin(t*(g.underwater?5.5:1.3))*(1-g.danger*.65);this.player.userData.fin.rotation.x=flap*.22;this.player.userData.farFin.rotation.x=-flap*.17;this.player.userData.tail.rotation.z=flap*.08;this.player.userData.tail2.rotation.z=flap*.07;
+    this.spirit.visible=dying&&g.outcome==='angel';this.ghostModel.visible=dying&&g.outcome==='hungryGhost';
+    if(dying){const p=clamp(g.deathTime/3.6,0,1);this.spirit.position.set(px,py+.7+p*3.6,6.5);this.spirit.scale.setScalar(g.growth*1.12);this.spirit.rotation.y=this.facing;this.halo.visible=this.wings.visible=g.outcome==='angel';this.ghostMouth.visible=g.outcome==='hungryGhost';this.wings.rotation.x=Math.sin(t*2)*.12;this.spirit.userData.body.material.color.set(g.outcome==='angel'?'#fff1ce':'#c0cde6');this.spirit.userData.body.material.opacity=.4+p*.25;}
+    if(this.ghostModel.visible){this.ghostModel.position.copy(this.spirit.position);this.ghostModel.position.y+=Math.sin(t*2)*.06;this.ghostModel.scale.setScalar(g.growth*1.12);}
+    this.growthRing.visible=g.evolutionGlow>0;this.growthRing.position.set(px,py,1.3);this.growthRing.scale.setScalar(2+(1-g.evolutionGlow)*4);this.growthRing.material.opacity=g.evolutionGlow*.7;
     this.fish.forEach((mesh,i)=>{const f=g.fish[i];mesh.visible=!!f?.active;if(!f)return;mesh.position.set(X(f.x),Y(f.y)+Math.sin(t*2+f.phase)*.07,Math.sin(f.phase)*1.2);mesh.rotation.y=Math.sin(f.phase)>0?0:Math.PI;mesh.userData.tail.rotation.y=Math.sin(t*6+f.phase)*.25;});
     this.fishers.forEach((f,i)=>{const start=g.fisherKnocks[i+1],p=start===undefined?0:clamp((g.time-start)/.75,0,1);f.rotation.z=-p*1.48;f.position.x=X(HOLES[i+1])+1.3+p*1.0;f.position.y=.42+p*.1;f.userData.line.visible=p<.4;});
     this.friends.forEach((f,i)=>{f.visible=g.stage==='ending'||g.status==='won';const p=clamp((g.endingTime-i*.6)/4,0,1);f.position.set(px+3.4+i*2.1+(1-p)*12,.99-(1-p)*4,0);f.rotation.y=Math.PI+.14;f.userData.fin.rotation.x=Math.sin(t*2+i)*.12;});

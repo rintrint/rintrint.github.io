@@ -13,6 +13,7 @@
       this.checkpoint=0;this.jumpDone=false;this.called=false;this.holding=false;this.holdStart=0;
       this.boost=0;this.vx=0;this.vy=0;this.lastRelease=-10;this.events=[];this.transition=null;
       this.warning=false;this.fisherKnocks={};this.endingTime=0;
+      this.outcome=null;this.deathTime=0;this.eatPulse=0;this.evolutionGlow=0;this.warningLevel=0;
       this.fish=[];let seed=24617;const r=()=>{seed=seed*16807%2147483647;return seed/2147483647;};
       for(const cx of [780,1060,1220,1660,1880,2040,2970,3220,3400])for(let i=0;i<6;i++){
         const tier=i%3;
@@ -28,8 +29,33 @@
     get targetHole(){return HOLES[this.checkpoint+1]??HOLES[4];}
     get nearHole(){return this.underwater&&Math.abs(this.x-this.targetHole)<115&&this.y<SURFACE+178;}
     get pulse(){return Math.exp(-Math.pow(this.beatDistance/.17,2));}
+    get form(){return Math.min(2,Math.floor(this.food/6));}
+    get formName(){return ['小海豹','圓滾海豹','飽飽海豹'][this.form];}
+    get energy(){return this.form===2?1:(this.food%6)/6;}
+    get growth(){return 1+clamp(this.food/this.goal,0,1)*.5;}
+    get danger(){return this.stage==='dying'?1:this.underwater?clamp((40-this.oxygen)/40,0,1):0;}
+    get heartbeat(){return .5+.5*Math.sin(this.time*(5+this.danger*7));}
+    eat(f){
+      if(!f.active||this.status!=='playing'||this.stage!=='swim')return;const previous=this.form;f.active=false;this.food+=f.value;this.eatPulse=1;
+      this.emit('fish',`小魚 ＋${f.value}`,{x:f.x,y:f.y,value:f.value});
+      for(let level=previous+1;level<=this.form;level++){
+        this.evolutionGlow=1;this.emit('evolve',`長大了！${['小海豹','圓滾海豹','飽飽海豹'][level]}`,{form:level,x:this.x,y:this.y});
+      }
+    }
+    suffocate(){
+      if(this.stage==='dying'||this.status!=='playing')return;
+      this.oxygen=0;this.outcome=this.food>=this.goal?'angel':'hungryGhost';this.stage='dying';this.deathTime=0;
+      this.holding=false;this.transition=null;this.vx=this.vy=0;
+      this.emit('exhale');this.emit('dying',this.outcome==='angel'?'小肚子飽了，這一口氣卻沒能回家。':'還沒吃飽，就用完了最後一口氣。',{outcome:this.outcome});
+    }
+    useAir(dt){
+      const drain=(3+this.depth*.043)*(this.boost>0?.65:1);this.oxygen=Math.max(0,this.oxygen-dt*drain);
+      const level=this.oxygen<=10?3:this.oxygen<=25?2:this.oxygen<=40?1:0;
+      if(level>this.warningLevel)this.emit('warning',['','空氣變少了，留意下一個冰洞。','呼吸變急了。游向冰洞的光 ↑','只剩最後一口氣！往冰洞上游 ↑'][level],{level});
+      this.warningLevel=level;if(this.oxygen<=0)this.suffocate();
+    }
     emit(type,text='',data={}){this.events.push({type,text,...data});}
-    inhale(){if(this.status!=='playing'||this.holding||this.transition||this.stage==='ending'||this.stage==='calling')return;this.holding=true;this.holdStart=this.time;this.emit(this.stage==='bigBreath'?'greatInhale':'inhale');}
+    inhale(){if(this.status!=='playing'||this.holding||this.transition||['ending','calling','dying'].includes(this.stage))return;this.holding=true;this.holdStart=this.time;this.emit(this.stage==='bigBreath'?'greatInhale':'inhale');}
     release(){
       if(this.status!=='playing'||!this.holding)return false;
       const held=this.time-this.holdStart;this.holding=false;
@@ -69,7 +95,12 @@
     update(dt,input={}){
       if(this.status!=='playing')return;dt=clamp(dt,0,.05);this.time+=dt;
       this.boost=Math.max(0,this.boost-dt);
+      this.eatPulse=Math.max(0,this.eatPulse-dt*2.5);this.evolutionGlow=Math.max(0,this.evolutionGlow-dt*.45);
+      if(this.stage==='dying'){
+        this.deathTime+=dt;if(this.deathTime>=3.6){this.status='lost';this.emit('lost','',{outcome:this.outcome});}return;
+      }
       if(this.transition){
+        if(this.y>SURFACE){this.useAir(dt);if(this.stage==='dying')return;}
         const a=this.transition;a.t+=dt;const p=clamp(a.t/a.duration,0,1),q=ease(p);
         this.x=a.fromX+(a.toX-a.fromX)*q;this.y=a.fromY+(a.toY-a.fromY)*q;
         if(a.type==='greatLeap')this.y-=Math.sin(p*Math.PI)*220;
@@ -92,12 +123,8 @@
       this.vx=dx*speed;this.vy=dy*speed;if(dx)this.facing=dx>0?1:-1;
       const minX=HOLES[this.checkpoint]-60,maxX=this.targetHole+100;
       this.x=clamp(this.x+this.vx*dt,minX,maxX);this.y=clamp(this.y+this.vy*dt,SURFACE+62,HEIGHT-95);
-      const drain=(3.0+this.depth*.043)*(this.boost>0?.65:1);
-      this.oxygen=Math.max(0,this.oxygen-dt*drain);this.maxDepth=Math.max(this.maxDepth,this.depth);
-      if(this.oxygen<25&&!this.warning){this.warning=true;this.emit('warning','空氣快用完了。往釣魚人的光束游 ↑');}
-      if(this.oxygen>45)this.warning=false;
-      if(this.oxygen<=0){this.status='lost';this.holding=false;this.emit('lost','這一口氣，沒能帶你穿過冰層。');return;}
-      for(const f of this.fish)if(f.active&&Math.hypot(f.x-this.x,f.y-this.y)<52){f.active=false;this.food+=f.value;this.emit('fish',`小魚 ＋${f.value}`,{x:f.x,y:f.y,value:f.value});}
+      this.useAir(dt);this.maxDepth=Math.max(this.maxDepth,this.depth);if(this.stage==='dying')return;
+      for(const f of this.fish)if(f.active&&Math.hypot(f.x-this.x,f.y-this.y)<52)this.eat(f);
     }
     snapshot(){return{status:this.status,stage:this.stage,time:this.time,x:this.x,y:this.y,oxygen:this.oxygen,food:this.food,checkpoint:this.checkpoint,jumpDone:this.jumpDone,holding:this.holding,precise:this.precise};}
   }
