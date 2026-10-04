@@ -23,7 +23,7 @@ export class ShoreView{
    for(let i=0;i<10;i++)this.effect(6,((i*213-t*(9+i%3*5))%1850+1850)%1850-200,490+(i*173%470)-t*4%40,25+i%3*12,{alpha:.2});
    for(let i=0;i<4;i++)this.prop(i%2?'fish':'gold',980+i*105-t*12%100,675+Math.sin(t*2+i)*13+i%2*30,39,{alpha:.5});
  }
- draw(g,dt=1/60){if(!this.images.fisher)return;const c=this.c,t=g.time||performance.now()/1000*.18,p=g.phase,a=g.age,v=g.version;
+ draw(g,dt=1/60){if(Object.keys(art).some(key=>!this.images[key]))return;const c=this.c,t=g.time||performance.now()/1000*.18,p=g.phase,a=g.age,v=g.version;
    let sx=365,sy=566,sw=264,angle=0,portrait=false;let fx=786,fy=212,fw=265,fi=0,fr=0,rod=false;
    let cam={x:680,y:425,zoom:1},impact=-10,waterBurst=-1,landPuff=-1;
    if(v==='b')cam={x:730,y:397,zoom:.96};if(v==='c')cam={x:500,y:505,zoom:1.38};

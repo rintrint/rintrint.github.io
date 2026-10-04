@@ -1,1 +1,1 @@
-{"name":"huhu-shore-lab","private":true,"type":"module","scripts":{"test":"node --test core.test.js"}}
+{"name":"huhu-shore-lab","private":true,"type":"module","scripts":{"test":"node --test core.test.js view.test.js"}}

@@ -12,6 +12,6 @@
 
 新美術 `assets/fisher-poses.png` 由內建 imagegen 生成（垂釣者三姿勢、冰洞、魚竿、雪花），以既有 fisherman 及海豹為風格參考。其餘圖與音效使用 `../assets`，需透過 HTTP 伺服器開啟。完整生成提示見 `ART-PROMPT.txt`。
 
-本機：從 `gamejam` 執行 `node server.cjs`，開啟 `/shore-lab/index.html`。測試：在本資料夾執行 `node --test core.test.js`。
+本機：從 `gamejam` 執行 `node server.cjs`，開啟 `/shore-lab/index.html`。測試：在本資料夾執行 `node --test core.test.js view.test.js`。
 
 角色採原圖比例，撞飛與魚竿分開計算拋物線；原始素材不被覆蓋。自動演出、手動成功／失敗、暫停、補氣遞減及持續耗氧皆有規則測試。
