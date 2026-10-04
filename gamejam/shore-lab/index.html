@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#e9f5f3">
+  <title>海豹呼呼 · 上岸的一口氣</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main class="shell">
+  <header class="masthead">
+    <a class="brand" href="../gugu.html" aria-label="回到海豹遊戲">海豹呼呼<span>一口氣的旅程</span></a>
+    <div class="mast-title"><span class="eyebrow">SCENE STUDIES / 上岸吸氣</span><h1>上岸的一口氣</h1></div>
+    <button class="icon-button" id="sound" aria-pressed="false">聲音 開啟</button>
+  </header>
+  <nav class="concepts" aria-label="選擇場景方案">
+    <button class="concept active" data-version="a" aria-pressed="true"><span class="letter">A</span><span><strong>破冰衝刺</strong><small>一拍衝出，乾脆撞飛</small></span><span class="concept-tag">爽快 / 直接</span></button>
+    <button class="concept" data-version="b" aria-pressed="false"><span class="letter">B</span><span><strong>拉線拔河</strong><small>魚線預告，三拍反轉</small></span><span class="concept-tag">俏皮 / 互動</span></button>
+    <button class="concept" data-version="c" aria-pressed="false"><span class="letter">C</span><span><strong>深吸大躍</strong><small>危機特寫，慢鏡頭出水</small></span><span class="concept-tag">張力 / 演出</span></button>
+  </nav>
+  <section class="player" aria-label="可遊玩的場景 Demo">
+    <div class="stage" id="stage">
+      <canvas id="game" width="1280" height="720" aria-label="海豹撞倒垂釣者，換氣後躍進下一個冰洞"></canvas>
+      <div class="hud"><div class="air-box"><div><span>肺活量</span><strong id="air-text">28<span>%</span></strong></div><div class="air-track"><i id="air-fill"></i></div><small id="air-status">下一個冰洞，是你的喘息機會。</small></div><div class="food-box"><span>飽食度</span><strong>110 <small>/ 120</small></strong><span>再吃 10 隻，就能長大</span></div></div>
+      <div class="scene-id"><span id="scene-code">A / 破冰衝刺</span><b id="mode-tag">自動演出</b></div>
+      <div class="feedback" id="feedback" aria-live="polite"></div>
+      <div class="scene-copy"><span id="chapter">01 / 冰下的微光</span><h2 id="cue">看到釣魚線，就快到岸了。</h2><p id="hint">海豹會跟著四拍衝出冰洞。</p></div>
+      <div class="beat-words" id="beat-words" aria-hidden="true"><span>1</span><span>2</span><span>3</span><span>衝！</span></div>
+      <div class="veil" id="veil"><div class="intro-panel"><span class="eyebrow">A SHORT BREATH, A BIG ADVENTURE</span><h2 id="overlay-title">一口氣，換一場冒險。</h2><p id="overlay-body">先看演出，再親自抓拍點。<br>垂釣者的魚線，是冰洞的預告。</p><div class="intro-actions"><button class="primary" id="watch">觀看演出 <span>↗</span></button><button class="secondary" id="try">親自試玩 <kbd>SPACE</kbd></button></div><small id="load-status">正在準備冰海與音效…</small></div></div>
+      <div class="paused-screen" id="paused" hidden><strong>喘口氣。</strong><button class="primary" id="resume">繼續</button></div>
+    </div>
+    <div class="transport"><div class="transport-left"><button id="replay" title="重新開始">↻ 重播</button><button id="pause" disabled>Ⅱ 暫停</button><button id="mode">切到親自試玩</button></div><div class="transport-right"><span id="mode-note">自動演出會示範完整成功路線</span><button class="tap-button" id="tap" disabled><span id="tap-label">等待開始</span><kbd>SPACE</kbd></button></div></div>
+  </section>
+  <section class="director-notes" aria-label="方案比較">
+    <div><span class="eyebrow">THE MOMENT</span><h2 id="note-title">讓撞擊，成為換氣的獎勵。</h2></div>
+    <p id="note-body">海豹先在水下蓄勢，第四拍破冰頂出。垂釣者被掀起、魚竿脫手、落回雪地；鏡頭跟著海豹上岸，連打換氣後再躍入下一個洞。</p>
+    <dl><div><dt>上岸</dt><dd id="rule-entry">第四拍按一次</dd></div><div><dt>補氣</dt><dd>限時連打 · 仍持續耗氧</dd></div><div><dt>大躍進</dt><dd id="rule-leap">聽到大吸氣後，重拍再按</dd></div></dl>
+  </section>
+  <footer><span>三個方向，同一隻海豹。</span><span>Space / 點擊「動作」操作 · R 重播 · Esc 暫停</span></footer>
+</main>
+<script type="module" src="main.js"></script>
+</body></html>
